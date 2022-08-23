@@ -1,5 +1,6 @@
 using BlogProjectGrA.Data;
 using BlogProjectGrA.Models;
+using BlogProjectGrA.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options
+    .UseLazyLoadingProxies()
+    .UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<User>(options =>
@@ -21,8 +24,15 @@ builder.Services.AddDefaultIdentity<User>(options =>
     options.Password.RequiredLength = 6;
     options.User.RequireUniqueEmail = true;
 })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddHttpClient();
+
+//Add services here
+builder.Services.AddScoped<IBlogService, BlogService>();
+
 
 var app = builder.Build();
 
