@@ -10,7 +10,7 @@ namespace BlogProjectGrA.Services
         Post CreatePost(Post post);
         Post UpdatePost(Post post);
         void DeletePost(int id);
-
+        Post GetPost(int id);
         Post IncrementViews(int id);
     }
 }

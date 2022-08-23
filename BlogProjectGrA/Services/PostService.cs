@@ -46,11 +46,18 @@ namespace BlogProjectGrA.Services
 
         }
 
+        public Post GetPost(int id) 
+        {
+           return _db.Posts.Find(id);
+        }
+
         public Post IncrementViews(int id)
         {
-            var post = _db.Posts.Find(id);
-
-            return post ;
+            var post = GetPost(id);
+            post.View++;
+            _db.Update(post);
+            _db.SaveChanges();
+            return post;
         }
     }
 }

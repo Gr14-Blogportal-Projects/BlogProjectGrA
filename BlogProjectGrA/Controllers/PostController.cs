@@ -24,9 +24,8 @@ namespace BlogProjectGrA.Controllers
         // GET: HomeController1/Details/5
         public ActionResult Details(int id)
         {
-
-            var post = _postService.GetPostsByBlog(id);
-            return View(post);
+            var updatedPost = _postService.IncrementViews(id);
+            return View(updatedPost);
         }
 
         // GET: HomeController1/Create
