@@ -27,6 +27,8 @@ builder.Services.AddDefaultIdentity<User>(options =>
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+//Add services here
+builder.Services.AddScoped<IPostService, PostService>();
 
 builder.Services.AddHttpClient();
 
