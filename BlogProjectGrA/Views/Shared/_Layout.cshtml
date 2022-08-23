@@ -29,9 +29,9 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Blog" asp-action="Index">Blogs</a>
                         </li>
                     </ul>
-                    <form class="d-flex justify-content-sm-center">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn btn-success" type="submit">Search</button>
+                    <form class="d-flex justify-content-sm-center" method="get" asp-controller="Search" asp-action="Index">
+                            <input class="form-control me-2" type="search" placeholder="Search here..." aria-label="Search" value="@ViewData["searchdetails"]" name="searchparameter"/>
+                            <input class="btn btn btn-success" type="submit" value="Search"/>
                     </form>
                     <partial name="_LoginPartial" />
                 </div>

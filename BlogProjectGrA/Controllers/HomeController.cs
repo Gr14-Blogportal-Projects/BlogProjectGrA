@@ -1,6 +1,8 @@
-﻿using BlogProjectGrA.Models;
+﻿using BlogProjectGrA.Data;
+using BlogProjectGrA.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace BlogProjectGrA.Controllers
@@ -9,11 +11,13 @@ namespace BlogProjectGrA.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<User> _userManager;
+        private readonly ApplicationDbContext _db;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<User> userManager)
+        public HomeController(ILogger<HomeController> logger, UserManager<User> userManager, ApplicationDbContext db)
         {
             _logger = logger;
             _userManager = userManager;
+            _db = db;
         }
 
         public IActionResult Index()
