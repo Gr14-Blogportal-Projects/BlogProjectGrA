@@ -32,7 +32,7 @@ builder.Services.AddHttpClient();
 
 //Add services here
 builder.Services.AddScoped<IBlogService, BlogService>();
-
+builder.Services.AddScoped<ITagService, TagService>();
 
 var app = builder.Build();
 
