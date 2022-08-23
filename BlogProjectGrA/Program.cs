@@ -1,5 +1,6 @@
 using BlogProjectGrA.Data;
 using BlogProjectGrA.Models;
+using BlogProjectGrA.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +24,8 @@ builder.Services.AddDefaultIdentity<User>(options =>
 })
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+//Add services here
+builder.Services.AddScoped<IPostService, PostService>();
 
 var app = builder.Build();
 
