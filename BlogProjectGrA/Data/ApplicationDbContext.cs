@@ -16,6 +16,7 @@ namespace BlogProjectGrA.Data
         public DbSet<Comment> Comments { get; set; }
 
 
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
