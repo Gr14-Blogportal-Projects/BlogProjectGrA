@@ -18,5 +18,8 @@ namespace BlogProjectGrA.Models
         public int View { get; set; }
 
         public virtual ICollection<Tag> Tags { get; set; }
+        
+        public virtual ICollection<Comment> Comments { get; set; }
+
     }
 }

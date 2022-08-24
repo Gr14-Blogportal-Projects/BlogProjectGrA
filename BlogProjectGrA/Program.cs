@@ -36,6 +36,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddScoped<ITagService, TagService>();
 
+builder.Services. AddScoped<ICommentService , CommentService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
