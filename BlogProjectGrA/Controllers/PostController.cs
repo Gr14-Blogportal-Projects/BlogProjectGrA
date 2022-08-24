@@ -71,7 +71,7 @@ namespace BlogProjectGrA.Controllers
         // POST: HomeController1/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id,Post post)
+        public ActionResult Delete(int id,IFormCollection collection)
         {
             _postService.DeletePost(id);
 
