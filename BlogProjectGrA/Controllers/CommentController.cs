@@ -1,26 +1,28 @@
 ﻿using BlogProjectGrA.Models;
 using BlogProjectGrA.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogProjectGrA.Controllers
 {
+    [Authorize]
     public class CommentController : Controller
     {
-
-    private readonly ICommentService _commentService;
+        private readonly ICommentService _commentService;
         
         public CommentController(ICommentService commentService)
         {
             _commentService = commentService;   
         }
+        [AllowAnonymous]
         // GET: CommentController
         public ActionResult Index()
         {
             var comments = _commentService.GetComments();
             return View(comments);
         }
-
+        [AllowAnonymous]
         // GET: CommentController/Details/5
         public ActionResult Details(int id)
         {

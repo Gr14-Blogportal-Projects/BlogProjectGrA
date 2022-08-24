@@ -1,10 +1,12 @@
 ﻿using BlogProjectGrA.Models;
 using BlogProjectGrA.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogProjectGrA.Controllers
 {
+    [Authorize]
     public class PostController : Controller
     {
         private IPostService _postService;
@@ -13,6 +15,7 @@ namespace BlogProjectGrA.Controllers
         {
             _postService = postService;
         }
+        [AllowAnonymous]
         // GET: HomeController1
         public ActionResult Index()
         {
@@ -20,7 +23,7 @@ namespace BlogProjectGrA.Controllers
             return View(posts);
             
         }
-
+        [AllowAnonymous]
         // GET: HomeController1/Details/5
         public ActionResult Details(int id)
         {
