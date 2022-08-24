@@ -48,7 +48,6 @@ namespace BlogProjectGrA.Controllers
         // GET: CommentController/Edit/5
         public ActionResult Edit(int id)
         {
-            bool CommentHasBeenUpdated = false;
             return View();
         }
 
@@ -58,9 +57,9 @@ namespace BlogProjectGrA.Controllers
         public ActionResult Edit(Comment comment)
         {
             _commentService.UpdateComment(comment);
-           
-                return RedirectToAction(nameof(Index));
-            
+
+            return RedirectToAction(nameof(Index));
+
         }
 
         // GET: CommentController/Delete/5
