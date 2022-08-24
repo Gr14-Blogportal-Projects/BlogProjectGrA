@@ -29,7 +29,7 @@ namespace BlogProjectGrA.Services
     {
         return _db . Comments.Find(id);
     }
-    public IEnumerable<Comment> GetPosts()
+    public IEnumerable<Comment> GetComments()
         {
             return _db.Comments.ToList();
         }
@@ -43,14 +43,11 @@ namespace BlogProjectGrA.Services
 
     public void UpdateComment (Comment comment)
         {
+            comment.UpdatedAt = DateTime.Now;
             _db .Update(comment);
             _db .SaveChanges();
         }
-    public IEnumerable<Comment> GetComments()
-        {
-            return _db.Comments.ToList();
-
-        }
+    
 
 
     }

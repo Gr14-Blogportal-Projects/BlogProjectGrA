@@ -13,7 +13,7 @@ namespace BlogProjectGrA.Models
 
         public virtual User Author { get; set; }
 
-        public virtual ICollection<Post> Posts { get; set; }
+        public virtual Post Posts { get; set; }
 
         public DateTime? UpdatedAt { get; set; } = null;
     }
