@@ -1,5 +1,6 @@
 using BlogProjectGrA.Data;
 using BlogProjectGrA.Models;
+using BlogProjectGrA.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,6 +25,7 @@ builder.Services.AddDefaultIdentity<User>(options =>
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+builder.Services. AddScoped<ICommentService , CommentService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

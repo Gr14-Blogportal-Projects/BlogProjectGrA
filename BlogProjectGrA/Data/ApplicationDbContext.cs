@@ -1,4 +1,5 @@
 ﻿using BlogProjectGrA.Models;
+using BlogProjectGrA.Services;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,9 @@ namespace BlogProjectGrA.Data
         public DbSet<Post> Posts { get; set; }
 
         public DbSet<Tag> Tags { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
+
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
