@@ -17,9 +17,9 @@ namespace BlogProjectGrA.Services
             _db.SaveChanges();
         }
 
-        public void DeleteBlog(int id)
+        public void DeleteBlog(Blog blog)
         {
-            _db.Remove(id);
+            _db.Remove(blog);
             _db.SaveChanges();
         }
 

@@ -1,0 +1,21 @@
+﻿@model BlogProjectGrA.Models.Blog
+
+
+ 
+        <tr class="row"> 
+            <td>
+               <a asp-controller="Blog" asp-action="Index" asp-route-id="@Model.Id" style="text-decoration: none; color: #000000;">@Html.DisplayFor(modelItem => Model.Title)</a>
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.Body)*@
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.CreatedAt)
+            </td>
+            <td>
+                @Model.Author.GetName()
+            </td>
+            <td>
+            </td>
+        </tr>
+
