@@ -76,7 +76,7 @@ namespace BlogProjectGrA.Controllers
         public ActionResult Delete(int id, Tag tag)
         {
             _tagService.DeleteTag(tag);
-                return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index));
             
               
             
