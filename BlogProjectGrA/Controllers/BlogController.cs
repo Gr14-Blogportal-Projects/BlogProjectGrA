@@ -2,6 +2,7 @@
 using BlogProjectGrA.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogProjectGrA.Controllers
@@ -11,9 +12,12 @@ namespace BlogProjectGrA.Controllers
     {
         private readonly IBlogService _blogService;
 
-        public BlogController(IBlogService blogService)
+        private readonly UserManager<User> _userManager;
+
+        public BlogController(IBlogService blogService, UserManager<User> userManager)
         {
             _blogService = blogService;
+            _userManager = userManager;
         }
 
         [AllowAnonymous]
@@ -44,8 +48,8 @@ namespace BlogProjectGrA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Blog blog)
         {
-            //var user =
-            //blog.Author = user;
+            var user = _userManager.GetUserAsync(User).Result;
+            blog.Author = user;
             _blogService.CreateBlog(blog);
             return RedirectToAction(nameof(Index));
         }
@@ -75,6 +79,7 @@ namespace BlogProjectGrA.Controllers
         // POST: BlogController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+
         public ActionResult Delete(int id,Blog blog)
         {
             _blogService.DeleteBlog(blog);

@@ -25,7 +25,7 @@ namespace BlogProjectGrA.Services
         {
             _db.Remove(id);
             _db.SaveChanges();
-            return; 
+            return;
         }
         public Post UpdatePost(Post post)
         {

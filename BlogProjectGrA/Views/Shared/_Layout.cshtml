@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -27,7 +31,7 @@
                         </li>
                         <li class="nav-item">
 
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Blog" asp-action="Index">Blogs</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="BrowseBlog" asp-action="Index">Browse Blogs</a>
 
                         </li>
                         <li class="nav-item">
@@ -40,10 +44,26 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Tag" asp-action="Index">Tags</a>
 
                         </li>
-
+                        
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Comment" asp-action="Index">Comments</a>
                         </li>
+                        
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                        <li class="nav-item">
+
+                            <span class="nav-link text-dark">|</span>
+
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="BrowseBlog" asp-action="Index">My Blogs</a> @*Need to make a view for "MyBlog"*@
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Blog" asp-action="Create">Create Blog</a>
+                        </li>
+                        }
 
                     </ul>
                     <form class="d-flex justify-content-sm-center" method="get" asp-controller="Search" asp-action="Index">
