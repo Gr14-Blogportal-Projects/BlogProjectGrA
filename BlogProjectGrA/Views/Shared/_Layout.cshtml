@@ -45,6 +45,10 @@
 
                         </li>
                         
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Comment" asp-action="Index">Comments</a>
+                        </li>
+                        
                         @if (SignInManager.IsSignedIn(User))
                         {
                         <li class="nav-item">
@@ -60,6 +64,7 @@
                             <a class="nav-link text-dark" asp-controller="Blog" asp-action="Create">Create Blog</a>
                         </li>
                         }
+
                     </ul>
                     <form class="d-flex justify-content-sm-center" method="get" asp-controller="Search" asp-action="Index">
                         <input class="form-control me-2" type="search" placeholder="Search here..." aria-label="Search" value="@ViewData["searchdetails"]" name="searchparameter" />
