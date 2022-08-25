@@ -18,19 +18,19 @@ namespace BlogProjectGrA.Controllers
 
         [AllowAnonymous]
         // GET: BlogController
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            var blogs = _blogService.GetBlogs();
-            return View(blogs);
+            var blog = _blogService.GetBlogs();
+             return View(blog);
         }
 
-        [AllowAnonymous]
-        // GET: BlogController/Details/5
-        public ActionResult Details(int id)
-        {
-            var blog = _blogService.GetBlog(id);
-            return View(blog);
-        }
+        //[AllowAnonymous]
+        //// GET: BlogController/Details/5
+        //public ActionResult Details(int id)
+        //{
+        //    var blog = _blogService.GetBlog(id);
+        //    return View(blog);
+        //}
 
         // GET: BlogController/Create
         public ActionResult Create()
@@ -75,9 +75,9 @@ namespace BlogProjectGrA.Controllers
         // POST: BlogController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id,Blog blog)
         {
-            _blogService.DeleteBlog(id);
+            _blogService.DeleteBlog(blog);
             return RedirectToAction(nameof(Index));
         }
     }

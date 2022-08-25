@@ -10,7 +10,7 @@ namespace BlogProjectGrA.Services
 
         void UpdateBlog(Blog blog);
 
-        void DeleteBlog(int id);
+        void DeleteBlog(Blog blog);
 
         IEnumerable<Blog> GetBlogs();
     }
