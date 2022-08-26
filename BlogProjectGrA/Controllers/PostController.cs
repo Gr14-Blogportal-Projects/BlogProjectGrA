@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace BlogProjectGrA.Controllers
 {
     [Authorize]
@@ -43,9 +44,13 @@ namespace BlogProjectGrA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Post post)
         {
-            _postService.CreatePost(post);
+            if (ModelState.IsValid)
+            {
+                _postService.CreatePost(post);
 
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
+            }
+            return View(post);
         }
 
         // GET: HomeController1/Edit/5
@@ -68,7 +73,7 @@ namespace BlogProjectGrA.Controllers
         public ActionResult Delete(int id)
         {
             var post = _postService.GetPostsByBlog(id);
-            return View(post);
+             return View(post);
         }
 
         // POST: HomeController1/Delete/5
