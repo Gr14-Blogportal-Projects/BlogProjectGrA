@@ -1,6 +1,19 @@
 ﻿@model BlogProjectGrA.Models.Post
 
-<p>@Model.Title </p>
 
-<p>@Model.Body </p>
 
+
+<div class="row" style="padding: 10px; margin: 30px 5px; border: 2px solid black; box-shadow: 5px 5px 10px yellow">
+    <div class="col-md-11" style=" margin: 30px 0px; border: 1px solid black">
+        <br />
+        <h5 style="display:inline"><b>Title</b></h5>
+        <p class="card bg-primary text-white text-center"style="width:250px; box-shadow: inset 5px 5px 10px green ">
+             @Model.Title
+        </p>
+        <br />
+        <h5 style="display:inline"><b>Post</b></h5>
+        <p class="card-body" style="width:1000px; box-shadow:inset 5px 5px 10px red">
+             @Model.Body
+
+    </div>  
+</div>

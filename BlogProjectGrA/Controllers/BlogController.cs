@@ -24,6 +24,7 @@ namespace BlogProjectGrA.Controllers
         // GET: BlogController
         public ActionResult Index(int id)
         {
+
             var blog = _blogService.GetBlogs();
              return View(blog);
         }
