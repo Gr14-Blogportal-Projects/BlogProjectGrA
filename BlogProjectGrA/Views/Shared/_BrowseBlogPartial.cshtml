@@ -1,0 +1,62 @@
+﻿@using BlogProjectGrA.Services
+@model BlogProjectGrA.Models.Blog
+
+<tr> 
+    <td>
+        @Model.Id 
+        @*@Model.Posts.Select(p => p.View)*@
+        @*@Model.PostView.GetViews()*@
+        @foreach(var post in Model.Posts)
+        {
+            @post.View
+        }
+    </td>
+        <td>
+             <a asp-controller="Blog" asp-action="Details" asp-route-id="@Model.Id" style="text-decoration: none; color: #000000;">   
+             @Html.DisplayFor(modelItem => Model.Title)
+             </a>
+         </td>
+         <td>
+             @*@Html.DisplayFor(modelItem => item.Body)*@
+         </td>
+         <td>
+             <a asp-controller="Blog" asp-action="Details" asp-route-id="@Model.Id" style="text-decoration: none; color: #000000;">  
+             @Html.DisplayFor(modelItem => Model.CreatedAt)
+             </a>
+         </td>
+         <td>
+             <a asp-controller="Blog" asp-action="Details" asp-route-id="@Model.Id" style="text-decoration: none; color: #000000;">  
+             @Model.Author.GetName()
+             </a>
+             <td>
+                 @Model.Posts.Count
+             </td>
+         </td>
+         <td>
+        @if(Model.Posts.Count <= 0)
+        {
+            <p>No posts</p>
+        }
+        else
+        {
+        foreach(var post in Model.Posts)
+        {
+        <div>
+            <h4>@post.Title</h4>
+            <p>@post.Body</p>
+                @foreach(var tag in post.Tags)
+                {
+                    <span class="badge bg-success">@tag.Name</span>
+                }
+            </div>
+        } 
+     }
+    </td>     
+</tr> 
+  
+
+               @*<a asp-controller="Blog" asp-action="Index" asp-route-id="@Model.Id" style="text-decoration: none; color: #000000;">@Html.DisplayFor(modelItem => Model.Title)</a>*@
+
+
+
+ 

@@ -23,7 +23,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.View)
             </th>
-            <th></th>
+            <th>
+                Post Id
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -36,9 +38,11 @@
                 @Html.DisplayFor(modelItem => item.Body)
             </td>
 
-            
             <td>
                 @Html.DisplayFor(model => item.View)
+            </td>
+            <td>
+
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

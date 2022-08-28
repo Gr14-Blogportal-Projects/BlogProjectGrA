@@ -1,5 +1,6 @@
 ﻿using BlogProjectGrA.Data;
 using BlogProjectGrA.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogProjectGrA.Services
 {
@@ -59,5 +60,6 @@ namespace BlogProjectGrA.Services
             _db.SaveChanges();
             return post;
         }
+
     }
 }

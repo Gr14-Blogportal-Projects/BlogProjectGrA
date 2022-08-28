@@ -1,4 +1,5 @@
-﻿using BlogProjectGrA.Models;
+﻿using BlogProjectGrA.Data;
+using BlogProjectGrA.Models;
 using BlogProjectGrA.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -9,11 +10,14 @@ namespace BlogProjectGrA.Controllers
     [Authorize]
     public class PostController : Controller
     {
-        private IPostService _postService;
-
-        public PostController(IPostService postService)
+        private readonly IPostService _postService;
+        private readonly IBlogService _blogService;
+        private readonly ApplicationDbContext _db;
+        public PostController(IPostService postService, IBlogService blogService, ApplicationDbContext db)
         {
             _postService = postService;
+            _blogService = blogService;
+            _db = db;
         }
         [AllowAnonymous]
         // GET: HomeController1
@@ -32,18 +36,21 @@ namespace BlogProjectGrA.Controllers
         }
 
         // GET: HomeController1/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
             var post = new Post();
+            
             return View(post);
         }
 
         // POST: HomeController1/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Post post)
+        public ActionResult Create(Post post, int id)
         {
             _postService.CreatePost(post);
+            _postService.GetPostsByBlog(id);
+            //_blogService.GetBlog(id);
 
             return RedirectToAction(nameof(Index));
         }

@@ -27,16 +27,15 @@ builder.Services.AddDefaultIdentity<User>(options =>
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
-//Add services here
-builder.Services.AddScoped<IPostService, PostService>();
 
 builder.Services.AddHttpClient();
 
 //Add services here
 builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddScoped<ITagService, TagService>();
-
+builder.Services.AddScoped<IPostService, PostService>();
 builder.Services. AddScoped<ICommentService , CommentService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

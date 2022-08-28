@@ -21,5 +21,10 @@ namespace BlogProjectGrA.Models
         
         public virtual ICollection<Comment> Comments { get; set; }
 
+        public int GetViews()
+        {
+            return View;
+        }
+
     }
 }

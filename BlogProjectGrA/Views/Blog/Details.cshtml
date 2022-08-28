@@ -36,6 +36,11 @@
         </dd>
     </dl>
 </div>
+
+<div>
+<a asp-controller="Post" asp-action="Create" asp-route-id="@Model?.Posts">Create a post</a>
+</div>
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-controller="BrowseBlog" asp-action="Index">Back to List</a>
