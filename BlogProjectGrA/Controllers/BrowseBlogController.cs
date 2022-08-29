@@ -1,4 +1,5 @@
-﻿using BlogProjectGrA.Models;
+﻿using BlogProjectGrA.Data;
+using BlogProjectGrA.Models;
 using BlogProjectGrA.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -12,10 +13,14 @@ namespace BlogProjectGrA.Controllers
         private readonly IBlogService _blogService;
 
         private readonly UserManager<User> _userManager;
-        public BrowseBlogController(IBlogService blogService, UserManager<User> userManager)
+
+        private readonly IPostService _postService;
+
+        public BrowseBlogController(IBlogService blogService, UserManager<User> userManager, IPostService postService)
         {
             _blogService = blogService;
             _userManager = userManager;
+            _postService = postService;
         }
         // GET: BrowseBlogController
         public ActionResult Index(int id)
@@ -26,9 +31,13 @@ namespace BlogProjectGrA.Controllers
         }
 
         // GET: BrowseBlogController/Details/5
-        public ActionResult Views(int id)
+        public ActionResult Views()
         {
-            return View();
+            var browseblog = _blogService.GetBlogs();
+            //var blogview = _postService.GetPostByViews(id, view);
+            //var blogview = _blogService.GetBlogs().OrderByDescending(p => p.);
+            
+            return View(browseblog);
         }
         public ActionResult Tags(int id)
         {

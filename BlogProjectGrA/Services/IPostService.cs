@@ -12,5 +12,6 @@ namespace BlogProjectGrA.Services
         void DeletePost(int id);
         Post GetPost(int id);
         Post IncrementViews(int id);
+
     }
 }

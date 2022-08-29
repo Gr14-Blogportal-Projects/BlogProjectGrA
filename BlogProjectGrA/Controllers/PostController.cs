@@ -1,6 +1,7 @@
 ﻿using BlogProjectGrA.Data;
 using BlogProjectGrA.Models;
 using BlogProjectGrA.Models.ViewModels;
+
 using BlogProjectGrA.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +15,20 @@ namespace BlogProjectGrA.Controllers
     [Authorize]
     public class PostController : Controller
     {
+
         private IPostService _postService;
         private readonly ApplicationDbContext _db;
         public PostController(IPostService postService, ApplicationDbContext db)
+        private readonly IPostService _postService;
+        private readonly IBlogService _blogService;
+        private readonly ApplicationDbContext _db;
+        public PostController(IPostService postService, IBlogService blogService, ApplicationDbContext db)
+
         {
             _db=db; 
             _postService = postService;
+            _blogService = blogService;
+            _db = db;
         }
         [AllowAnonymous]
         // GET: HomeController1
@@ -38,7 +47,7 @@ namespace BlogProjectGrA.Controllers
         }
 
         // GET: HomeController1/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
             var post= new Post();
             ViewBag.BlogId = new SelectList(_db.Blogs, "Id", "Title");
@@ -50,6 +59,8 @@ namespace BlogProjectGrA.Controllers
             //}).ToList();
             //CreatePostVM vm = new CreatePostVM();
             //vm.Blogs = title;
+            var post = new Post();
+
             return View(post);
         }
 
@@ -57,11 +68,14 @@ namespace BlogProjectGrA.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Post post ,int id)
+
         {
           
 
             _postService.CreatePost(post);
            ViewBag.BlogId = new SelectList(_db.Blogs, "Id", "Title",id);
+            _postService.GetPostsByBlog(id);
+            //_blogService.GetBlog(id);
 
             return RedirectToAction(nameof(Index));
             

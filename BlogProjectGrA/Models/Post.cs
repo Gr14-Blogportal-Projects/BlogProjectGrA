@@ -26,5 +26,10 @@ namespace BlogProjectGrA.Models
        
         
 
+        public int GetViews()
+        {
+            return View;
+        }
+
     }
 }
