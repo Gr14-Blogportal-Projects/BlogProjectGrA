@@ -12,7 +12,7 @@
         }
     </td>
         <td>
-             <a asp-controller="Blog" asp-action="Details" asp-route-id="@Model.Id" style="text-decoration: none; color: #000000;">   
+             <a asp-controller="BrowseBlog" asp-action="Details" asp-route-id="@Model.Id" style="text-decoration: none; color: #000000;">   
              @Html.DisplayFor(modelItem => Model.Title)
              </a>
          </td>
@@ -20,19 +20,19 @@
              @*@Html.DisplayFor(modelItem => item.Body)*@
          </td>
          <td>
-             <a asp-controller="Blog" asp-action="Details" asp-route-id="@Model.Id" style="text-decoration: none; color: #000000;">  
+             <a asp-controller="BrowseBlog" asp-action="Details" asp-route-id="@Model.Id" style="text-decoration: none; color: #000000;">  
              @Html.DisplayFor(modelItem => Model.CreatedAt)
              </a>
          </td>
          <td>
-             <a asp-controller="Blog" asp-action="Details" asp-route-id="@Model.Id" style="text-decoration: none; color: #000000;">  
+             <a asp-controller="BrowseBlog" asp-action="Details" asp-route-id="@Model.Id" style="text-decoration: none; color: #000000;">  
              @Model.Author.GetName()
              </a>
              <td>
                  @Model.Posts.Count
              </td>
          </td>
-         <td>
+        @* <td>
         @if(Model.Posts.Count <= 0)
         {
             <p>No posts</p>
@@ -51,7 +51,7 @@
             </div>
         } 
      }
-    </td>     
+    </td>  *@   
 </tr> 
   
 

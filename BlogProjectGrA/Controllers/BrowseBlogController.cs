@@ -44,6 +44,18 @@ namespace BlogProjectGrA.Controllers
             return View();
         }
 
+        public ActionResult Details(int id)
+        {
+            var blog = _blogService.GetBlog(id);
+            return View(blog);
+        }
+
+        public ActionResult Blog(string id)
+        {
+            var blog = _blogService.GetBlogsByUser(id);
+            return View(blog);
+        }
+
         // GET: BrowseBlogController/Create
         //public ActionResult Create()
         //{
