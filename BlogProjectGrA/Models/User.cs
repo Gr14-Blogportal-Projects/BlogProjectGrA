@@ -12,6 +12,8 @@ namespace BlogProjectGrA.Models
 
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Blog> Blogs { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<Tag> Tags { get; set; }
 
         public string GetName()
         {

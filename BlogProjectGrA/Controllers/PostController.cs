@@ -1,8 +1,12 @@
-﻿using BlogProjectGrA.Models;
+﻿using BlogProjectGrA.Data;
+using BlogProjectGrA.Models;
+using BlogProjectGrA.Models.ViewModels;
 using BlogProjectGrA.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Web.WebPages.Html;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 
 
 namespace BlogProjectGrA.Controllers
@@ -11,9 +15,10 @@ namespace BlogProjectGrA.Controllers
     public class PostController : Controller
     {
         private IPostService _postService;
-
-        public PostController(IPostService postService)
+        private readonly ApplicationDbContext _db;
+        public PostController(IPostService postService, ApplicationDbContext db)
         {
+            _db=db; 
             _postService = postService;
         }
         [AllowAnonymous]
@@ -35,22 +40,32 @@ namespace BlogProjectGrA.Controllers
         // GET: HomeController1/Create
         public ActionResult Create()
         {
-            var post = new Post();
+            var post= new Post();
+            ViewBag.BlogId = new SelectList(_db.Blogs, "Id", "Title");
+          
+            //var title = _db.Blogs.Select(x => new System.Web.Mvc.SelectListItem()
+            //{
+            //    Text = x.Title,
+            //    Value = x.Id.ToString()
+            //}).ToList();
+            //CreatePostVM vm = new CreatePostVM();
+            //vm.Blogs = title;
             return View(post);
         }
 
         // POST: HomeController1/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Post post)
+        public ActionResult Create(Post post ,int id)
         {
-            if (ModelState.IsValid)
-            {
-                _postService.CreatePost(post);
+          
 
-                return RedirectToAction(nameof(Index));
-            }
-            return View(post);
+            _postService.CreatePost(post);
+           ViewBag.BlogId = new SelectList(_db.Blogs, "Id", "Title",id);
+
+            return RedirectToAction(nameof(Index));
+            
+
         }
 
         // GET: HomeController1/Edit/5
