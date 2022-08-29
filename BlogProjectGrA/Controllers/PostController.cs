@@ -57,13 +57,6 @@ namespace BlogProjectGrA.Controllers
             }
             ViewBag.BlogId = new SelectList(user.Blogs, "Id", "Title" );
           
-            //var title = _db.Blogs.Select(x => new System.Web.Mvc.SelectListItem()
-            //{
-            //    Text = x.Title,
-            //    Value = x.Id.ToString()
-            //}).ToList();
-            //CreatePostVM vm = new CreatePostVM();
-            //vm.Blogs = title;
             var post = new Post();
 
             return View(post);
@@ -79,8 +72,8 @@ namespace BlogProjectGrA.Controllers
             _postService.CreatePost(post);
             var user = _userManager.GetUserAsync(User).Result;
             ViewBag.BlogId = new SelectList(user.Blogs, "Id", "Title");
-
-            return RedirectToAction(nameof(Index));
+            //return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "BrowseBlog"); //TODO Redirect to the blog where you make the post
         }
 
         // GET: HomeController1/Edit/5
