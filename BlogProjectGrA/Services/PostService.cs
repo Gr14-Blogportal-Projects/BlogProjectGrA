@@ -40,7 +40,7 @@ namespace BlogProjectGrA.Services
             return _db.Posts.ToList();
         }
 
-        public IEnumerable<Post> GetPostsByBlog(int Id)
+        public IEnumerable<Post> GetPostsByBlog(int id)
         {
             return _db.Posts.ToList();
 

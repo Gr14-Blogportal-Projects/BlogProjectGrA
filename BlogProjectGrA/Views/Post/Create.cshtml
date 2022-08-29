@@ -1,4 +1,5 @@
-﻿@model BlogProjectGrA.Models.Post
+﻿@*@model BlogProjectGrA.Models.ViewModels.CreatePostVM*@
+@model BlogProjectGrA.Models.Post
 
 @{
     ViewData["Title"] = "Create";
@@ -32,6 +33,15 @@
                 <input asp-for="View" class="form-control" />
                 <span asp-validation-for="View" class="text-danger"></span>
             </div>*@
+             <div class="form-group">
+                <label asp-for=" Title" class="control-label"></label>
+                <select asp-for="Blog" class="form-control"asp-items="@ViewBag.BlogId" >
+                <option value="">Select Blogs Title</option>
+                </select>
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
