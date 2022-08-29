@@ -11,6 +11,8 @@ namespace BlogProjectGrA.Models
         [Required]
         [StringLength(30, MinimumLength = 3)]
         public string NormalizedName { get; set; }
+       
+
 
         public virtual ICollection<Post> Posts { get; set; }
     }

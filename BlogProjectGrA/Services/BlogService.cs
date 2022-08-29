@@ -34,6 +34,11 @@ namespace BlogProjectGrA.Services
             return _db.Blogs.ToList();
 
         }
+        public IEnumerable<Blog> GetBlogsByUser(string id)
+        {
+            return _db.Blogs.Where(b =>b.Author.Id == id).ToList();   
+            
+        }
 
         public void UpdateBlog(Blog blog)
         {

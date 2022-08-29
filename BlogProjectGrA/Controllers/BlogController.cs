@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BlogProjectGrA.Controllers
 {
@@ -20,12 +21,12 @@ namespace BlogProjectGrA.Controllers
             _userManager = userManager;
         }
 
-        [AllowAnonymous]
+      
         // GET: BlogController
-        public ActionResult Index(int id)
+        public ActionResult Index()
         {
-
-            var blog = _blogService.GetBlogs();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var blog = _blogService.GetBlogsByUser(userId);
              return View(blog);
         }
 
