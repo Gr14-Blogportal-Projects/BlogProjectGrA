@@ -7,8 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Web.WebPages.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
-
+using Microsoft.AspNetCore.Identity;
 
 namespace BlogProjectGrA.Controllers
 {
@@ -16,19 +15,18 @@ namespace BlogProjectGrA.Controllers
     public class PostController : Controller
     {
 
-        private IPostService _postService;
-        private readonly ApplicationDbContext _db;
-        public PostController(IPostService postService, ApplicationDbContext db)
+
+        private readonly UserManager<User> _userManager;
         private readonly IPostService _postService;
         private readonly IBlogService _blogService;
-        private readonly ApplicationDbContext _db;
-        public PostController(IPostService postService, IBlogService blogService, ApplicationDbContext db)
+    
+        public PostController(IPostService postService, IBlogService blogService,UserManager<User> userManeger)
 
         {
-            _db=db; 
+           
             _postService = postService;
             _blogService = blogService;
-            _db = db;
+            _userManager = userManeger;
         }
         [AllowAnonymous]
         // GET: HomeController1
@@ -47,10 +45,17 @@ namespace BlogProjectGrA.Controllers
         }
 
         // GET: HomeController1/Create
-        public ActionResult Create(int id)
+        public ActionResult Create(int id, int blogId)
         {
-            var post= new Post();
-            ViewBag.BlogId = new SelectList(_db.Blogs, "Id", "Title");
+            
+            var user = _userManager.GetUserAsync(User).Result;
+
+            if (user.Blogs.Count <= 0) 
+            {
+                TempData["Message"] = "You need to create blog";
+                return RedirectToAction("Create", "Blog");
+            }
+            ViewBag.BlogId = new SelectList(user.Blogs, "Id", "Title" );
           
             //var title = _db.Blogs.Select(x => new System.Web.Mvc.SelectListItem()
             //{
@@ -67,19 +72,15 @@ namespace BlogProjectGrA.Controllers
         // POST: HomeController1/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Post post ,int id)
-
+        public ActionResult Create(Post post, int blogId)
         {
-          
-
+            var blog = _blogService.GetBlog(blogId);
+            post.Blog = blog;
             _postService.CreatePost(post);
-           ViewBag.BlogId = new SelectList(_db.Blogs, "Id", "Title",id);
-            _postService.GetPostsByBlog(id);
-            //_blogService.GetBlog(id);
+            var user = _userManager.GetUserAsync(User).Result;
+            ViewBag.BlogId = new SelectList(user.Blogs, "Id", "Title");
 
             return RedirectToAction(nameof(Index));
-            
-
         }
 
         // GET: HomeController1/Edit/5
