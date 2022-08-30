@@ -7,7 +7,7 @@
         <br />
         <h5 style="display:inline"><b>Blog Title</b> <span style="display:inline;float:right"><b>Date</b></span></h5>
         <h5 class="card bg-primary text-white text-center"style="width:250px; box-shadow: inset 5px 5px 10px green ">
-             @Model.Title
+             <a asp-controller="BrowseBlog" asp-action="Details" asp-route-id="@Model?.Id" style="text-decoration: none; color: #000000;">@Model.Title</a>
         </h5>
 
         <div style="display:inline;float:right">
