@@ -17,9 +17,9 @@ namespace BlogProjectGrA.Controllers
         private IPostService _postService;
         private readonly ITagService _tagService;
         private readonly IBlogService _blogService;
-        private readonly UserManager _userManager;
+        private readonly UserManager<User> _userManager;
 
-        public PostController(UserManager userManager, IPostService postService, ITagService tagService, IBlogService blogService)
+        public PostController(UserManager<User> userManager, IPostService postService, ITagService tagService, IBlogService blogService)
         {
             _userManager = userManager;
             _postService = postService;
