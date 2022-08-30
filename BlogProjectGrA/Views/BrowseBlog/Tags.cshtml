@@ -1,0 +1,40 @@
+﻿@model BlogProjectGrA.ViewModels.PostsTagsViewModel
+
+@{
+    ViewData["Title"] = "Tags";
+}
+
+<h1>Tags</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Tags) {
+        <tr>
+            <td>
+                <a asp-route-tagId="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@if (Model.SelectedTag != null)
+{
+    <h3>Posts using the '@Model.SelectedTag.Name' tag</h3>
+} 
+else
+{
+    <h3>Click on a tag to browse posts</h3>
+}
+
+@foreach (var item in Model.Posts)
+{
+    <partial name="_PostPartial" model="item"></partial>
+} 
