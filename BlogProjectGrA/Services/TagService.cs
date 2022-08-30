@@ -53,8 +53,28 @@ namespace BlogProjectGrA.Services
 
         public Tag UpdateTag(Tag tag)
         {
+
             return UpdateTag(tag.Id, tag.Name);
 
         }
+        public IEnumerable<Tag> GetTagsByPost(int id)
+        {
+            var tags = _db.Tags.Where(t => t.Posts.FirstOrDefault(p => p.Id == id) != null).ToList();
+
+            return tags;
+            //return _db.Tags.Find(id);
+
+
+
+        }
+      
+        //public Tag IncrementViews(int id)
+        //{
+        //    var tag = GetTag(id);
+        //    tag.View++;
+        //    _db.Update(tag);
+        //    _db.SaveChanges();
+        //    return tag;
+
     }
 }

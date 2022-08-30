@@ -1,19 +1,20 @@
-﻿@model IEnumerable<BlogProjectGrA.Models.Blog>
+﻿
+@model IEnumerable<BlogProjectGrA.Models.Post>
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<User> UserManager
 
 @{
-    ViewData["Title"] = "Blogs by views";
+    ViewData["Title"] = "Browse posts by views";
 }
 
-<h1>Browse blogs by views</h1>
+<h1>Browse posts by views</h1>
 
 <p>
     <a asp-controller="Blog" asp-action="Create">Create a new blog</a>
 </p>
 
 <p>
-    <a class="btn btn-outline-primary" asp-action="Index">Browse blogs</a>
+    <a class="btn btn-outline-primary" asp-action="Views">Browse posts by views</a>
     &nbsp;
     <a class="btn btn-outline-primary" asp-action="Tags">Browse posts by tags</a>
 </p>
@@ -40,7 +41,7 @@
     <tbody>
         @foreach(var item in Model)
         {
-            <partial name="_BrowseBlogPartial" model="item"></partial>
+            <partial name="_PostPartial" model="item"></partial>
         }
-            </tbody>
+    </tbody>
 </table>

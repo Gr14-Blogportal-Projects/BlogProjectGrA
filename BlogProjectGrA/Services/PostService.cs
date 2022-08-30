@@ -61,5 +61,15 @@ namespace BlogProjectGrA.Services
             return post;
         }
 
+        public IEnumerable<Post> GetPostsByViews()
+        {
+            var posts = _db.Posts.OrderByDescending(p =>p.View).ToList();
+            return posts;
+        }
+        public IEnumerable<Post> GetPostsByTag(Tag tag)
+        {
+            var posts = _db.Posts.Where(p => p.Tags.Contains(tag)).ToList();
+            return posts;
+        }
     }
 }

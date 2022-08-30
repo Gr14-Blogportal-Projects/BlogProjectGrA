@@ -17,10 +17,11 @@ namespace BlogProjectGrA.Controllers
         }
         [AllowAnonymous]
         // GET: TagController
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            var tags=_tagService.GetTags();
-            return View(tags);
+            //var tags=_tagService.GetTagsByPost(id);
+            //return View(tags);
+            return View();
         }
         [AllowAnonymous]
         // GET: TagController/Details/5
