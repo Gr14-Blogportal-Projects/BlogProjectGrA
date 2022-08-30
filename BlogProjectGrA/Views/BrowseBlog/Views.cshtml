@@ -1,0 +1,25 @@
+﻿
+@model IEnumerable<BlogProjectGrA.Models.Post>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+
+@{
+    ViewData["Title"] = "Browse blogs";
+}
+
+<h1>Browse blogs</h1>
+
+<p>
+    <a asp-controller="Blog" asp-action="Create">Create a new blog</a>
+</p>
+
+<p>
+    <a class="btn btn-outline-primary" asp-action="Views">Browse posts based by views</a>
+    &nbsp;
+    <a class="btn btn-outline-primary" asp-action="Tags">Browse posts by tags</a>
+</p>
+@foreach(var item in Model)
+{
+    <partial name="_PostPartial" model="item"></partial>
+}
+

@@ -59,5 +59,11 @@ namespace BlogProjectGrA.Services
             _db.SaveChanges();
             return post;
         }
+
+        public IEnumerable<Post> GetPostsByViews()
+        {
+            var posts = _db.Posts.OrderByDescending(p =>p.View).ToList();
+            return posts;
+        }
     }
 }

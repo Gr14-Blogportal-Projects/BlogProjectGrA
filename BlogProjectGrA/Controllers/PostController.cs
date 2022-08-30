@@ -11,10 +11,14 @@ namespace BlogProjectGrA.Controllers
     public class PostController : Controller
     {
         private IPostService _postService;
+        private readonly ITagService _tagService;
+        private readonly IBlogService _blogService;
 
-        public PostController(IPostService postService)
+        public PostController(IPostService postService, ITagService tagService, IBlogService blogService)
         {
             _postService = postService;
+            _tagService = tagService;
+            _blogService = blogService;
         }
         [AllowAnonymous]
         // GET: HomeController1
@@ -42,15 +46,18 @@ namespace BlogProjectGrA.Controllers
         // POST: HomeController1/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Post post)
+        public ActionResult Create(Post post,int id)
         {
-            if (ModelState.IsValid)
-            {
+
+            var postcreate = _blogService.GetBlog(id);
+            post.Tags = (ICollection<Tag>)postcreate;
+                //var tag = _tagService.GetTag(id);
+                //post.Tags = (ICollection<Tag>)tag;
                 _postService.CreatePost(post);
 
                 return RedirectToAction(nameof(Index));
-            }
-            return View(post);
+            
+            //return View(postcreate);
         }
 
         // GET: HomeController1/Edit/5
