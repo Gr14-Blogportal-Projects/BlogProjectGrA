@@ -10,7 +10,6 @@ namespace BlogProjectGrA.Services
         void DeleteTag(Tag tag);
         Tag UpdateTag(int id, string name);
         Tag UpdateTag(Tag tag);
-        IEnumerable<Tag> GetTagsByPost(int id);
     
     }
 }

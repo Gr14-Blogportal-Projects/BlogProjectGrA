@@ -14,5 +14,6 @@ namespace BlogProjectGrA.Services
         Post IncrementViews(int id);
 
         IEnumerable<Post> GetPostsByViews();
+        IEnumerable<Post> GetPostsByTag(Tag tag);
     }
 }

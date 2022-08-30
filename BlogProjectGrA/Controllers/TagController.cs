@@ -19,8 +19,9 @@ namespace BlogProjectGrA.Controllers
         // GET: TagController
         public ActionResult Index(int id)
         {
-            var tags=_tagService.GetTagsByPost(id);
-            return View(tags);
+            //var tags=_tagService.GetTagsByPost(id);
+            //return View(tags);
+            return View();
         }
         [AllowAnonymous]
         // GET: TagController/Details/5

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using BlogProjectGrA.ViewModels;
 
 namespace BlogProjectGrA.Controllers
 {
@@ -14,12 +15,14 @@ namespace BlogProjectGrA.Controllers
         private readonly UserManager<User> _userManager;
 
         private readonly IPostService _postService;
+        private readonly ITagService _tagService;
 
-        public BrowseBlogController(IBlogService blogService, UserManager<User> userManager, IPostService postService)
+        public BrowseBlogController(IBlogService blogService, UserManager<User> userManager, IPostService postService ,ITagService tagService)
         {
             _blogService = blogService;
             _userManager = userManager;
             _postService = postService;
+            _tagService = tagService;
         }
         // GET: BrowseBlogController
         public ActionResult Index(int id)
@@ -35,9 +38,20 @@ namespace BlogProjectGrA.Controllers
             var posts = _postService.GetPostsByViews();
             return View(posts);
         }
-        public ActionResult Tags(int id)
+        public ActionResult Tags(int tagId)
         {
-            return View();
+            var tags= _tagService.GetTags();
+
+            var selectedTag = tags.FirstOrDefault(t => t.Id == tagId);
+            var posts = _postService.GetPostsByTag(selectedTag);
+            var vm = new PostsTagsViewModel
+            {
+                Tags = tags,
+                Posts = posts,
+                SelectedTag = selectedTag
+            };
+
+            return View(vm);
         }
 
         // GET: BrowseBlogController/Create

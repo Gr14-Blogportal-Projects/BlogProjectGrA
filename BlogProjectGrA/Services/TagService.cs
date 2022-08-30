@@ -53,6 +53,7 @@ namespace BlogProjectGrA.Services
 
         public Tag UpdateTag(Tag tag)
         {
+
             return UpdateTag(tag.Id, tag.Name);
 
         }
@@ -66,6 +67,7 @@ namespace BlogProjectGrA.Services
 
 
         }
+      
         //public Tag IncrementViews(int id)
         //{
         //    var tag = GetTag(id);
