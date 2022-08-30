@@ -43,7 +43,7 @@ namespace BlogProjectGrA.Controllers
         }
 
         // GET: HomeController1/Create
-        public ActionResult Create(int id, int blogId)
+        public ActionResult Create(int id, int blogId, int tagid)
         {
             
             var user = _userManager.GetUserAsync(User).Result;
@@ -54,22 +54,23 @@ namespace BlogProjectGrA.Controllers
                 return RedirectToAction("Create", "Blog");
             }
             ViewBag.BlogId = new SelectList(user.Blogs, "Id", "Title" );
-          
+            ViewBag.TagId = new SelectList(user.Tags, "Id", "Title");
             var post = new Post();
-
+            
             return View(post);
         }
 
         // POST: HomeController1/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Post post, int blogId)
+        public ActionResult Create(Post post, int blogId, int tagid)
         {
             var blog = _blogService.GetBlog(blogId);
             post.Blog = blog;
             _postService.CreatePost(post);
             var user = _userManager.GetUserAsync(User).Result;
             ViewBag.BlogId = new SelectList(user.Blogs, "Id", "Title");
+            ViewBag.TagId = new SelectList(user.Tags, "Id", "Title");
             //return RedirectToAction(nameof(Index));
             return RedirectToAction("Index", "BrowseBlog"); //TODO Redirect to the blog where you make the post
         }
