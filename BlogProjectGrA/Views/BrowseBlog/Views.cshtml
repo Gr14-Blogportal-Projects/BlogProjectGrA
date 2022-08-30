@@ -4,22 +4,44 @@
 @inject UserManager<User> UserManager
 
 @{
-    ViewData["Title"] = "Browse blogs";
+    ViewData["Title"] = "Browse posts by views";
 }
 
-<h1>Browse blogs</h1>
+<h1>Browse posts by views</h1>
 
 <p>
     <a asp-controller="Blog" asp-action="Create">Create a new blog</a>
 </p>
 
 <p>
-    <a class="btn btn-outline-primary" asp-action="Views">Browse posts based by views</a>
+    <a class="btn btn-outline-primary" asp-action="Views">Browse posts by views</a>
     &nbsp;
     <a class="btn btn-outline-primary" asp-action="Tags">Browse posts by tags</a>
 </p>
-@foreach(var item in Model)
-{
-    <partial name="_PostPartial" model="item"></partial>
-}
-
+<table class="table rounded border border-dark">
+    <thead>
+        <tr>
+            <th>
+                Views
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Body)*@
+            </th>
+            <th>
+                Date
+            </th>
+            <th>
+                Author
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+            <partial name="_PostPartial" model="item"></partial>
+        }
+    </tbody>
+</table>

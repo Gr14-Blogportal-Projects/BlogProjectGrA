@@ -1,9 +1,13 @@
-﻿using BlogProjectGrA.Models;
+﻿using BlogProjectGrA.Data;
+using BlogProjectGrA.Models;
+using BlogProjectGrA.Models.ViewModels;
+
 using BlogProjectGrA.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Web.WebPages.Html;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Identity;
 
 namespace BlogProjectGrA.Controllers
 {
@@ -13,9 +17,11 @@ namespace BlogProjectGrA.Controllers
         private IPostService _postService;
         private readonly ITagService _tagService;
         private readonly IBlogService _blogService;
+        private readonly UserManager _userManager;
 
-        public PostController(IPostService postService, ITagService tagService, IBlogService blogService)
+        public PostController(UserManager userManager, IPostService postService, ITagService tagService, IBlogService blogService)
         {
+            _userManager = userManager;
             _postService = postService;
             _tagService = tagService;
             _blogService = blogService;
@@ -37,27 +43,35 @@ namespace BlogProjectGrA.Controllers
         }
 
         // GET: HomeController1/Create
-        public ActionResult Create()
+        public ActionResult Create(int id, int blogId)
         {
+            
+            var user = _userManager.GetUserAsync(User).Result;
+
+            if (user.Blogs.Count <= 0) 
+            {
+                TempData["Message"] = "You need to create blog";
+                return RedirectToAction("Create", "Blog");
+            }
+            ViewBag.BlogId = new SelectList(user.Blogs, "Id", "Title" );
+          
             var post = new Post();
+
             return View(post);
         }
 
         // POST: HomeController1/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Post post,int id)
+        public ActionResult Create(Post post, int blogId)
         {
-
-            var postcreate = _blogService.GetBlog(id);
-            post.Tags = (ICollection<Tag>)postcreate;
-                //var tag = _tagService.GetTag(id);
-                //post.Tags = (ICollection<Tag>)tag;
-                _postService.CreatePost(post);
-
-                return RedirectToAction(nameof(Index));
-            
-            //return View(postcreate);
+            var blog = _blogService.GetBlog(blogId);
+            post.Blog = blog;
+            _postService.CreatePost(post);
+            var user = _userManager.GetUserAsync(User).Result;
+            ViewBag.BlogId = new SelectList(user.Blogs, "Id", "Title");
+            //return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "BrowseBlog"); //TODO Redirect to the blog where you make the post
         }
 
         // GET: HomeController1/Edit/5

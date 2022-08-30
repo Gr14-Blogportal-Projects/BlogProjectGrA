@@ -90,8 +90,8 @@ namespace BlogProjectGrA.Data.Migrations
                     Body = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     View = table.Column<int>(type: "int", nullable: false),
-                    BlogId = table.Column<int>(type: "int", nullable: true),
-                    CommentId = table.Column<int>(type: "int", nullable: true)
+                    BlogId = table.Column<int>(type: "int", nullable: false),
+                    CommentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

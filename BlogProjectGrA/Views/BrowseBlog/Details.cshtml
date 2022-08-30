@@ -1,0 +1,72 @@
+﻿@model BlogProjectGrA.Models.Blog
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@{
+    ViewData["Title"] = "Details";
+}
+
+@*<h1>@Model.Title</h1>*@
+
+@*<h3> 
+    <a asp-controller="Post" asp-action="Create">Create a post</a>
+    </h3>*@
+
+<div>
+    <hr />
+    <div class="row">
+            <div class="col-md-8">
+                @foreach(var item in Model.Posts)
+        {
+            
+            <partial name="_PostPartial" model="item"></partial>
+        }
+            </div>
+            <div class="col-md-4">
+                <div style="padding: 15px; margin: 30px 5px; border: 2px solid black; box-shadow: 5px 5px 10px yellow">
+        <dl class="row">
+
+        <dt class = "col-sm-4">
+            Blog Title
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-4">
+            Description
+        </dt>
+
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Body)
+        </dd>
+        <dt class = "col-sm-4">
+            Date
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.CreatedAt)
+        </dd>
+        <dt class="col-sm-4">
+            Author
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Author.FirstName) @Html.DisplayFor(model => model.Author.LastName)
+        </dd>
+        @if (SignInManager.IsSignedIn(User))
+        {
+        <span>&nbsp;</span>
+        <dd>
+            <a class="btn btn-outline-primary" asp-controller="Post" asp-action="Create" >Create a new post</a>
+            <a class="btn btn-outline-primary" asp-controller="Blog" asp-action="Edit" asp-route-id="@Model?.Id">Edit blog</a>
+        </dd>
+        }
+    </dl>
+    </div>
+     </div>
+    </div>
+</div>
+
+
+@*<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>*@

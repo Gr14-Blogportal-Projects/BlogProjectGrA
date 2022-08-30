@@ -4,6 +4,7 @@ using BlogProjectGrA.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlogProjectGrA.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220826130111_removed_the_junction_between_post_and_blog_and_models")]
+    partial class removed_the_junction_between_post_and_blog_and_models
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,17 +111,12 @@ namespace BlogProjectGrA.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("View")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BlogId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Posts");
                 });
@@ -142,12 +139,7 @@ namespace BlogProjectGrA.Data.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Tags");
                 });
@@ -405,22 +397,9 @@ namespace BlogProjectGrA.Data.Migrations
 
             modelBuilder.Entity("BlogProjectGrA.Models.Post", b =>
                 {
-                    b.HasOne("BlogProjectGrA.Models.Blog", "Blog")
+                    b.HasOne("BlogProjectGrA.Models.Blog", null)
                         .WithMany("Posts")
                         .HasForeignKey("BlogId");
-
-                    b.HasOne("BlogProjectGrA.Models.User", null)
-                        .WithMany("Posts")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Blog");
-                });
-
-            modelBuilder.Entity("BlogProjectGrA.Models.Tag", b =>
-                {
-                    b.HasOne("BlogProjectGrA.Models.User", null)
-                        .WithMany("Tags")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -504,10 +483,6 @@ namespace BlogProjectGrA.Data.Migrations
                     b.Navigation("Blogs");
 
                     b.Navigation("Comments");
-
-                    b.Navigation("Posts");
-
-                    b.Navigation("Tags");
                 });
 #pragma warning restore 612, 618
         }

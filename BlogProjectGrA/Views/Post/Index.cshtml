@@ -18,12 +18,16 @@
             <th>
                 @Html.DisplayNameFor(model => model.Body)
             </th>
-
+             <th>
+                @Html.DisplayNameFor(model => model.Blog.Title)
+            </th>
 
             <th>
                 @Html.DisplayNameFor(model => model.View)
             </th>
-            <th></th>
+            <th>
+                Post Id
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -36,11 +40,16 @@
                 @Html.DisplayFor(modelItem => item.Body)
             </td>
 
-            
+            <td>
+                @Html.DisplayFor(modelItem =>item.Blog.Title)
+            </td>
             <td>
                 @Html.DisplayFor(model => item.View)
             </td>
             <partial name="_PostPartial"model="item"></partial>
+            <td>
+
+            </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

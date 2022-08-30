@@ -5,7 +5,7 @@ namespace BlogProjectGrA.Services
     public interface IPostService
     {
         IEnumerable<Post> GetPosts();
-        IEnumerable<Post> GetPostsByBlog(int Id);  
+        IEnumerable<Post> GetPostsByBlog(int id);  
         
         Post CreatePost(Post post);
         Post UpdatePost(Post post);

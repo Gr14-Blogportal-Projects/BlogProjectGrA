@@ -1,4 +1,5 @@
-﻿using BlogProjectGrA.Models;
+﻿using BlogProjectGrA.Data;
+using BlogProjectGrA.Models;
 using BlogProjectGrA.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -52,6 +53,18 @@ namespace BlogProjectGrA.Controllers
             };
 
             return View(vm);
+        }
+
+        public ActionResult Details(int id)
+        {
+            var blog = _blogService.GetBlog(id);
+            return View(blog);
+        }
+
+        public ActionResult Blog(string id)
+        {
+            var blog = _blogService.GetBlogsByUser(id);
+            return View(blog);
         }
 
         // GET: BrowseBlogController/Create
