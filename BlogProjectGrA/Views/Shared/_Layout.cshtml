@@ -34,19 +34,11 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="BrowseBlog" asp-action="Index">Browse Blogs</a>
 
                         </li>
-                        @*<li class="nav-item">
 
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Post" asp-action="Index">Posts</a>
-
-                        </li>*@
                         <li class="nav-item">
 
                             <a class="nav-link text-dark" asp-area="" asp-controller="Tag" asp-action="Index">Tags</a>
 
-                        </li>
-                        
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Comment" asp-action="Index">Comments</a>
                         </li>
                         
                         @if (SignInManager.IsSignedIn(User))

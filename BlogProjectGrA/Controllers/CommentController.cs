@@ -2,6 +2,7 @@
 using BlogProjectGrA.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogProjectGrA.Controllers
@@ -10,10 +11,14 @@ namespace BlogProjectGrA.Controllers
     public class CommentController : Controller
     {
         private readonly ICommentService _commentService;
-        
-        public CommentController(ICommentService commentService)
+        private readonly UserManager<User> _userManager;
+        private readonly IPostService _postService;
+
+        public CommentController(ICommentService commentService, UserManager<User> userManager, IPostService postService)
         {
-            _commentService = commentService;   
+            _commentService = commentService;
+            _userManager = userManager;
+            _postService = postService;
         }
         [AllowAnonymous]
         // GET: CommentController
@@ -31,8 +36,11 @@ namespace BlogProjectGrA.Controllers
         }
 
         // GET: CommentController/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
+            var user = _userManager.GetUserAsync(User).Result;
+
+            //ViewBag.PostId = new Comment(user.Posts)
             var comment = new Comment();
             return View(comment);
         }
@@ -40,9 +48,15 @@ namespace BlogProjectGrA.Controllers
         // POST: CommentController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Comment comment)
+        public ActionResult Create(Comment comment, int id)
         {
-         _commentService.CreateComment(comment);
+            var post = _postService.GetPost(id);
+            comment.Posts = post;
+            comment.Id = 0;
+            var user = _userManager.GetUserAsync(User).Result;
+            comment.Author = user;
+            _commentService.CreateComment(comment);
+            //ViewBag.PostId = new SelectionList
             return RedirectToAction(nameof(Index));
 
         }
