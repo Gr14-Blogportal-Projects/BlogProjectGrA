@@ -63,15 +63,20 @@ namespace BlogProjectGrA.Controllers
         // POST: HomeController1/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Post post, int blogId, int tagid)
+        public ActionResult Create(Post post, int blogId, string tagListString)
         {
-            var tag = _tagService.GetTags(); //new from 30/aug
+            var tagList = tagListString.Split(',');
+
+            var tags = _tagService.GetOrCreateTags(tagList);
+
             var blog = _blogService.GetBlog(blogId);
             post.Blog = blog;
+
+            post.Tags = tags.ToList();
+
             _postService.CreatePost(post);
             var user = _userManager.GetUserAsync(User).Result;
             ViewBag.BlogId = new SelectList(user.Blogs, "Id", "Title");
-            ViewBag.TagId = new SelectList(tag.Select(t => t.Name), "Tags"); //new from 30/aug
             //return RedirectToAction(nameof(Index));
             return RedirectToAction("Index", "BrowseBlog"); //TODO Redirect to the blog where you make the post
         }
