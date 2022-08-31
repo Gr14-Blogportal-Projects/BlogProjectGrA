@@ -33,6 +33,10 @@
 
                             <a class="nav-link text-dark" asp-area="" asp-controller="BrowseBlog" asp-action="Index">Browse Blogs</a>
                         </li>
+                        <li class="nav-item">
+
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Tag" asp-action="Create">Create Tag</a>
+                        </li>
                         
                         @if (SignInManager.IsSignedIn(User))
                         {

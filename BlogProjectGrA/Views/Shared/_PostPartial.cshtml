@@ -22,6 +22,13 @@
         <h5 class="card-body" style="width:700px; box-shadow:inset 5px 5px 10px red">
              @Model.Body </h5>
                 <br />
-         
+                
     </div>  
+    <div><span>Tags </span>
+         @foreach(var tag in Model.Tags)
+                {
+                    <span class="badge bg-success">@tag.Name</span>
+                }
+                <br />
+                </div>
 </div>

@@ -67,7 +67,48 @@ namespace BlogProjectGrA.Services
 
 
         }
-      
+
+        public IEnumerable<Tag> GetOrCreateTags(string[] tagList)
+        {
+            var normalizedTagList = new List<Tag>();
+            foreach (var t in tagList)
+            {
+                var tag = new Tag
+                {
+                    Name = t,
+                    NormalizedName = NormalizeTagName(t)
+                };
+                normalizedTagList.Add(tag);
+            }
+
+            var intersectTags = normalizedTagList.Select(t => t.NormalizedName).ToList();
+            var tags = _db.Tags.Where(t => intersectTags.Contains(t.NormalizedName)).ToList();
+
+            var output = new List<Tag>();
+            foreach (var tag in normalizedTagList)
+            {
+                var existing = tags.Find(t => t.NormalizedName == tag.NormalizedName);
+                if (existing == null)
+                {
+                    _db.Add(tag);
+                    output.Add(tag);
+                }
+                else
+                {
+                    output.Add(existing);
+                }
+            }
+
+            _db.SaveChanges();
+
+            return output;
+        }
+
+        private static string NormalizeTagName(string tagName)
+        {
+            return tagName.Trim().ToUpper();
+        }
+
         //public Tag IncrementViews(int id)
         //{
         //    var tag = GetTag(id);

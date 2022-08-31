@@ -1,13 +1,16 @@
-﻿
-@using BlogProjectGrA.Services
+﻿@using BlogProjectGrA.Services
 @model IEnumerable<BlogProjectGrA.Models.Blog>
 
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "My Blogs";
 }
 
-<h1>Blogs</h1>
+<h1>My Blogs</h1>
+<hr />
+<p>
+    <a asp-controller="Blog" asp-action="Create">Create a new blog</a>
+</p>
 
 @foreach (var item in Model)
 {

@@ -43,9 +43,9 @@ namespace BlogProjectGrA.Controllers
         }
 
         // GET: HomeController1/Create
-        public ActionResult Create(int id, int blogId)
+        public ActionResult Create(int id, int blogId, int tagid)
         {
-            
+            var tag = _tagService.GetTags(); //new from 30/aug
             var user = _userManager.GetUserAsync(User).Result;
 
             if (user.Blogs.Count <= 0) 
@@ -54,19 +54,26 @@ namespace BlogProjectGrA.Controllers
                 return RedirectToAction("Create", "Blog");
             }
             ViewBag.BlogId = new SelectList(user.Blogs, "Id", "Title" );
-          
+            ViewBag.TagId = new SelectList(tag.Select(t => t.Name), "Tags" ); //new from 30/aug
             var post = new Post();
-
+            
             return View(post);
         }
 
         // POST: HomeController1/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Post post, int blogId)
+        public ActionResult Create(Post post, int blogId, string tagListString)
         {
+            var tagList = tagListString.Split(',');
+
+            var tags = _tagService.GetOrCreateTags(tagList);
+
             var blog = _blogService.GetBlog(blogId);
             post.Blog = blog;
+
+            post.Tags = tags.ToList();
+
             _postService.CreatePost(post);
             var user = _userManager.GetUserAsync(User).Result;
             ViewBag.BlogId = new SelectList(user.Blogs, "Id", "Title");
