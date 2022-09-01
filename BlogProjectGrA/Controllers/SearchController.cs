@@ -39,7 +39,8 @@ namespace BlogProjectGrA.Controllers
             {
                 ViewBag.Message = "No result was found";
             }
-            return View(await searchquery.AsNoTracking().ToListAsync());
+            return View(await searchquery.ToListAsync());
+            //return View(await searchquery.AsNoTracking().ToListAsync());
         }
 
     }
