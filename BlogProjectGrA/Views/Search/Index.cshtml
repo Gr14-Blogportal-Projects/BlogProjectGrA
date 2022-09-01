@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BlogProjectGrA.Models.Blog>
+﻿@model BlogProjectGrA.ViewModels.SearchViewModel
 
 @{
     ViewData["Title"] = "Search result";
@@ -22,7 +22,7 @@
                 Views
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                Title
             </th>
             <th>
                 @*@Html.DisplayNameFor(model => model.Body)*@
@@ -39,10 +39,21 @@
         </tr>
     </thead>
     <tbody>
-        @foreach(var item in Model)
+        @foreach(var item in Model.Blogs)
         {
             
             <partial name="_BrowseBlogPartial" model="item"></partial>
         }
     </tbody>
 </table>
+
+<br />
+<h3>Posts containing: '@ViewData["searchdetails"]'</h3>
+       <div class="row">
+            <div class="col-md-8">
+                @foreach(var item in Model.Posts)
+        {
+            
+            <partial name="_PostPartial" model="item"></partial>
+        }
+            </div>
