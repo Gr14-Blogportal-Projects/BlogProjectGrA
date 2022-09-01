@@ -71,5 +71,14 @@ namespace BlogProjectGrA.Services
             var posts = _db.Posts.Where(p => p.Tags.Contains(tag)).ToList();
             return posts;
         }
+        public IEnumerable<Post> GetPostByDate(int blogId, int year, int month)
+        {
+            var posts = _db.Posts
+                .Where(p => p.Blog.Id ==  blogId && p.CreateAt.Year == year && p.CreateAt.Month == month)
+                .OrderByDescending(p => p.CreateAt)
+                .ToList();
+            
+            return posts;
+        }
     }
 }

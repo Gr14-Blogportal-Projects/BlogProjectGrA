@@ -1,6 +1,6 @@
 ﻿using BlogProjectGrA.Models;
 
-namespace BlogProjectGrA.ViewModels
+namespace BlogProjectGrA.Models.ViewModels
 {
     public class PostsTagsViewModel
     {
