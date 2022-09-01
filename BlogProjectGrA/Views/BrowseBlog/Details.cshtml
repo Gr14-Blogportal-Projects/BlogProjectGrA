@@ -1,4 +1,4 @@
-﻿@model BlogProjectGrA.Models.Blog
+﻿@model BlogProjectGrA.Models.ViewModels.DateByPostVM
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
@@ -6,7 +6,7 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>@Model.Title</h1>
+<h1>@Model.Blog.Title</h1>
 
 @*<h3> 
     <a asp-controller="Post" asp-action="Create">Create a post</a>
@@ -30,40 +30,60 @@
             Blog Title
         </dt>
         <dd class = "col-sm-8">
-            @Html.DisplayFor(model => model.Title)
+            @Model.Blog.Title
         </dd>
         <dt class = "col-sm-4">
             Description
         </dt>
 
         <dd class = "col-sm-8">
-            @Html.DisplayFor(model => model.Body)
+            @Model.Blog.Body
         </dd>
         <dt class = "col-sm-4">
             Date
         </dt>
         <dd class = "col-sm-8">
-            @Html.DisplayFor(model => model.CreatedAt)
+           @Model.Blog.CreatedAt
         </dd>
+        
         <dt class="col-sm-4">
             Author
         </dt>
         <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.Author.FirstName) @Html.DisplayFor(model => model.Author.LastName)
+            @Model.Blog.Author.FirstName @Model.Blog.Author.LastName 
         </dd>
+
         @if (SignInManager.IsSignedIn(User))
         {
-        <span>&nbsp;</span>
+        @*<span>&nbsp;</span>*@ 
         <dd>
             <a class="btn btn-outline-primary" asp-controller="Post" asp-action="Create" >Create a new post</a>
-            <a class="btn btn-outline-primary" asp-controller="Blog" asp-action="Edit" asp-route-id="@Model?.Id">Edit blog</a>
+            <a class="btn btn-outline-primary" asp-controller="Blog" asp-action="Edit" asp-route-id="@Model.Blog.Id">Edit blog</a>
         </dd>
         }
     </dl>
     </div>
-     </div>
+    <div class="list-group row">
+        <a asp-action="Details"  class=" list-group-item list-group-item-action" aria-current="true">Show all posts</a>  
+        @foreach(var item in Model.Dates)
+        {
+                    var isActive = item.Date.Year == Model.Year && item.Date.Month == Model.Month;
+                    
+                    <a asp-route-year="@item.Date.Year" asp-route-month="@item.Date.Month" class="@(isActive ? "active" : "") list-group-item list-group-item-action" aria-current="true">  
+                
+                @item.Date.ToString("yyyy MMMM") @item.Count posts
+            </a>
+        }
     </div>
+     </div>
+
+    
+    
 </div>
+
+</div>
+
+
 
 
 @*<div>
