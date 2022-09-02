@@ -29,8 +29,6 @@ namespace BlogProjectGrA.Controllers
             var searchqueryB = from s in _db.Blogs select s;
             var searchqueryP = from p in _db.Posts select p;
 
-
-            //if (searchquery.Any())
             if (!String.IsNullOrEmpty(searchparameter))
             {
                 sViewModel.Blogs = searchqueryB.Where(s => s.Title.Contains(searchparameter)).ToList();
@@ -40,9 +38,7 @@ namespace BlogProjectGrA.Controllers
             {
                 ViewBag.Message = "No result was found";
             }
-
             return View(sViewModel);
-            //return View(await searchquery.AsNoTracking().ToListAsync());
 
         }
 
