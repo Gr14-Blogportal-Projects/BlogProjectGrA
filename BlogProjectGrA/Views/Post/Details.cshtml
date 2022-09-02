@@ -1,5 +1,5 @@
 ﻿@model BlogProjectGrA.Models.Post
-
+@using BlogProjectGrA.Models
 @{
     ViewData["Title"] = "Details";
 }
@@ -33,13 +33,26 @@
        <a asp-controller="Comment" asp-action="Create" asp-route-id="@Model?.Id" class="btn btn-outline-primary"> Make a comment </a>
     </div>
 
+        <form asp-action="Create" asp-controller="Comment" asp-route-id="@Model.Id">
+            <div class="form-group">
+                <b>To make a comment</b>
+                <input id="commentBody" name="commentBody" class="form-control" />
+            </div>
+
+            <br />
+            <div class="form-group">
+                <input type="submit" value="click to comment" class="btn btn-success" />
+            </div>
+
+        </form>
     <div>
-        @foreach(var item in Model.Blog.Author.Comments)
+        @foreach(var item in Model.Comments.OrderByDescending(c=>c.CreatedAt))
         {
             
             <partial name="_CommentPartial" model="item"></partial>
         }
     </div>
+    <br /><br />
 
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
