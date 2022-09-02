@@ -48,23 +48,29 @@ namespace BlogProjectGrA.Controllers
         // POST: CommentController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Comment comment, int id)
+        public ActionResult Create(int id ,string commentBody)
         {
+            var comment = new Comment();
             var post = _postService.GetPost(id);
-            comment.Posts = post;
-            comment.Id = 0;
             var user = _userManager.GetUserAsync(User).Result;
+            comment.Body= commentBody;
             comment.Author = user;
+            comment.Posts = post;
             _commentService.CreateComment(comment);
-            //ViewBag.PostId = new SelectionList
-            return RedirectToAction(nameof(Index));
+
+            return RedirectToAction("Details", "Post", new { id });//nameof(Index)
 
         }
 
+
+
+
         // GET: CommentController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id,Comment comment)
         {
-            return View();
+            var comId = _commentService.GetComment(id);
+            
+            return View(comId);
         }
 
         // POST: CommentController/Edit/5
@@ -73,7 +79,7 @@ namespace BlogProjectGrA.Controllers
         public ActionResult Edit(Comment comment)
         {
             _commentService.UpdateComment(comment);
-
+            //var commentUpdated = _commentService.UpdateComment(comment);
             return RedirectToAction(nameof(Index));
 
         }

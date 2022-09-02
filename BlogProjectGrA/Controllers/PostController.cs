@@ -18,13 +18,16 @@ namespace BlogProjectGrA.Controllers
         private readonly ITagService _tagService;
         private readonly IBlogService _blogService;
         private readonly UserManager<User> _userManager;
+        private readonly ICommentService _commentService;
 
-        public PostController(UserManager<User> userManager, IPostService postService, ITagService tagService, IBlogService blogService)
+        public PostController(UserManager<User> userManager, IPostService postService, ITagService tagService, IBlogService blogService, ICommentService commentService)
         {
             _userManager = userManager;
             _postService = postService;
             _tagService = tagService;
             _blogService = blogService;
+            _commentService = commentService;
+
         }
         [AllowAnonymous]
         // GET: HomeController1

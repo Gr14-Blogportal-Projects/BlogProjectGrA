@@ -41,11 +41,12 @@ namespace BlogProjectGrA.Services
               
         
 
-    public void UpdateComment (Comment comment)
+    public Comment UpdateComment (Comment comment)
         {
             comment.UpdatedAt = DateTime.Now;
             _db .Update(comment);
             _db .SaveChanges();
+            return comment;
         }
     
 
