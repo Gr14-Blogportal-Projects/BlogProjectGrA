@@ -1,5 +1,6 @@
 ﻿using BlogProjectGrA.Data;
 using BlogProjectGrA.Models;
+using BlogProjectGrA.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,27 +21,27 @@ namespace BlogProjectGrA.Controllers
             _db = db;
         }
         // GET: SearchController
-        public ActionResult Index()
-        {
-            return View();
-        }
-        [HttpGet]
-        public async Task<IActionResult> Index(string searchparameter)
+        public ActionResult Index(string searchparameter)
         {
             ViewData["searchdetails"] = searchparameter;
+            var sViewModel = new SearchViewModel();
 
-            var searchquery = from s in _db.Blogs select s;
-            //if (searchquery.Any())
+            var searchqueryB = from s in _db.Blogs select s;
+            var searchqueryP = from p in _db.Posts select p;
+
             if (!String.IsNullOrEmpty(searchparameter))
             {
-                searchquery = searchquery.Where(s => s.Title.Contains(searchparameter));
+                sViewModel.Blogs = searchqueryB.Where(s => s.Title.Contains(searchparameter)).ToList();
+                sViewModel.Posts = searchqueryP.Where(p => p.Title.Contains(searchparameter) || p.Tags.FirstOrDefault(s => s.Name == searchparameter) != null).ToList();
             }
             else
             {
                 ViewBag.Message = "No result was found";
             }
-            return View(await searchquery.AsNoTracking().ToListAsync());
+            return View(sViewModel);
+
         }
+
 
     }
 }
