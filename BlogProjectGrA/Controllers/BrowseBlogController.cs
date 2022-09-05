@@ -28,10 +28,9 @@ namespace BlogProjectGrA.Controllers
             _tagService = tagService;
         }
         // GET: BrowseBlogController
-        public ActionResult Index(int id)
+        public ActionResult Index(int id, int views)
         {
-            //var user = _userManager.GetUserId(User);
-            var browseBlogs = _blogService.GetBlogs();
+            var browseBlogs = _blogService.GetBlogs().OrderByDescending(b => b.CreatedAt);
             return View(browseBlogs);
         }
 

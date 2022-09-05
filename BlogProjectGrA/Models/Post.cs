@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using System.Linq;
 
 namespace BlogProjectGrA.Models
 {
@@ -17,6 +18,7 @@ namespace BlogProjectGrA.Models
         public DateTime CreateAt { get; set; } = DateTime.Now;
 
         public int View { get; set; }
+
         public virtual Blog Blog { get; set; }
 
         public virtual ICollection<Tag> Tags { get; set; }
@@ -24,7 +26,6 @@ namespace BlogProjectGrA.Models
         public virtual ICollection<Comment> Comments { get; set; }
         
        
-        
 
         public int GetViews()
         {
