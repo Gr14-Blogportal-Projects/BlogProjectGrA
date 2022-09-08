@@ -15,8 +15,17 @@ html {
 
 body {
   margin-bottom: 60px;
-  background-color:blanchedalmond;
+  background-color:#e4f3ec;
 }
 p{
     text-decoration-style:solid;
+}
+
+#tooltip {
+    background-color: lawngreen;
+    box-shadow: 5px 5px 10px yellow;
+    box-sizing: border-box;
+}
+label{
+    margin-top:15px;
 }

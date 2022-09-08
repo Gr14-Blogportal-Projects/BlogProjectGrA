@@ -87,18 +87,22 @@ namespace BlogProjectGrA.Controllers
         // GET: HomeController1/Edit/5
         public ActionResult Edit(int id)
         {
-            
-            var post = _postService.GetPostsByBlog(id);
+            var post = _postService.GetPost(id);
             return View(post);
         }
 
         // POST: HomeController1/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Post post)
+        public ActionResult Edit(int id, Post post, int blogId)
         {
+            var blog = _blogService.GetBlog(blogId);
+            post.Blog=blog;
             _postService.UpdatePost(post);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Posts","Blog", new { id = post.Blog.Id });
+            //return RedirectToAction("Posts", "Blog", blog.Posts);
+
+
         }
 
         // GET: HomeController1/Delete/5

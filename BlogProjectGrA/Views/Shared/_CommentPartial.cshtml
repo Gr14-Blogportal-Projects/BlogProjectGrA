@@ -1,22 +1,22 @@
 ﻿@model BlogProjectGrA.Models.Comment
 
-<div class="row" style="padding: 10px; margin: 30px 5px; border: 2px solid black; box-shadow: 5px 5px 10px yellow">
-    <div class="col-md-11" style=" margin: 30px 0px; border: 1px solid black">
+<div class="row" style="padding: 10px; margin: 30px 5px; border: 2px solid black; box-shadow: 5px 5px 10px green">
+    <div class="col-md-11" style=" margin: 30px 0px; border: 1px solid black; box-shadow: 10px 5px 10px #0080FE">
         <br />
-        <h5 style="display:inline"><b>Author</b> <span style="display:inline;float:right"><b>Date</b></span></h5>
-        <h5 class="card bg-primary text-white text-center"style="width:250px; box-shadow: inset 5px 5px 10px green ">
-             @Model.Author
-        </h5>
+        <h4 style="display:inline"><b>Name</b> <span style="display:inline;float:right"><b>Date</b></span></h4>
+        <h4 class="card text-white bg-danger  text-center"style="width:300px; box-shadow: inset 5px 5px 10px #4CBB17 ">
+             @Model.Author.GetName()
+        </h4>
         <div style="display:inline;float:right">  
-        <h5 class="card bg-primary text-white text-center"style="width:250px; box-shadow: inset 5px 5px 10px green">
+        <h3 ><span class="badge bg-warning text-light text-center" style="width:250px; box-shadow: inset 5px 5px 10px #043927">
              @Model.CreatedAt
-        </h5>
+        </span></h3>
         </div>
 
         <br />
         <br />
         <h5 style="display:inline"><b>Comment</b></h5>
-        <h5 class="card-body" style="width:700px; box-shadow:inset 5px 5px 10px red">
+        <h5 class="card-body" style="width:700px; box-shadow:inset 5px 5px 10px #8F00FF">
              @Model.Body </h5>
                 <br />
 
@@ -31,7 +31,11 @@
                 <a asp-action="Edit" asp-controller="Comment" asp-route-id="@Model?.Id" class="btn btn-primary ">Edit comment</a>
     </div>
 </div>
+
          
     </div>  
 </div>
+
+
+
 <br /><br />

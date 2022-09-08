@@ -5,6 +5,7 @@ namespace BlogProjectGrA.Services
     public interface ITagService
     {
         IEnumerable<Tag> GetTags();
+        public IEnumerable<Tag> GetTagsByPost(int id);
         Tag GetTag(int id);
         Tag CreatTag(String name);
         void DeleteTag(Tag tag);

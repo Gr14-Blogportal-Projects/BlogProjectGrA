@@ -11,7 +11,7 @@ namespace BlogProjectGrA.Services
 
         Comment CreateComment(Comment comment);
 
-        Comment UpdateComment(Comment comment);
+        Comment UpdateComment(Comment comment );
 
         void DeleteComment(int id);
     }
