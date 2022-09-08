@@ -43,6 +43,7 @@ namespace BlogProjectGrA.Services
 
     public Comment UpdateComment (Comment comment)
         {
+            //comment.Id = postid;
             comment.UpdatedAt = DateTime.Now;
             _db .Update(comment);
             _db .SaveChanges();

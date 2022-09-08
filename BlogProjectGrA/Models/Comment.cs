@@ -17,5 +17,9 @@ namespace BlogProjectGrA.Models
         public virtual Post Posts { get; set; }
 
         public DateTime? UpdatedAt { get; set; } = null;
+
+
+
+
     }
 }

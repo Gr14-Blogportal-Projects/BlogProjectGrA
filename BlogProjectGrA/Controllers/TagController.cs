@@ -21,7 +21,8 @@ namespace BlogProjectGrA.Controllers
         {
             //var tags=_tagService.GetTagsByPost(id);
             //return View(tags);
-            return View();
+            var tag = _tagService.GetTags();
+            return View(tag);
         }
         [AllowAnonymous]
         // GET: TagController/Details/5

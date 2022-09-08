@@ -14,9 +14,9 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light  border-bottom box-shadow mb-3" style="background-color: #e3f2fd;">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light  border-bottom box-shadow mb-3" style="background-color: #6F2DA8;">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">BlogProjectGrA</a>
+                <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index">BlogProjectGrA</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -24,29 +24,26 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-
-                            <a class="nav-link text-dark" asp-area="" asp-controller="BrowseBlog" asp-action="Index">Browse Blogs</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
 
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Tag" asp-action="Create">Create Tag</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="BrowseBlog" asp-action="Index">Browse Blogs</a>
                         </li>
+                        
                         
                         @if (SignInManager.IsSignedIn(User))
                         {
                         <li class="nav-item">
 
-                            <span class="nav-link text-dark">|</span>
+                            <span class="nav-link text-light">|</span>
 
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Blog" asp-action="Index">My Blogs</a> 
+                            <a class="nav-link text-light" asp-controller="Blog" asp-action="Index">My Blogs</a> @*Need to make a view for "MyBlog"*@
                         </li>
 
                         @*<li class="nav-item">
@@ -70,7 +67,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-light text-muted">
         <div class="container">
             &copy; 2022 - BlogProjectGrA - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>

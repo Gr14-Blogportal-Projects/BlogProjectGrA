@@ -24,13 +24,13 @@ namespace BlogProjectGrA.Controllers
             _signInManager = signInManager;
         }
 
-      
+
         // GET: BlogController
         public ActionResult Index()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var blog = _blogService.GetBlogsByUser(userId);
-             return View(blog);
+            return View(blog);
         }
 
         //[AllowAnonymous]
@@ -79,6 +79,10 @@ namespace BlogProjectGrA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Blog blog)
         {
+            if (blog != null)
+            {
+                return NotFound();
+            }
             _blogService.UpdateBlog(blog);
             return RedirectToAction("Details", "BrowseBlog", blog);
         }
@@ -86,10 +90,13 @@ namespace BlogProjectGrA.Controllers
         // GET: BlogController/Delete/5
         public ActionResult Delete(int id)
         {
-            if (_userManager.GetUserId(User) == _blogService.GetBlog(id).Author.Id)
+            var blog = _blogService.GetBlog(id);
+            if (blog != null)
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var blog = _blogService.GetBlog(id);
+                return NotFound();
+            }
+            if (_userManager.GetUserId(User) == blog.Author.Id)
+            {
                 return View(blog);
             }   
             else
@@ -102,11 +109,24 @@ namespace BlogProjectGrA.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public ActionResult Delete(int id,Blog blog)
+        public ActionResult Delete(int id, Blog blog)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             _blogService.DeleteBlog(blog);
+            
             return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult Posts (int id)
+        {
+            
+            var blog = _blogService.GetBlog(id);
+            //if(blog == null)
+            //{
+            //   return NotFound();
+            //}
+           
+            return View(blog);
         }
     }
 }
