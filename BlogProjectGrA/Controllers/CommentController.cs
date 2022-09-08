@@ -78,9 +78,10 @@ namespace BlogProjectGrA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Comment comment)
         {
+            
             _commentService.UpdateComment(comment);
             //var commentUpdated = _commentService.UpdateComment(comment);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Post", new { id=comment.Id });
 
         }
 

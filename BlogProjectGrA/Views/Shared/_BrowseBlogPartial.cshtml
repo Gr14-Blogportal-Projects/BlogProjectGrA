@@ -12,9 +12,10 @@
         }
     </td>
         <td>
+            <button type="button" class="btn btn-outline-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to see the Posts">
              <a asp-controller="BrowseBlog" asp-action="Details" asp-route-id="@Model.Id" style="text-decoration: none; color: #000000;">   
              @Html.DisplayFor(modelItem => Model.Title)
-             </a>
+             </a></button>
          </td>
          <td>
              @*@Html.DisplayFor(modelItem => item.Body)*@
@@ -57,6 +58,6 @@
 
                @*<a asp-controller="Blog" asp-action="Index" asp-route-id="@Model.Id" style="text-decoration: none; color: #000000;">@Html.DisplayFor(modelItem => Model.Title)</a>*@
 
-
+<script> C:\Users\brij_\Source\Repos\BlogProjectGrA\BlogProjectGrA\wwwroot\js\site.js</script>
 
  

@@ -16,6 +16,7 @@ namespace BlogProjectGrA.Models
 
         public DateTime CreateAt { get; set; } = DateTime.Now;
 
+        public DateTime? UpdateAt { get; set; } = null;
         public int View { get; set; }
         public virtual Blog Blog { get; set; }
 

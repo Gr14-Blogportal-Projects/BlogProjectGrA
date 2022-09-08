@@ -7,7 +7,9 @@
         <br />
         <h5 style="display:inline"><b>Blog Title</b> <span style="display:inline;float:right"><b>Date</b></span></h5>
         <h5 class="card bg-primary text-white text-center"style="width:250px; box-shadow: inset 5px 5px 10px green ">
-             <a asp-controller="BrowseBlog" asp-action="Details" asp-route-id="@Model?.Id" style="text-decoration: none; color: #000000;">@Model.Title</a>
+            
+            <button type="button" class="btn btn btn-success text-white" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to  Post">
+             <a asp-controller="BrowseBlog" asp-action="Details" asp-route-id="@Model?.Id" style="text-decoration: none; color: #000000;">@Model.Title</a></button>
         </h5>
 
         <div style="display:inline;float:right">
@@ -25,4 +27,7 @@
          
     </div>  
 </div>
+<script> C:\Users\brij_\Source\Repos\BlogProjectGrA\BlogProjectGrA\wwwroot\js\site.js</script>
+
+ 
 

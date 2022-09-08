@@ -6,14 +6,12 @@
 <div class="row" style="padding: 10px; margin: 30px 5px; border: 2px solid black; box-shadow: 5px 5px 10px yellow">
     <div class="col-md-11" style=" margin: 30px 0px; border: 1px solid black">
         <br />
-        <h5 style="display:inline"><b>Title</b> <span style="display:inline;float:right"><b>Date</b></span></h5>
-          @*// type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="Bottom popover">
-           // Popover on bottom*@
-           @*<span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Disabled popover">
-     <button class="btn btn-primary" type="button" disabled><a asp-controller="Post" asp-action="Details" asp-route-id="@Model?.Id" style="text-decoration: none; color: #000000;">@Model.Title</a></button>
-      </span>*@
+        <h5 style="display:inline"><b>Post Title</b> <span style="display:inline;float:right"><b>Date</b></span></h5>
+          
+
         <h5 class="card bg-primary text-white text-center"style="width:250px; box-shadow: inset 5px 5px 10px green ">
-            <a   asp-controller="Post" asp-action="Details" asp-route-id="@Model?.Id" style="text-decoration: none; color: #000000;">@Model.Title</a>
+            <button type="button" class="btn btn-lg btn-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to comment">
+                <h5><a   asp-controller="Post" asp-action="Details" asp-route-id="@Model?.Id" style="text-decoration: none; color: #000000;">@Model.Title</a></h5></button>
         </h5>
         <div style="display:inline;float:right">  
         <h5 class="card bg-primary text-white text-center"style="width:250px; box-shadow: inset 5px 5px 10px green">
@@ -23,7 +21,8 @@
 
         <br />
         <br />
-        <h5 style="display:inline"><b>Post</b></h5>
+        <h5 style="display:inline"><b>Post Message</b></h5>
+        
         <h5 class="card-body" style="width:700px; box-shadow:inset 5px 5px 10px red">
              @Model.Body </h5>
                 <br />
@@ -32,8 +31,11 @@
     <div><span>Tags </span>
          @foreach(var tag in Model.Tags)
                 {
-                    <span class="badge bg-success">@tag.Name</span>
+                    <span class="badge bg-success">@tag.Name.ToUpper()</span>
                 }
                 <br />
                 </div>
 </div>
+
+<script> C:\Users\brij_\Source\Repos\BlogProjectGrA\BlogProjectGrA\wwwroot\js\site.js</script>
+

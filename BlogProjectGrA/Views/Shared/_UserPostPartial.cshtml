@@ -1,0 +1,53 @@
+﻿
+@model BlogProjectGrA.Models.Post
+
+
+
+
+<div class="col-md-8">
+      <div style="padding: 15px; margin: 30px 5px; border: 2px solid black; box-shadow: 5px 5px 10px #FF00FF">
+        <dl class="row">
+
+        <dt class = "col-sm-4  ">
+          
+            Post Title
+        </dt>
+        
+        <dd class = "col-sm-8">
+            @Model.Title
+        </dd>
+        <dt class = "col-sm-4">
+            Description
+        </dt>
+
+        <dd class = "col-sm-8">
+            @Model.Body
+        </dd>
+        <dt class = "col-sm-4">
+            Date
+        </dt>
+        <dd class = "col-sm-8">
+           @Model.CreateAt
+        </dd>
+        
+        <dt class="col-sm-4">
+            Views
+        </dt>
+       <dd class="col-sm-8">
+            @Model.View
+        </dd> 
+        <br />
+         <div class="row">
+    <div class="col-md-4">
+
+        <br />
+                @if (Model.UpdateAt!= null)
+                {
+                    @Model.UpdateAt
+                }
+               
+    </div>
+     <a  asp-controller="Post" asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary ">Edit Post</a>
+  </div>   
+</div>
+</div>

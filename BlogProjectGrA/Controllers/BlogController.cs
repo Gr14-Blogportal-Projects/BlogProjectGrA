@@ -14,20 +14,23 @@ namespace BlogProjectGrA.Controllers
         private readonly IBlogService _blogService;
 
         private readonly UserManager<User> _userManager;
+        private readonly IPostService _postService;
 
-        public BlogController(IBlogService blogService, UserManager<User> userManager)
+        public BlogController(IBlogService blogService, UserManager<User> userManager,IPostService postService)
         {
             _blogService = blogService;
             _userManager = userManager;
+            _postService = postService; 
+            
         }
 
-      
+
         // GET: BlogController
         public ActionResult Index()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var blog = _blogService.GetBlogsByUser(userId);
-             return View(blog);
+            return View(blog);
         }
 
         //[AllowAnonymous]
@@ -68,6 +71,10 @@ namespace BlogProjectGrA.Controllers
         public ActionResult Edit(Blog blog)
         {
             _blogService.UpdateBlog(blog);
+            if(blog != null)
+            {
+             return NotFound();
+            }
             return RedirectToAction(nameof(Index));
         }
 
@@ -75,6 +82,10 @@ namespace BlogProjectGrA.Controllers
         public ActionResult Delete(int id)
         {
             var blog = _blogService.GetBlog(id);
+            if( blog != null )
+            {
+                return NotFound();
+            }
             return View(blog);
         }
 
@@ -82,10 +93,23 @@ namespace BlogProjectGrA.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public ActionResult Delete(int id,Blog blog)
+        public ActionResult Delete(int id, Blog blog)
         {
             _blogService.DeleteBlog(blog);
+            
             return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult Posts (int id)
+        {
+            
+            var blog = _blogService.GetBlog(id);
+            //if(blog == null)
+            //{
+            //   return NotFound();
+            //}
+           
+            return View(blog);
         }
     }
 }

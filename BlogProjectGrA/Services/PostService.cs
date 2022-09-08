@@ -30,6 +30,7 @@ namespace BlogProjectGrA.Services
         }
         public Post UpdatePost(Post post)
         {
+            post.UpdateAt = DateTime.Now;
             _db.Update(post);
             _db.SaveChanges();
             return post;

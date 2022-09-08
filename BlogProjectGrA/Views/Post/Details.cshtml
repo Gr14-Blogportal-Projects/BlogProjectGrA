@@ -9,52 +9,55 @@
 <div class="row" style="padding: 10px; margin: 30px 5px; border: 2px solid black; box-shadow: 5px 5px 10px yellow">
     <div class="col-md-11" style=" margin: 30px 0px; border: 1px solid black">
         <br />
-        <h5 style="display:inline"><b>Title</b> <span style="display:inline;float:right"><b>Date</b></span></h5>
-        <h5 class="card bg-primary text-white text-center"style="width:250px; box-shadow: inset 5px 5px 10px green ">
+        <h5 style="display:inline"><b> PostTitle</b> <span style="display:inline;float:right"><b>Date</b></span></h5>
+        
+        <h5 class="card bg-primary text-white text-center" style="width:250px; box-shadow: inset 5px 5px 10px green ">
             @Model.Title
         </h5>
-        <div style="display:inline;float:right">  
-        <h5 class="card bg-primary text-white text-center"style="width:250px; box-shadow: inset 5px 5px 10px green">
-             @Model.CreateAt
-        </h5>
+        <div style="display:inline;float:right">
+            
+                <h5 class="card bg-primary text-white text-center" style="width:250px; box-shadow: inset 5px 5px 10px green">
+                    @Model.CreateAt
+                </h5>
+            
         </div>
 
         <br />
         <br />
-        <h5 style="display:inline"><b>Post</b></h5>
+        <h5 style="display:inline"><b>Post Message</b></h5>
         <h5 class="card-body" style="width:700px; box-shadow:inset 5px 5px 10px red">
-             @Model.Body </h5>
-                <br />
-         
-    </div>  
+            @Model.Body
+        </h5>
+        <br />
+
+    </div>
 </div>
 
-    <div>
-       <a asp-controller="Comment" asp-action="Create" asp-route-id="@Model?.Id" class="btn btn-outline-primary"> Make a comment </a>
+@*<div>
+    <a asp-controller="Comment" asp-action="Create" asp-route-id="@Model?.Id" class="btn btn-outline-primary"> Make a comment </a>
+    </div>*@
+
+<form asp-action="Create" asp-controller="Comment" asp-route-id="@Model.Id">
+    <div class="form-group">
+        <b>To make a comment</b>
+        <input @*id="commentBody"*@ name="commentBody" class="form-control" />
     </div>
 
-        <form asp-action="Create" asp-controller="Comment" asp-route-id="@Model.Id">
-            <div class="form-group">
-                <b>To make a comment</b>
-                <input id="commentBody" name="commentBody" class="form-control" />
-            </div>
-
-            <br />
-            <div class="form-group">
-                <input type="submit" value="click to comment" class="btn btn-success" />
-            </div>
-
-        </form>
-    <div>
-        @foreach(var item in Model.Comments.OrderByDescending(c=>c.CreatedAt))
-        {
-            
-            <partial name="_CommentPartial" model="item"></partial>
-        }
+    <br />
+    <div class="form-group">
+        <input type="submit" value="click to comment" class="btn btn-success" />
     </div>
-    <br /><br />
+
+</form>
+
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @foreach (var item in Model.Comments.OrderByDescending(c => c.CreatedAt))
+    {
+
+        <partial name="_CommentPartial" model="item"></partial>
+    }
 </div>
+<br />
+<br />
+

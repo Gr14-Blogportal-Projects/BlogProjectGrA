@@ -1,5 +1,5 @@
 ﻿@model BlogProjectGrA.Models.ViewModels.PostsTagsViewModel
-
+@using BlogProjectGrA.Models
 @{
     ViewData["Title"] = "Tags";
 }
@@ -29,7 +29,7 @@
 } 
 else
 {
-    <h3>Click on a tag to browse posts</h3>
+    @Model.Posts
 }
 
 @foreach (var item in Model.Posts)
