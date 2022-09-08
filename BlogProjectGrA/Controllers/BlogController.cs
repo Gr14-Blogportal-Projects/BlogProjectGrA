@@ -29,7 +29,8 @@ namespace BlogProjectGrA.Controllers
         public ActionResult Index()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var blog = _blogService.GetBlogsByUser(userId);
+            var blog = _blogService.GetBlogsByUser(userId).OrderByDescending(d => d.CreatedAt);
+            
             return View(blog);
         }
 
