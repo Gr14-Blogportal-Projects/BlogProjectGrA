@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BlogProjectGrA.Models.Blog>
+﻿@model BlogProjectGrA.ViewModels.SearchViewModel
 
 @{
     ViewData["Title"] = "Search result";
@@ -12,39 +12,56 @@
 
 <h3>@ViewBag.Message</h3>
 
-<table class="table">
+<hr />
+@if (ViewData["searchBlogResult"] != null)
+{   
+<h3>Blogs containing: '@ViewData["searchdetails"]'</h3>
+<table class="table rounded border border-dark">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                Views
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Body)
+                Title
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
+                @*@Html.DisplayNameFor(model => model.Body)*@
             </th>
-            <th></th>
+            <th>
+                Date
+            </th>
+            <th>
+                Author
+            </th>
+            <th>
+                Posts
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Body)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-            <td>
-                <a asp-controller="Blog" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-controller="Blog" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-controller="Blog" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach(var item in Model.Blogs)
+        {
+            
+            <partial name="_BrowseBlogPartial" model="item"></partial>
+        }
     </tbody>
-</table>
+    </table>
+}
+
+    <h3>@ViewData["NoSearchResult"]</h3>
+
+<br />
+@if (ViewData["searchPostsAndTagResult"] != null)
+{
+   <h3>Posts and/or tags containing: '@ViewData["searchdetails"]'</h3>
+       <div class="row">
+            <div class="col-md-8">
+                @foreach(var item in Model.Posts)
+        {
+            
+            <partial name="_PostPartial" model="item"></partial>
+        }
+            </div> 
+       </div>
+}

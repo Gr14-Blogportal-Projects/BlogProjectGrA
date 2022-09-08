@@ -64,7 +64,7 @@ namespace BlogProjectGrA.Services
 
         public IEnumerable<Post> GetPostsByViews()
         {
-            var posts = _db.Posts.OrderByDescending(p =>p.View).ToList();
+            var posts = _db.Posts.OrderByDescending(p => p.View).ToList();
             return posts;
         }
         public IEnumerable<Post> GetPostsByTag(Tag tag)

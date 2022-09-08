@@ -26,8 +26,7 @@
                 <div style="padding: 15px; margin: 30px 5px; border: 2px solid black; box-shadow: 5px 5px 10px #FF00FF">
         <dl class="row">
 
-        <dt class = "col-sm-4  ">
-          
+        <dt class = "col-sm-4">
             Blog Title
         </dt>
         
@@ -55,13 +54,14 @@
             @Model.Blog.Author.FirstName @Model.Blog.Author.LastName 
         </dd>
 
-        @if (SignInManager.IsSignedIn(User))
+        @if (SignInManager.IsSignedIn(User) && Model.Blog.Author.Email == User.Identity.Name)
         {
         @*<span>&nbsp;</span>*@ 
         <dd>
              @*<button type="button" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to create Tag & Post">*@
             <a class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to create Tag & Post" asp-controller="Post" asp-action="Create" >Create a new post</a>
             <a class="btn btn-outline-primary" asp-controller="Blog" asp-action="Edit" asp-route-id="@Model.Blog.Id">Edit blog</a>
+            <a class="btn btn-outline-danger" asp-controller="Blog" asp-action="Delete" asp-route-id="@Model.Blog?.Id">Delete blog</a> 
         </dd>
         }
     </dl>

@@ -7,6 +7,7 @@ namespace BlogProjectGrA.Models
         public int Id { get; set; }
         [Required]
         [StringLength(512)]
+        [Display(Name = "Description")]
         public string Body { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;

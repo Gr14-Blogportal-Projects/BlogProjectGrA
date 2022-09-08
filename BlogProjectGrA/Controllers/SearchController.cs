@@ -1,9 +1,11 @@
 ﻿using BlogProjectGrA.Data;
 using BlogProjectGrA.Models;
+using BlogProjectGrA.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace BlogProjectGrA.Controllers
 {
@@ -20,27 +22,44 @@ namespace BlogProjectGrA.Controllers
             _db = db;
         }
         // GET: SearchController
-        public ActionResult Index()
-        {
-            return View();
-        }
-        [HttpGet]
-        public async Task<IActionResult> Index(string searchparameter)
+        public ActionResult Index(string searchparameter)
         {
             ViewData["searchdetails"] = searchparameter;
+            ViewData["searchBlogResult"] = null;
+            ViewData["searchPostsAndTagResult"] = null;
+            var sViewModel = new SearchViewModel();
 
-            var searchquery = from s in _db.Blogs select s;
-            //if (searchquery.Any())
-            if (!String.IsNullOrEmpty(searchparameter))
+            var searchqueryB = from s in _db.Blogs select s;
+            var searchqueryP = from p in _db.Posts select p;
+            ViewData["searchB"] = searchqueryB.Where(s => s.Title.Contains(searchparameter));
+
+            if (!string.IsNullOrEmpty(searchparameter))
             {
-                searchquery = searchquery.Where(s => s.Title.Contains(searchparameter));
+                sViewModel.Blogs = searchqueryB.Where(s => s.Title.Contains(searchparameter)).OrderByDescending(d => d.CreatedAt).ToList();
+                if (sViewModel.Blogs.Any())
+                {
+                    ViewData["searchBlogResult"] = "1";
+                }
+
+                sViewModel.Posts = searchqueryP.Where(p => p.Title.Contains(searchparameter) || p.Tags.FirstOrDefault(s => s.Name == searchparameter) != null).ToList();
+                if (sViewModel.Posts.Any())
+                {
+                    ViewData["searchPostsAndTagResult"] = "1";
+                }
+
+                else if (!sViewModel.Blogs.Any() && !sViewModel.Posts.Any())
+                {
+                    ViewData["NoSearchResult"] = "No result was found.";
+                }
             }
             else
             {
-                ViewBag.Message = "No result was found";
+                ViewData["NoSearchResult"] = "No result was found.";
             }
-            return View(await searchquery.AsNoTracking().ToListAsync());
+            return View(sViewModel);
+
         }
+
 
     }
 }

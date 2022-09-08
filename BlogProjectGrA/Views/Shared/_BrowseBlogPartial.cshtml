@@ -3,13 +3,10 @@
 
 <tr> 
     <td>
-        @Model.Id 
+        @*@Model.Id *@
         @*@Model.Posts.Select(p => p.View)*@
         @*@Model.PostView.GetViews()*@
-        @foreach(var post in Model.Posts)
-        {
-            @post.View
-        }
+        <span class="badge bg-primary" style="display:inline;float:left;">Views @Model.Posts.Sum(p => p.View)</span>
     </td>
         <td>
             <button type="button" class="btn btn-outline-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to see the Posts">
