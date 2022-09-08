@@ -1,13 +1,11 @@
 ﻿@model BlogProjectGrA.Models.Blog
 
+
 @{
     ViewData["Title"] = "Edit";
 }
-
-<h1>Edit</h1>
-
-<h1>@Model?.Title</h1>
-
+    
+<h1>Edit: @Model?.Title</h1>
 
 <hr />
 <div class="row">
@@ -20,20 +18,22 @@
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
+            <span>&ensp;</span>
             <div class="form-group">
                 <label asp-for="Body" class="control-label"></label>
                 <input asp-for="Body" class="form-control" />
                 <span asp-validation-for="Body" class="text-danger"></span>
             </div>
+            <span>&ensp;</span>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
-
+<br />
 <div>
-    <a asp-controller="BrowseBlog" asp-action="Index">Back to List</a>
+    <a asp-controller="BrowseBlog" asp-action="Details" asp-route-id="@Model?.Id">Back to Blog</a>
 </div>
 
 @section Scripts {

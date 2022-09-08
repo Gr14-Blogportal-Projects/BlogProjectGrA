@@ -13,6 +13,7 @@ namespace BlogProjectGrA.Models
         public string Title { get; set; }
         [Required]
         [StringLength(1000)]
+        [Display(Name = "Description")]
         public string Body { get; set; }
 
         public DateTime CreateAt { get; set; } = DateTime.Now;

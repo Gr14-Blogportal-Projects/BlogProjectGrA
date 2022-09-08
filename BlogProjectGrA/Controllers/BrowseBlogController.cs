@@ -95,7 +95,7 @@ namespace BlogProjectGrA.Controllers
             //return View(blog);
         }
 
-        public ActionResult Blog(string id)
+        public ActionResult Blog(string id) //View not existing
         {
             var blog = _blogService.GetBlogsByUser(id);
             return View(blog);

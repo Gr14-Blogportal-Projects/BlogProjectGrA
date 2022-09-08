@@ -54,7 +54,6 @@ namespace BlogProjectGrA.Controllers
             }
             else
             {
-
                 ViewData["NoSearchResult"] = "No result was found.";
             }
             return View(sViewModel);
