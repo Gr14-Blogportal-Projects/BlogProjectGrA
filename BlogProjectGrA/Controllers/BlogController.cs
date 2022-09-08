@@ -63,10 +63,15 @@ namespace BlogProjectGrA.Controllers
         // GET: BlogController/Edit/5
         public ActionResult Edit(int id, Blog blog)
         {
-            if (_userManager.GetUserId(User) == _blogService.GetBlog(id).Author.Id) 
+            var gblog = _blogService.GetBlog(id);
+            if (gblog == null)
             {
-                var getBlog = _blogService.GetBlog(id);
-                return View(getBlog);
+                return NotFound();
+            }
+            if (_userManager.GetUserId(User) == gblog.Author.Id) 
+            {
+                
+                return View(gblog);
             }
             else
             {
@@ -92,7 +97,7 @@ namespace BlogProjectGrA.Controllers
         public ActionResult Delete(int id)
         {
             var blog = _blogService.GetBlog(id);
-            if (blog != null)
+            if (blog == null)
             {
                 return NotFound();
             }
