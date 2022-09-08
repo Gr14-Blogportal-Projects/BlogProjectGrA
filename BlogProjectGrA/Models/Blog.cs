@@ -9,6 +9,7 @@ namespace BlogProjectGrA.Models
         [StringLength(50)]
         public string Title { get; set; }
 
+        [Display(Name = "Description")]
         public string Body { get; set; }
 
         public virtual User Author { get; set; }

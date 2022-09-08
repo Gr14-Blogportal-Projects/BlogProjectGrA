@@ -15,10 +15,13 @@ namespace BlogProjectGrA.Controllers
 
         private readonly UserManager<User> _userManager;
 
-        public BlogController(IBlogService blogService, UserManager<User> userManager)
+        private readonly SignInManager<User> _signInManager;
+
+        public BlogController(IBlogService blogService, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _blogService = blogService;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
       
@@ -57,9 +60,18 @@ namespace BlogProjectGrA.Controllers
         }
 
         // GET: BlogController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id, Blog blog)
         {
-            return View();
+            if (_userManager.GetUserId(User) == _blogService.GetBlog(id).Author.Id) 
+            {
+                var getBlog = _blogService.GetBlog(id);
+                return View(getBlog);
+            }
+            else
+            {
+                return NotFound("Denied access.");
+                //return NoContent();
+            }
         }
 
         // POST: BlogController/Edit/5
@@ -68,14 +80,22 @@ namespace BlogProjectGrA.Controllers
         public ActionResult Edit(Blog blog)
         {
             _blogService.UpdateBlog(blog);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "BrowseBlog", blog);
         }
 
         // GET: BlogController/Delete/5
         public ActionResult Delete(int id)
         {
-            var blog = _blogService.GetBlog(id);
-            return View(blog);
+            if (_userManager.GetUserId(User) == _blogService.GetBlog(id).Author.Id)
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var blog = _blogService.GetBlog(id);
+                return View(blog);
+            }   
+            else
+            {
+                return NotFound("Denied access.");
+            }
         }
 
         // POST: BlogController/Delete/5
@@ -84,6 +104,7 @@ namespace BlogProjectGrA.Controllers
 
         public ActionResult Delete(int id,Blog blog)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             _blogService.DeleteBlog(blog);
             return RedirectToAction(nameof(Index));
         }

@@ -87,6 +87,7 @@ namespace BlogProjectGrA.Controllers
         // GET: HomeController1/Edit/5
         public ActionResult Edit(int id)
         {
+            
             var post = _postService.GetPostsByBlog(id);
             return View(post);
         }
