@@ -97,7 +97,6 @@ namespace BlogProjectGrA.Controllers
             }
             if (_userManager.GetUserId(User) == blog.Author.Id)
             {
-                var blog = _blogService.GetBlog(id);
                 return View(blog);
             }   
             else
