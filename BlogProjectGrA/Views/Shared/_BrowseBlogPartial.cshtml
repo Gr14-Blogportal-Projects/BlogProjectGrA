@@ -1,11 +1,10 @@
 ﻿@using BlogProjectGrA.Services
+@using BlogProjectGrA.Models
 @model BlogProjectGrA.Models.Blog
+
 
 <tr> 
     <td>
-        @*@Model.Id *@
-        @*@Model.Posts.Select(p => p.View)*@
-        @*@Model.PostView.GetViews()*@
         <span class="badge bg-primary" style="display:inline;float:left;">Views @Model.Posts.Sum(p => p.View)</span>
     </td>
         <td>
@@ -15,7 +14,14 @@
              </a></button>
          </td>
          <td>
-             @*@Html.DisplayFor(modelItem => item.Body)*@
+        @*<span class="badge bg-success">@Model.Posts.Select(t => t.Tags.Select(n => n.NormalizedName))</span>*@
+
+             @foreach(var tag in Model.Posts.Select(t => t.Tags).Take(2))
+                {
+                    @*<partial name="_TagsPartial" model="tag"></partial>*@
+                    <span class="badge bg-success">@tag.Select(n => n.NormalizedName)</span>
+                }
+             
          </td>
          <td>
              <a asp-controller="BrowseBlog" asp-action="Details" asp-route-id="@Model.Id" style="text-decoration: none; color: #000000;">  

@@ -18,6 +18,5 @@ namespace BlogProjectGrA.Models
 
         public virtual ICollection<Post> Posts { get; set; }
 
-
     }
 }

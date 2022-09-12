@@ -1,8 +1,6 @@
 ﻿@model BlogProjectGrA.Models.Post
 
 
-
-
 <div class="row" style="padding: 10px; margin: 30px 5px; border: 2px solid black; box-shadow: 5px 5px 10px yellow">
     <div style="display:inline;float:right">
     <span class="badge bg-primary" style="display:inline;float:left;">Views @Model.View</span>
@@ -34,7 +32,8 @@
     <div><span>Tags </span>
          @foreach(var tag in Model.Tags)
                 {
-                    <span class="badge bg-success">@tag.Name.ToUpper()</span>
+                    <partial name="_TagsPartial" model="tag"></partial>
+                    @*<span class="badge bg-success">@tag.Name.ToUpper()</span>*@
                 }
                 <br />
                 </div>
