@@ -14,6 +14,12 @@
              @Html.DisplayFor(modelItem => Model.Title)
              </a></button>
          </td>
+          <td>
+            <button type="button" class="btn btn-outline-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to see the Posts">
+             <a asp-controller="Blog" asp-action="Posts" asp-route-id="@Model?.Id" style="text-decoration: none; color: #000000;"> My Posts   
+             
+             </a></button>
+         </td>
          <td>
              @*@Html.DisplayFor(modelItem => item.Body)*@
          </td>
