@@ -69,8 +69,21 @@ namespace BlogProjectGrA.Controllers
         public ActionResult Edit(int id,Comment comment)
         {
             var comId = _commentService.GetComment(id);
+            if (comId == null)
+            {
+                return NotFound();
+            }
+            if (_userManager.GetUserId(User) == comId.Author.Id)
+            {
+
+                return View(comId);
+            }
+            else
+            {
+                return NotFound("Denied access.");
+
+            }
             
-            return View(comId);
         }
 
         // POST: CommentController/Edit/5
@@ -81,23 +94,24 @@ namespace BlogProjectGrA.Controllers
             
             _commentService.UpdateComment(comment);
             //var commentUpdated = _commentService.UpdateComment(comment);
-            return RedirectToAction("Details", "Post", new { id=comment.Id });
+            return RedirectToAction("Details", "Post", new { id=comment.PostsId });
 
         }
 
         // GET: CommentController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var comment = _commentService.GetComment(id);
+            return View(comment);
         }
 
         // POST: CommentController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Comment comment)
         {
-            _commentService.DeleteComment(id);
-                return RedirectToAction(nameof(Index));
+            _commentService.DeleteComment(comment);
+                return RedirectToAction("Details", "Post", new { id = comment.PostsId });
            
                
             

@@ -1,7 +1,27 @@
 ﻿@model BlogProjectGrA.Models.Comment
 
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">@Model.Author.GetName() | @Model.CreatedAt</h5>
+   
+    <p class="card-text">@Model.Body</p>
+    <div class="row">
+    <div class="col-md-4">
+
+        <br />
+    
+     @if (Model.UpdatedAt != null)
+                {
+                    @Model.UpdatedAt
+                }
+                </div>
+                 </div>
+    <a asp-action="Edit" asp-controller="Comment" asp-route-id="@Model?.Id" class="card-link">Edit comment</a>
+    <a asp-action="Delete" asp-controller="Comment" asp-route-id="@Model?.Id" class="card-link">Delete comment</a>
+  </div>
+</div>
 @*<div class="row" style="padding: 10px; margin: 30px 5px; border: 2px solid black; box-shadow: 5px 5px 10px green">*@
-    <div class="col-md-11" style=" margin: 30px 0px; border: 1px solid black; box-shadow: 10px 5px 10px #0080FE">
+    @*<div class="col-md-11" style=" margin: 30px 0px; border: 1px solid black; box-shadow: 10px 5px 10px #0080FE">
         <br />
         <h4 style="display:inline"><b>Name</b> <span style="display:inline;float:right"><b>Date</b></span></h4>
         <h4 class="card text-white bg-danger  text-center"style="width:300px; box-shadow: inset 5px 5px 10px #4CBB17 ">
@@ -33,7 +53,7 @@
 </div>
 
          
-    </div>  
+    </div> *@ 
 @*</div>*@
 
 
