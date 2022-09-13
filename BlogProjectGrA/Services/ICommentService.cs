@@ -13,6 +13,6 @@ namespace BlogProjectGrA.Services
 
         Comment UpdateComment(Comment comment );
 
-        void DeleteComment(int id);
+        void DeleteComment(Comment comment);
     }
 }

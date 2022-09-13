@@ -19,9 +19,9 @@ namespace BlogProjectGrA.Services
         return comment;
 
     }
-    public void DeleteComment(int id)
+    public void DeleteComment(Comment comment)
     {
-            _db.Remove(id);
+            _db.Remove(comment);
             _db.SaveChanges();
     }
 
