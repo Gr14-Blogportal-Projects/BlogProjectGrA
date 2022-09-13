@@ -30,6 +30,8 @@ namespace BlogProjectGrA.Controllers
         // GET: BrowseBlogController
         public ActionResult Index(int id, int views)
         {
+            var post = _postService.GetPost(id);
+            var blog = _blogService.GetBlog(id);
             var browseBlogs = _blogService.GetBlogs().OrderByDescending(b => b.CreatedAt);
             return View(browseBlogs);
         }

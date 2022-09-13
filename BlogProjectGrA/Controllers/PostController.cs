@@ -48,7 +48,7 @@ namespace BlogProjectGrA.Controllers
         // GET: HomeController1/Create
         public ActionResult Create(int id, int blogId, int tagid)
         {
-            var tag = _tagService.GetTags(); //new from 30/aug
+            var tag = _tagService.GetTags();
             var user = _userManager.GetUserAsync(User).Result;
 
             if (user.Blogs.Count <= 0) 

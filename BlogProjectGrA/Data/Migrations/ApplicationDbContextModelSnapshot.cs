@@ -135,6 +135,9 @@ namespace BlogProjectGrA.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("BlogId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -149,6 +152,8 @@ namespace BlogProjectGrA.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BlogId");
 
                     b.HasIndex("UserId");
 
@@ -421,6 +426,10 @@ namespace BlogProjectGrA.Data.Migrations
 
             modelBuilder.Entity("BlogProjectGrA.Models.Tag", b =>
                 {
+                    b.HasOne("BlogProjectGrA.Models.Blog", null)
+                        .WithMany("Tags")
+                        .HasForeignKey("BlogId");
+
                     b.HasOne("BlogProjectGrA.Models.User", null)
                         .WithMany("Tags")
                         .HasForeignKey("UserId");
@@ -495,6 +504,8 @@ namespace BlogProjectGrA.Data.Migrations
             modelBuilder.Entity("BlogProjectGrA.Models.Blog", b =>
                 {
                     b.Navigation("Posts");
+
+                    b.Navigation("Tags");
                 });
 
             modelBuilder.Entity("BlogProjectGrA.Models.Post", b =>
