@@ -1,6 +1,7 @@
-﻿
-@model BlogProjectGrA.Models.Post
-
+﻿@model BlogProjectGrA.Models.Post
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 
 
@@ -43,11 +44,19 @@
         <br />
                 @if (Model.UpdateAt!= null)
                 {
-                    @Model.UpdateAt
+                    <span><strong>Updated: @Model.UpdateAt</strong> </span> 
                 }
                
     </div>
-     <a  asp-controller="Post" asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary ">Edit Post</a>
+    @if (SignInManager.IsSignedIn(User) && Model.Blog.Author.Email == User.Identity.Name)
+        {
+        @*<span>&nbsp;</span>*@ 
+        <dd>
+            <a  asp-controller="Post" asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary ">Edit Post</a>
+        </dd>
+
+        }
+     
   </div>   
 </div>
 </div>

@@ -19,14 +19,16 @@ namespace BlogProjectGrA.Controllers
         private readonly IBlogService _blogService;
         private readonly UserManager<User> _userManager;
         private readonly ICommentService _commentService;
+        private readonly SignInManager<User> _signInManager;
 
-        public PostController(UserManager<User> userManager, IPostService postService, ITagService tagService, IBlogService blogService, ICommentService commentService)
+        public PostController(UserManager<User> userManager, IPostService postService, ITagService tagService, IBlogService blogService, ICommentService commentService, SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _postService = postService;
             _tagService = tagService;
             _blogService = blogService;
             _commentService = commentService;
+            _signInManager = signInManager;
 
         }
         [AllowAnonymous]
@@ -88,7 +90,21 @@ namespace BlogProjectGrA.Controllers
         public ActionResult Edit(int id)
         {
             var post = _postService.GetPost(id);
-            return View(post);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            if (_userManager.GetUserId(User) == post.Blog.Author.Id)
+            {
+
+                return View(post);
+            }
+            else
+            {
+                return NotFound("Denied access.");
+
+            }
+            
         }
 
         // POST: HomeController1/Edit/5

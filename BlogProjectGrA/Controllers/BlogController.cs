@@ -127,11 +127,20 @@ namespace BlogProjectGrA.Controllers
         {
             
             var blog = _blogService.GetBlog(id);
-            //if(blog == null)
+            //if (blog == null)
             //{
-            //   return NotFound();
+            //    return NotFound();
             //}
-           
+            //if (_userManager.GetUserId(User) == blog.Author.Id)
+            //{
+
+            //    return View(blog);
+            //}
+            //else
+            //{
+            //    return NotFound("Denied access.");
+                
+            //}
             return View(blog);
         }
     }
