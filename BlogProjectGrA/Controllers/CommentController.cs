@@ -102,7 +102,21 @@ namespace BlogProjectGrA.Controllers
         public ActionResult Delete(int id)
         {
             var comment = _commentService.GetComment(id);
-            return View(comment);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+            if (_userManager.GetUserId(User) == comment.Author.Id || _userManager.GetUserId(User) == comment.Posts.Blog.Author.Id)
+            {
+
+                return View(comment);
+            }
+            else
+            {
+                return NotFound("Denied access.");
+
+            }
+            
         }
 
         // POST: CommentController/Delete/5
@@ -110,8 +124,10 @@ namespace BlogProjectGrA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Comment comment)
         {
-            _commentService.DeleteComment(comment);
-                return RedirectToAction("Details", "Post", new { id = comment.PostsId });
+             _commentService.DeleteComment(comment);
+            
+
+            return RedirectToAction("Details", "Post", new { id = comment.PostsId });
            
                
             
