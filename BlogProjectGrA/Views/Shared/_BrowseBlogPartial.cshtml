@@ -14,12 +14,11 @@
              </a></button>
          </td>
          <td>
-        @*<span class="badge bg-success">@Model.Posts.Select(t => t.Tags.Select(n => n.NormalizedName))</span>*@
 
-             @foreach(var tag in Model.Posts.Select(t => t.Tags).Take(2))
+        @foreach(var tag in Model.Posts.SelectMany(t => t.Tags).Take(3))
                 {
-                    @*<partial name="_TagsPartial" model="tag"></partial>*@
-                    <span class="badge bg-success">@tag.Select(n => n.NormalizedName)</span>
+                    <partial name="_TagsPartial" model="tag"></partial>
+                    @*<span class="badge bg-success">@tag.NormalizedName</span>*@
                 }
              
          </td>
