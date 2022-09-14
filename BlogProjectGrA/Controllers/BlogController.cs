@@ -85,12 +85,12 @@ namespace BlogProjectGrA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Blog blog)
         {
-            if (blog != null)
+            if (blog == null)
             {
                 return NotFound();
             }
             _blogService.UpdateBlog(blog);
-            return RedirectToAction("Details", "BrowseBlog", blog);
+            return RedirectToAction("Details", "BrowseBlog", new { id=blog.Id });
         }
 
         // GET: BlogController/Delete/5

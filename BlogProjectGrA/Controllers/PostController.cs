@@ -124,8 +124,21 @@ namespace BlogProjectGrA.Controllers
         // GET: HomeController1/Delete/5
         public ActionResult Delete(int id)
         {
-            var post = _postService.GetPostsByBlog(id);
-             return View(post);
+            var post = _postService.GetPost(id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            if (_userManager.GetUserId(User) == post.Blog.Author.Id)
+            {
+
+                return View(post);
+            }
+            else
+            {
+                return NotFound("Denied access.");
+
+            }
         }
 
         // POST: HomeController1/Delete/5
