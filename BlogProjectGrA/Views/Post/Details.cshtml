@@ -12,7 +12,7 @@
 <hr />
 <div class="card">
   <div class="card-header">
-    <h3><span style="align-self:center">@Model.Title</span> <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Posted date" style="float:right; font-size:16px">@Model.CreateAt</span></h3>
+    <h3><span style="align-self:center">@Model.Title</span> <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Post created" style="float:right; font-size:16px">@Model.CreateAt</span></h3>
   </div>
   <h5 class="card-body" style="background-color:white">
       <div class="badge badge-pill badge-primary" style="color:black; background-color:whitesmoke;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Views">
@@ -30,17 +30,23 @@
     <blockquote class="blockquote mb-0">
       <p>@Model.Body</p>
       &ensp;
-      <footer class="blockquote-footer">Blogger <cite title="Authors name">@Model.Blog.Author.GetName()</cite></footer>
+      <footer class="blockquote-footer">Blogger <cite title="Authors name">@Model.Blog.Author.FirstName @Model.Blog.Author.LastName</cite></footer>
     </blockquote>
   </div>
 </div>
+<div class="card-header; badge badge-primary;" style="font-size:18px"><span style="color:black">Tags: </span>
+      @foreach(var tag in Model.Tags)
+                {
+                    <partial name="_TagsPartial" model="tag"></partial>
+                }
+  </div>
 <br />
 @if (SignInManager.IsSignedIn(User) && Model.Blog.Author.Email == User.Identity.Name)
 {
-    @*<span>&nbsp;</span>*@ 
+    <span>&nbsp;</span> 
     <dd>
-        <a class="btn btn-outline-primary" asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Id">Edit blog</a> &ensp;
-            <a class="btn btn-outline-danger" asp-controller="Post" asp-action="Delete" asp-route-id="@Model.Id">Delete blog</a> 
+        <a class="btn btn-outline-primary" asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Id">Edit Post</a> &ensp;
+            <a class="btn btn-outline-danger" asp-controller="Post" asp-action="Delete" asp-route-id="@Model.Id">Delete Post</a> 
         </dd>
         }
 <br />
