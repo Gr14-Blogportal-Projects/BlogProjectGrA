@@ -113,9 +113,6 @@ namespace BlogProjectGrA.Controllers
         {
             _commentService.DeleteComment(comment);
                 return RedirectToAction("Details", "Post", new { id = comment.PostsId });
-           
-               
-            
         }
     }
 }

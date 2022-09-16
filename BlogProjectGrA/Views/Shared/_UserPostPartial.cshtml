@@ -5,30 +5,28 @@
 
 
 
-<div class="col-md-8">
-      <div style="padding: 15px; margin: 30px 5px; border: 2px solid black; box-shadow: 5px 5px 10px #FF00FF">
+<div class="card" style="background-color:whitesmoke">
+      <div class="card-header" style="padding: 10px; margin: 10px 5px; background-color:white" >
         <dl class="row">
 
-        <dt class = "col-sm-4  ">
-          
+        <dt class = "col-sm-4">
             Post Title
         </dt>
-        
         <dd class = "col-sm-8">
             @Model.Title
         </dd>
-        <dt class = "col-sm-4">
-            Description
-        </dt>
 
-        <dd class = "col-sm-8">
-            @Model.Body
-        </dd>
+
         <dt class = "col-sm-4">
             Date
         </dt>
         <dd class = "col-sm-8">
            @Model.CreateAt
+           &ensp;
+           @if (Model.UpdateAt!= null)
+                {
+                    <span>(Edited: @Model.UpdateAt)</span> 
+                }
         </dd>
         
         <dt class="col-sm-4">
@@ -37,26 +35,32 @@
        <dd class="col-sm-8">
             @Model.View
         </dd> 
-        <br />
-         <div class="row">
-    <div class="col-md-4">
+
+        <dt class="col-sm-4">
+            Tags
+        </dt>
+       <dd class="col-sm-8">
+            <div class="card-header; badge badge-primary;" style="font-size:18px">
+            @foreach(var tag in Model.Tags)
+                {
+                    <partial name="_TagsPartial" model="tag"></partial>
+                }
+            </div>
+        </dd> 
+        </dl>
 
         <br />
-                @if (Model.UpdateAt!= null)
-                {
-                    <span><strong>Updated: @Model.UpdateAt</strong> </span> 
-                }
-               
-    </div>
+    <div class="row">
     @if (SignInManager.IsSignedIn(User) && Model.Blog.Author.Email == User.Identity.Name)
         {
-        @*<span>&nbsp;</span>*@ 
         <dd>
-            <a  asp-controller="Post" asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary ">Edit Post</a>
+            <a  asp-controller="Post" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-primary">Go to Post</a> &ensp;
+            <a  asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary">Edit Post</a> &ensp;
+            <a class="btn btn-outline-danger" asp-controller="Post" asp-action="Delete" asp-route-id="@Model.Id">Delete Post</a> 
         </dd>
-
         }
      
-  </div>   
+   </div>   
 </div>
 </div>
+<br />

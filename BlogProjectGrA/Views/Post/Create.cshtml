@@ -37,7 +37,7 @@
                 <select name="blogId" id="blogId" class="form-control"asp-items="@ViewBag.BlogId" >
                     <option value="">Select Blogs Title</option>
                 </select>
-                <span asp-validation-for="Title" class="text-danger">Can not be empty</span>
+                <span asp-validation-for="Blog.Title" class="text-danger">Can not be empty.</span>
             </div>
             <div class="form-group">
                 <label asp-for=" Tags" class="control-label"></label>
@@ -45,7 +45,7 @@
                     <option value="">Select Tags</option>
                 </select>*@
                 <input name="tagListString" class="form-control" />
-                <span asp-validation-for="Tags" class="text-danger"></span>
+                <span asp-validation-for="Tags" class="text-danger">Can not be empty.</span>
             </div>
             &thinsp;
             <div class="form-group">

@@ -1,24 +1,28 @@
 @model IEnumerable<BlogProjectGrA.Models.Blog>
 @using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
 @{
-    ViewData["Title"] = "Browse blogs";
+    ViewData["Title"] = "Browse Blogs";
 }
 
 <h1>Browse Blogs</h1>
 <hr />
-<p>
-    <a asp-controller="Blog" asp-action="Create">Create a new blog</a>
-</p>
+@if (SignInManager.IsSignedIn(User))
+    {
+    <p>
+        <a asp-controller="Blog" asp-action="Create" class="btn btn-primary">Create a new blog</a>
+    </p>
+    }
 
 <p>
     <a class="btn btn-outline-primary" asp-action="Views">Browse posts based by views</a>
     &nbsp;
     <a class="btn btn-outline-primary" asp-action="Tags">Browse posts by tags</a>
 </p>
-<table class="table rounded border border-dark">
-    <thead class="table-warning">
+<table class="table rounded border border-dark" style="background-color:white">
+    <thead class="table" style="background-color:whitesmoke">
         <tr>
             <th>
                 Views
@@ -26,9 +30,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
-            <th>
+            @if(SignInManager.IsSignedIn(User))
+            {
+             <th>
                 My Posts
-            </th>
+            </th>   
+            }
             <th>
                 Tags
             </th>
