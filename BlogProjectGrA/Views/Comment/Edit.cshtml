@@ -4,9 +4,8 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Edit comment</h1>
 
-<h4>Comment</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -18,19 +17,19 @@
             <input type="hidden" asp-for="PostsId" />
             <div class="form-group">
                 <label asp-for="Body" class="control-label"></label>
-                <input asp-for="Body" class="form-control" />
+                <textarea asp-for="Body" class="form-control"></textarea>
                 <span asp-validation-for="Body" class="text-danger"></span>
             </div>
-          
+          &ensp;
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
-
+&ensp;
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-outline-primary" asp-controller="Post" asp-action="Details" asp-route-id="@Model.Posts.Id">Back to Post</a>
 </div>
 
 @section Scripts {

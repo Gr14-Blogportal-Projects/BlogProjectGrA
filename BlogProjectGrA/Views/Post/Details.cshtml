@@ -1,12 +1,56 @@
 ﻿@model BlogProjectGrA.Models.Post
 @using BlogProjectGrA.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Post Details";
 }
 
 <h1>@Model.Title</h1>
 <hr />
-<div class="row" style="padding: 10px; margin: 30px 5px; border: 2px solid black; box-shadow: 5px 5px 10px yellow">
+<div class="card">
+  <div class="card-header">
+    <h3><span style="align-self:center">@Model.Title</span> <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Post created" style="float:right; font-size:16px">@Model.CreateAt</span></h3>
+  </div>
+  <h5 class="card-body" style="background-color:white">
+      <div class="badge badge-pill badge-primary" style="color:black; background-color:whitesmoke;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Views">
+     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-eye" viewBox="0 0 18 18">
+  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+    </svg> @Model.View</div>
+    <span>@if (Model.UpdateAt != null)
+                {
+                    <span style="font-size:12px; float:right">(Edited @Model.UpdateAt)</span>
+                }</span>
+                </h5>
+  <div class="card-body">
+      
+    <blockquote class="blockquote mb-0">
+      <p>@Model.Body</p>
+      &ensp;
+      <footer class="blockquote-footer">Blogger <cite title="Authors name">@Model.Blog.Author.FirstName @Model.Blog.Author.LastName</cite></footer>
+    </blockquote>
+  </div>
+</div>
+<div class="card-header; badge badge-primary;" style="font-size:18px"><span style="color:black">Tags: </span>
+      @foreach(var tag in Model.Tags)
+                {
+                    <partial name="_TagsPartial" model="tag"></partial>
+                }
+  </div>
+<br />
+@if (SignInManager.IsSignedIn(User) && Model.Blog.Author.Email == User.Identity.Name)
+{
+    <span>&nbsp;</span> 
+    <dd>
+        <a class="btn btn-outline-primary" asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Id">Edit Post</a> &ensp;
+            <a class="btn btn-outline-danger" asp-controller="Post" asp-action="Delete" asp-route-id="@Model.Id">Delete Post</a> 
+        </dd>
+        }
+<br />
+@*<div class="row" style="padding: 10px; margin: 30px 5px; border: 2px solid black; box-shadow: 5px 5px 10px yellow">
     <div style="display:inline;float:right">
     <span class="badge bg-primary" style="display:inline;float:left;">Views @Model.View</span>
     </div>
@@ -35,30 +79,25 @@
         <br />
 
     </div>
-</div>
+</div>*@
 
-@*<div>
-    <a asp-controller="Comment" asp-action="Create" asp-route-id="@Model?.Id" class="btn btn-outline-primary"> Make a comment </a>
-    </div>*@
 
 <form asp-action="Create" asp-controller="Comment" asp-route-id="@Model.Id">
     <div class="form-group">
-        <b>To make a comment</b>
-        <input @*id="commentBody"*@ name="commentBody" class="form-control" />
+        <b>Leave a comment</b>
+        <textarea @*id="commentBody"*@ name="commentBody" class="form-control"></textarea>
     </div>
-
-    <br />
+    <span>&ensp;</span>
     <div class="form-group">
-        <input type="submit" value="click to comment" class="btn btn-success" />
+        <input type="submit" value="Click to comment" class="btn btn-success" />
     </div>
-
 </form>
-
-
+<hr />
+<h5 style="text-align:center">Comments</h5>
+<br />
 <div>
     @foreach (var item in Model.Comments.OrderByDescending(c => c.CreatedAt))
     {
-
         <partial name="_CommentPartial" model="item"></partial>
     }
 </div>

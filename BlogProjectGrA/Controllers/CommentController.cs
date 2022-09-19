@@ -44,6 +44,7 @@ namespace BlogProjectGrA.Controllers
             //ViewBag.PostId = new Comment(user.Posts)
             var comment = new Comment();
             return View(comment);
+
         }
 
         // POST: CommentController/Create
@@ -51,6 +52,8 @@ namespace BlogProjectGrA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(int id ,string commentBody)
         {
+            if (!string.IsNullOrEmpty(commentBody))
+            {
             var comment = new Comment();
             var post = _postService.GetPost(id);
             var user = _userManager.GetUserAsync(User).Result;
@@ -60,11 +63,9 @@ namespace BlogProjectGrA.Controllers
             _commentService.CreateComment(comment);
 
             return RedirectToAction("Details", "Post", new { id });//nameof(Index)
-
+            }
+            return NoContent();
         }
-
-
-
 
         // GET: CommentController/Edit/5
         public ActionResult Edit(int id,Comment comment)
@@ -126,12 +127,7 @@ namespace BlogProjectGrA.Controllers
         public ActionResult Delete(int id, Comment comment)
         {
              _commentService.DeleteComment(comment);
-            
-
             return RedirectToAction("Details", "Post", new { id = comment.PostsId });
-           
-               
-            
         }
     }
 }

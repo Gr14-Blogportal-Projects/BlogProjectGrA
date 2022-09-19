@@ -4,20 +4,23 @@
 @inject UserManager<User> UserManager
 
 
-<div class="card" style="width: 18rem;">
+<div class="card" style="width: 40rem;">
   <div class="card-body">
-    <h5 class="card-title">@Model.Author.GetName() | @Model.CreatedAt</h5>
-   
+    <h5 class="card-title">@Model.Author.GetName() 
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot" viewBox="0 0 16 16">
+    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"></path></svg> 
+<span style="font-size:16px;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Created date">@Model.CreatedAt</span>
+   @if (Model.UpdatedAt != null)
+                {
+                    <span style="font-size:12px; float:right">(Edited @Model.UpdatedAt)</span>
+                }
+     </h5>
+     <hr />
     <p class="card-text">@Model.Body</p>
     <div class="row">
     <div class="col-md-4">
 
         <br />
-    
-     @if (Model.UpdatedAt != null)
-                {
-                    @Model.UpdatedAt
-                }
                 </div>
                  </div>
      

@@ -1,5 +1,9 @@
 ﻿@model BlogProjectGrA.Models.ViewModels.PostsTagsViewModel
 @using BlogProjectGrA.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
 @{
     ViewData["Title"] = "Tags";
 }
@@ -24,9 +28,19 @@
 </div>
 
 
-
-
-@foreach (var item in Model.Posts)
+@if (Model.SelectedTag != null)
 {
-    <partial name="_PostPartial" model="item"></partial>
+    <h3>Posts using the '@Model.SelectedTag.Name' tag</h3>
+    <br />
+
 } 
+else
+{
+    @*@Model.Posts*@
+}
+
+    @foreach (var item in Model.Posts)
+    {
+    <partial name="_PostPartial" model="item"></partial>
+    } 
+

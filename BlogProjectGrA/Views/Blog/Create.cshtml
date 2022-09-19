@@ -4,13 +4,14 @@
     ViewData["Title"] = "Create";
 }
 
+@if (TempData["Message"] != null)
+{
 <div class="alert alert-warning" role="alert">
   @((string)TempData["Message"])
 </div>
+}
+<h1>Create a Blog</h1>
 
-<h1>Create</h1>
-
-<h4>Blog</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -23,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Body" class="control-label"></label>
-                <textarea asp-for="Body" class="form-control"> </textarea>
+                <textarea asp-for="Body" class="form-control"></textarea>
                 <span asp-validation-for="Body" class="text-danger"></span>
             </div>
             @*<div class="form-group">

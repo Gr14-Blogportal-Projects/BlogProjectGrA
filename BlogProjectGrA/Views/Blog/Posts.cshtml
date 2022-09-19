@@ -1,26 +1,36 @@
 ﻿@model BlogProjectGrA.Models.Blog
 
 
+@{
+    ViewData["Title"] = "My Posts";
+}
+
+
 <div class="row">
 <div class="col-sm- 10">
-<h3>Post for @Model.Title</h3>
-
+<h3>Post for: <a asp-controller="BrowseBlog" asp-action="Details" asp-route-id="@Model?.Id" style="text-decoration: none; color: #000000;">@Model.Title</a></h3>
+<hr />
 </div>
 <div class="col-sm-2" >
-    <a class="btn btn-outline-primary"style="float:right" asp-controller="Post" asp-action="Create">Create New Post</a>
+    <a class="btn btn-outline-primary" asp-controller="Post" asp-action="Create">Create New Post</a>
 </div>
-
 </div>
+<br />
 
-
-<div class="row">
-      
-        @foreach(var item in Model.Posts)
-        {
-            
-            <partial name="_UserPostPartial" model="item"></partial>
-        }
-   
+<div>
+ @if (Model.Posts.Count > 0)
+        {    
+            @foreach(var item in Model.Posts)
+            {
+                <partial name="_UserPostPartial" model="item"></partial>
+                <hr />
+                <br />
+            }
+         }
+         else
+         {
+           <h3>No posts have been made on this blog.</h3>
+         }
 </div>
 
 

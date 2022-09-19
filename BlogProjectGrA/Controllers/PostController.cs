@@ -90,6 +90,8 @@ namespace BlogProjectGrA.Controllers
         // GET: HomeController1/Edit/5
         public ActionResult Edit(int id)
         {
+            var tag = _tagService.GetTags();
+
             var post = _postService.GetPost(id);
             if (post == null)
             {
@@ -97,7 +99,7 @@ namespace BlogProjectGrA.Controllers
             }
             if (_userManager.GetUserId(User) == post.Blog.Author.Id)
             {
-
+                
                 return View(post);
             }
             else
@@ -125,8 +127,23 @@ namespace BlogProjectGrA.Controllers
         // GET: HomeController1/Delete/5
         public ActionResult Delete(int id, int? page)
         {
-            var post = _postService.GetPostsByBlog(id).ToPagedList(page ?? 1, 3);
-             return View(post);
+            var post = _postService.GetPost(id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            if (_userManager.GetUserId(User) == post.Blog.Author.Id)
+            {
+
+                return View(post);
+            }
+            else
+            {
+                return NotFound("Denied access.");
+
+            }
+
+            //var post = _postService.GetPostsByBlog(id).ToPagedList(page ?? 1, 3);
         }
 
         // POST: HomeController1/Delete/5

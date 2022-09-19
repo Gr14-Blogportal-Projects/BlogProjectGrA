@@ -8,8 +8,8 @@
 @{
     ViewData["Title"] = "Details";
 }
-<h2><b>Blog Title </b></h2>
-<h3 class="card bg-primary text-white text-center"style="width:250px; box-shadow: inset 5px 5px 10px green ">@Model.Blog.Title</h3>
+<br />
+<h1 class="" style="text-align:center"><b>@Model.Blog.Title</b></h1>
 
 @*<h3> 
     <a asp-controller="Post" asp-action="Create">Create a post</a>
@@ -19,56 +19,68 @@
     <hr />
     <div class="row">
             <div class="col-md-8">
-                @foreach(var item in Model.Posts)
-        {
-            
-            <partial name="_PostPartial" model="item" ></partial>
-        }
-            </div>
+         @if (Model.Blog.Posts.Count > 0)
+        {    
+            @foreach(var item in Model.Posts)
+            {
+                <partial name="_PostPartial" model="item" ></partial>
+            }
+         }
+         else
+         {
+           <h3>No posts have been made on this blog.</h3>
+         }
+        </div>
             <div class="col-md-4">
-                <div style="padding: 15px; margin: 30px 5px; border: 2px solid black; box-shadow: 5px 5px 10px #FF00FF">
+                
+                <div class="card" style="background-color:white;">
+                <div style="padding:12px;" class="card-body">
         <dl class="row">
 
-        <dt class = "col-sm-4">
+        <dt class = "col-sm-4" style="width:120px;">
             Blog Title
         </dt>
-        
-        <dd class = "col-sm-8">
+        <dd class = "col-sm-8" style="max-width:300px;">
             @Model.Blog.Title
         </dd>
-        <dt class = "col-sm-4">
+
+        <dt class = "col-sm-4" style="width:120px;">
             Description
         </dt>
-
-        <dd class = "col-sm-8">
+        <dd class = "col-sm-8" style="max-width:300px; overflow-wrap:break-word;">
             @Model.Blog.Body
         </dd>
-        <dt class = "col-sm-4">
+
+        <dt class = "col-sm-4" style="width:120px;">
             Date
         </dt>
-        <dd class = "col-sm-8">
-           @Model.Blog.CreatedAt
-        </dd>
-        
-        <dt class="col-sm-4">
-            Author
-        </dt>
-        <dd class="col-sm-8">
-            @Model.Blog.Author.FirstName @Model.Blog.Author.LastName 
+        <dd class = "col-sm-8" style="max-width:300px;">
+           @Model.Blog.CreatedAt 
         </dd>
 
+        <dt class="col-sm-4" style="width:120px;">
+            Author
+        </dt>
+        <dd class="col-sm-8" style="max-width:300px;">
+            @Model.Blog.Author.FirstName @Model.Blog.Author.LastName
+        </dd>
+        
         @if (SignInManager.IsSignedIn(User) && Model.Blog.Author.Email == User.Identity.Name)
         {
-        @*<span>&nbsp;</span>*@ 
+        <hr />
         <dd>
              @*<button type="button" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to create Tag & Post">*@
-            <a class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to create Tag & Post" asp-controller="Post" asp-action="Create" >Create a new post</a>
-            <a class="btn btn-outline-primary" asp-controller="Blog" asp-action="Edit" asp-route-id="@Model.Blog.Id">Edit blog</a>
-            <a class="btn btn-outline-danger" asp-controller="Blog" asp-action="Delete" asp-route-id="@Model.Blog?.Id">Delete blog</a> 
+            <a class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to create Post with Tags" asp-controller="Post" asp-action="Create">Create a new Post</a>
+            <a class="btn btn-outline-primary" asp-controller="Blog" asp-action="Edit" asp-route-id="@Model.Blog.Id">Edit Blog</a>
+            <a class="btn btn-outline-danger" asp-controller="Blog" asp-action="Delete" asp-route-id="@Model.Blog.Id">Delete Blog</a> 
         </dd>
         }
     </dl>
     </div>
+    </div>
+    
+    <br />
+    
     <div class="list-group row">
         <a asp-action="Details"  class=" list-group-item list-group-item-action" aria-current="true">Show all posts</a>  
         @foreach(var item in Model.Dates)
@@ -82,12 +94,9 @@
         }
     </div>
      </div>
+     </div>
+    </div>
 
-    
-    
-</div>
-
-</div>
 
 
 
