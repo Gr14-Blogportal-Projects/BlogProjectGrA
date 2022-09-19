@@ -15,10 +15,25 @@ html {
 
 body {
   margin-bottom: 60px;
-  background-color:#e4f3ec;
+  background-color:#dcf0f0;
 }
 p{
     text-decoration-style:solid;
+}
+.table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+.th, td {
+    text-align: left;
+    padding: 16px;
+}
+
+.tr:nth-child(even) {
+    background-color: #e8e91a;
 }
 
 #tooltip {
@@ -38,9 +53,12 @@ label{
 .heading {
     width: 100%;
     height: 100vh;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.15)), url("https://tickikids.ams3.cdn.digitaloceanspaces.com/z2.cache/gallery/activities/19894/image_5e3abd167976e1.72657698.jpg");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.15)), url("https://th.bing.com/th/id/OIP.1MErQxBnWCb0crYzAh2i9QHaE8?w=272&h=181&c=7&r=0&o=5&dpr=1.25&pid=1.7");
     background-repeat: no-repeat;
     background-size: cover;
+}
+.colon {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.15)), url("https://th.bing.com/th/id/R.41b9f6ab7dbaf61c25878ef26aed0272?rik=ExvWLkEz8GEVtQ&pid=ImgRaw&r=0");
 }
  .mains {
     width: 100%;
