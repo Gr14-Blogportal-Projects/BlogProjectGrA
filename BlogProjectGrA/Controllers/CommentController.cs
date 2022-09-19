@@ -1,9 +1,10 @@
 ﻿using BlogProjectGrA.Models;
 using BlogProjectGrA.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using X.PagedList;
 
 namespace BlogProjectGrA.Controllers
 {
@@ -22,16 +23,16 @@ namespace BlogProjectGrA.Controllers
         }
         [AllowAnonymous]
         // GET: CommentController
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            var comments = _commentService.GetComments();
+            var comments = _commentService.GetComments().ToPagedList(page ?? 1, 3);
             return View(comments);
         }
         [AllowAnonymous]
         // GET: CommentController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int id, int? page)
         {
-            var comment = _commentService.GetCommentsByPost(id);
+            var comment = _commentService.GetCommentsByPost(id).ToPagedList(page ?? 1, 3);
             return View();
         }
 
@@ -103,7 +104,21 @@ namespace BlogProjectGrA.Controllers
         public ActionResult Delete(int id)
         {
             var comment = _commentService.GetComment(id);
-            return View(comment);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+            if (_userManager.GetUserId(User) == comment.Author.Id || _userManager.GetUserId(User) == comment.Posts.Blog.Author.Id)
+            {
+
+                return View(comment);
+            }
+            else
+            {
+                return NotFound("Denied access.");
+
+            }
+            
         }
 
         // POST: CommentController/Delete/5
@@ -111,8 +126,8 @@ namespace BlogProjectGrA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Comment comment)
         {
-            _commentService.DeleteComment(comment);
-                return RedirectToAction("Details", "Post", new { id = comment.PostsId });
+             _commentService.DeleteComment(comment);
+            return RedirectToAction("Details", "Post", new { id = comment.PostsId });
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿@using BlogProjectGrA.Services
 @model IEnumerable<BlogProjectGrA.Models.Blog>
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
 
 
 @{
@@ -48,6 +50,14 @@
         }
     </tbody>
 </table>
+
+@Html.PagedListPager((IPagedList) Model, page => Url.Action("Index", new{ page = page,
+searchfor = @Context.Request.Query["searchfor"], searchby = @Context.Request.Query["searchfor"]}),
+new X.PagedList.Web.Common.PagedListRenderOptions{
+ LiElementClasses= new string[]{"page-item"},
+ PageClasses = new string[]{"page-link"}
+})
+
 
 @*@foreach (var item in Model) //Old code
 {

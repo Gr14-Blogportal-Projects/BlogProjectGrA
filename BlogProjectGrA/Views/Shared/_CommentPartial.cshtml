@@ -1,4 +1,8 @@
 ﻿@model BlogProjectGrA.Models.Comment
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<User> UserManager
+
 
 <div class="card" style="width: 40rem;">
   <div class="card-body">
@@ -19,8 +23,20 @@
         <br />
                 </div>
                  </div>
-    <a asp-action="Edit" asp-controller="Comment" asp-route-id="@Model?.Id" class="card-link">Edit comment</a>
-    <a asp-action="Delete" asp-controller="Comment" asp-route-id="@Model?.Id" class="card-link">Delete comment</a>
+     
+
+        @if (UserManager.GetUserId(User) == Model.Author.Id || UserManager.GetUserId(User) == Model.Posts.Blog.Author.Id)
+        {
+        <a asp-action="Delete" asp-controller="Comment" asp-route-id="@Model?.Id" class="card-link">Delete comment</a>
+      
+        }
+        @if (UserManager.GetUserId(User) == Model.Author.Id)
+        {
+        <a asp-action="Edit" asp-controller="Comment" asp-route-id="@Model?.Id" class="card-link">Edit comment</a>
+        }
+
+    
+    
   </div>
 </div>
 @*<div class="row" style="padding: 10px; margin: 30px 5px; border: 2px solid black; box-shadow: 5px 5px 10px green">*@

@@ -1,13 +1,14 @@
 ﻿using BlogProjectGrA.Data;
 using BlogProjectGrA.Models;
 using BlogProjectGrA.Models.ViewModels;
-
+using X.PagedList;
 using BlogProjectGrA.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Web.WebPages.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BlogProjectGrA.Controllers
 {
@@ -33,9 +34,9 @@ namespace BlogProjectGrA.Controllers
         }
         [AllowAnonymous]
         // GET: HomeController1
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            var posts = _postService.GetPosts();
+            var posts = _postService.GetPosts().ToPagedList(page ?? 1, 3);
             return View(posts);
             
         }
@@ -124,7 +125,7 @@ namespace BlogProjectGrA.Controllers
         }
 
         // GET: HomeController1/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id, int? page)
         {
             var post = _postService.GetPost(id);
             if (post == null)
@@ -141,6 +142,8 @@ namespace BlogProjectGrA.Controllers
                 return NotFound("Denied access.");
 
             }
+
+            //var post = _postService.GetPostsByBlog(id).ToPagedList(page ?? 1, 3);
         }
 
         // POST: HomeController1/Delete/5

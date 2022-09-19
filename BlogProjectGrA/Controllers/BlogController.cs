@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using X.PagedList;
+using X.PagedList.Mvc.Core;
 
 namespace BlogProjectGrA.Controllers
 {
@@ -26,10 +28,10 @@ namespace BlogProjectGrA.Controllers
 
 
         // GET: BlogController
-        public ActionResult Index()
+        public ActionResult Index( int? page)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var blog = _blogService.GetBlogsByUser(userId).OrderByDescending(d => d.CreatedAt);
+            var blog = _blogService.GetBlogsByUser(userId).OrderByDescending(d => d.CreatedAt).ToPagedList(page ?? 1, 3);
             
             return View(blog);
         }
@@ -123,7 +125,7 @@ namespace BlogProjectGrA.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public ActionResult Posts (int id)
+        public ActionResult Posts (int id, int? page)
         {
             
             var blog = _blogService.GetBlog(id);
