@@ -1,12 +1,9 @@
-﻿@model BlogProjectGrA.Models.Post
+﻿@using BlogProjectGrA.Services
+@model BlogProjectGrA.Models.Post
 @using BlogProjectGrA.Models
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
-
-@{
-    ViewData["Title"] = "Posts";
-}
 
 
 <div class="card">

@@ -87,9 +87,9 @@ namespace BlogProjectGrA.Controllers
         }
 
         // GET: HomeController1/Edit/5
-        public ActionResult Edit(int id, int tagid)
+        public ActionResult Edit(int id)
         {
-            var tag = _tagService.GetTag(id);
+            var tag = _tagService.GetTags();
 
             var post = _postService.GetPost(id);
             if (post == null)
@@ -98,7 +98,7 @@ namespace BlogProjectGrA.Controllers
             }
             if (_userManager.GetUserId(User) == post.Blog.Author.Id)
             {
-                tag.Id = post.Id;
+                
                 return View(post);
             }
             else

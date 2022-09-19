@@ -37,9 +37,8 @@ namespace BlogProjectGrA.Controllers
         }
 
         // GET: BrowseBlogController/Details/5
-        public ActionResult Views(int id) //<--- new
+        public ActionResult Views()
         {
-            var post = _postService.GetPost(id); // <--- new
             var posts = _postService.GetPostsByViews();
             return View(posts);
         }

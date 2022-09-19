@@ -1,4 +1,4 @@
-﻿@*@model BlogProjectGrA.Models.Blog*@
+﻿@*@model BlogProjectGrA.Models.Post*@
 @model IEnumerable<BlogProjectGrA.Models.Post>
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<User> SignInManager
@@ -18,11 +18,18 @@
 </p>
 
 <table class="table rounded border border-dark" style="background-color:white">
-    
-    <tbody>
+    @if (Model != null)
+    {
+       <tbody>
         @foreach(var item in Model)
         {
             <partial name="_PostPartial" model="item"></partial>
         }
-    </tbody>
+        </tbody>
+    }
+    else
+    {
+        <h3>No posts were found.</h3>
+    }
+
 </table>
