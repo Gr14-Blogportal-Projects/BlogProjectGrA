@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using BlogProjectGrA.Models.ViewModels;
+using X.PagedList ;
+
 
 
 namespace BlogProjectGrA.Controllers
@@ -28,11 +30,15 @@ namespace BlogProjectGrA.Controllers
             _tagService = tagService;
         }
         // GET: BrowseBlogController
-        public ActionResult Index(int id, int views)
+        public ActionResult Index(int id, int views,int?page)
         {
+            //var pageNumber = page ?? 1; // if no page is specified, default to the first page (1)
+            //int pageSize = 25; // Get 25 students for each requested page.
+            //var onePageOfStudents = Data.StudentContext.StudentList.ToPagedList(pageNumber, pageSize);
+            //return View(onePageOfStudents); // Send 25 students to the page.
             var post = _postService.GetPost(id);
             var blog = _blogService.GetBlog(id);
-            var browseBlogs = _blogService.GetBlogs().OrderByDescending(b => b.CreatedAt);
+            var browseBlogs = _blogService.GetBlogs().OrderByDescending(b => b.CreatedAt).ToPagedList(page ?? 1,3);
             return View(browseBlogs);
         }
 
@@ -58,7 +64,7 @@ namespace BlogProjectGrA.Controllers
             return View(vm);
         }
 
-        public ActionResult Details(int id, int year, int month)
+        public ActionResult Details(int id, int year, int month, int? page)
         {
             var blog = _blogService.GetBlog(id);
             List<Post> posts;
@@ -70,7 +76,7 @@ namespace BlogProjectGrA.Controllers
             {
                 posts = blog.Posts.ToList();
             }
-            var allDates = blog.Posts.OrderByDescending(p=>p.CreateAt).ToList().Select(p => p.CreateAt).ToList();
+            var allDates = blog.Posts.OrderByDescending(p=>p.CreateAt).ToList().Select(p => p.CreateAt).ToList().ToPagedList(page ?? 1, 3);
 
             var dates = new List<DatesCountVM>();
             foreach (var item in allDates)
@@ -97,7 +103,7 @@ namespace BlogProjectGrA.Controllers
             //return View(blog);
         }
 
-        public ActionResult Blog(string id) //View not existing
+        public ActionResult Blog(string id, int? page) //View not existing
         {
             var blog = _blogService.GetBlogsByUser(id);
             return View(blog);
