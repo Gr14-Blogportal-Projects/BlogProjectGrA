@@ -39,6 +39,7 @@ namespace BlogProjectGrA.Controllers
         // GET: CommentController/Create
         public ActionResult Create(int id)
         {
+            TempData["commentMessage"] = null;
             var user = _userManager.GetUserAsync(User).Result;
 
             //ViewBag.PostId = new Comment(user.Posts)
@@ -52,6 +53,8 @@ namespace BlogProjectGrA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(int id ,string commentBody)
         {
+            
+
             if (!string.IsNullOrEmpty(commentBody))
             {
             var comment = new Comment();
@@ -61,8 +64,10 @@ namespace BlogProjectGrA.Controllers
             comment.Author = user;
             comment.Posts = post;
             _commentService.CreateComment(comment);
-
+                
+            TempData["commentMessage"] = "Your comment has been posted.";
             return RedirectToAction("Details", "Post", new { id });//nameof(Index)
+            
             }
             return NoContent();
         }
@@ -96,6 +101,7 @@ namespace BlogProjectGrA.Controllers
             
             _commentService.UpdateComment(comment);
             //var commentUpdated = _commentService.UpdateComment(comment);
+            TempData["commentMessage"] = "Your comment has been edited.";
             return RedirectToAction("Details", "Post", new { id=comment.PostsId });
 
         }
@@ -127,6 +133,7 @@ namespace BlogProjectGrA.Controllers
         public ActionResult Delete(int id, Comment comment)
         {
              _commentService.DeleteComment(comment);
+            TempData["commentMessage"] = " Your comment has been deleted";
             return RedirectToAction("Details", "Post", new { id = comment.PostsId });
         }
     }
