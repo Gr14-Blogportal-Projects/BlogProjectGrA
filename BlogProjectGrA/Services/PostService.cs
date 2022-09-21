@@ -81,5 +81,20 @@ namespace BlogProjectGrA.Services
             
             return posts;
         }
+
+        public string GetTagsString(IEnumerable<Tag> tags)
+        {
+            var tagNames = tags.Select(p => p.Name).ToList();
+            var tagsString = string.Join(",", tagNames);
+            return tagsString;
+        }
+
+        public Post RemovePostTags(Post post)
+        {
+            post.Tags.Clear();
+            _db.Update(post);
+            _db.SaveChanges();
+            return post;
+        }
     }
 }

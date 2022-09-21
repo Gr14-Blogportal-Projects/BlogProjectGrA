@@ -44,8 +44,7 @@
             <div class="form-group">
                 <label asp-for="Tags" class="control-label"></label>
                 @*<select name="tagId" id="tagId" class="form-control"asp-items="@ViewBag.TagId"></select>*@
-                <input asp-for="Tags" class="form-control" />
-                <span asp-validation-for="Tags" class="text-danger"></span>
+                <input name="tagsString" class="form-control" value="@Model.GetTagsString()" />
                 </div>
             &ensp;
             <div class="form-group">

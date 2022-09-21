@@ -90,18 +90,19 @@ namespace BlogProjectGrA.Controllers
         // GET: HomeController1/Edit/5
         public ActionResult Edit(int id)
         {
-            var tag = _tagService.GetTags();
-
             var post = _postService.GetPost(id);
+           
             if (post == null)
             {
                 return NotFound();
             }
             if (_userManager.GetUserId(User) == post.Blog.Author.Id)
             {
-                
+               
                 return View(post);
             }
+            
+
             else
             {
                 return NotFound("Denied access.");
@@ -113,15 +114,21 @@ namespace BlogProjectGrA.Controllers
         // POST: HomeController1/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Post post, int blogId)
+        public ActionResult Edit(int id, Post post, string tagsString)
         {
-            var blog = _blogService.GetBlog(blogId);
-            post.Blog=blog;
-            _postService.UpdatePost(post);
-            return RedirectToAction("Posts","Blog", new { id = post.Blog.Id });
+            var tagList = tagsString.Split(',');
+            var tags = _tagService.GetOrCreateTags(tagList);
+
+            var existingPost = _postService.GetPost(id);
+            existingPost = _postService.RemovePostTags(existingPost);
+
+            existingPost.Title = post.Title;
+            existingPost.Body = post.Body;
+            existingPost.Tags = tags.ToList();
+
+            _postService.UpdatePost(existingPost);
+            return RedirectToAction("Posts","Blog", new { id = existingPost.Blog.Id });
             //return RedirectToAction("Posts", "Blog", blog.Posts);
-
-
         }
 
         // GET: HomeController1/Delete/5
