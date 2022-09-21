@@ -40,13 +40,19 @@
 @if (SignInManager.IsSignedIn(User) && Model.Blog.Author.Email == User.Identity.Name) @*???*@
 {
     <span>&nbsp;</span> 
-    <dd>
-        <a class="btn btn-outline-primary" asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Id">Edit Post</a> &ensp;
+@*    <dd>
+*@        <a class="btn btn-outline-primary" asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Id">Edit Post</a> 
         <a class="btn btn-outline-danger" asp-controller="Post" asp-action="Delete" asp-route-id="@Model.Id">Delete Post</a> 
-        </dd>
-        }
+@*        </dd>
+*@        }
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <a class="btn btn-outline-primary" asp-controller="Post" asp-action="Details" asp-route-id="@Model.Id">Leave a comment!</a>
+}
 <hr />
 <br />
 
 <script> C:\Users\brij_\Source\Repos\BlogProjectGrA\BlogProjectGrA\wwwroot\js\site.js</script>
 
+@*asp-action="Create" asp-controller="Comment" asp-route-id="@Model.Id"*@

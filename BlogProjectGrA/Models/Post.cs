@@ -28,6 +28,12 @@ namespace BlogProjectGrA.Models
         public virtual ICollection<Comment> Comments { get; set; }
         
        
+        public string GetTagsString()
+        {
+            var tagNames = Tags.Select(p => p.Name).ToList();
+            var tagsString = string.Join(",", tagNames);
+            return tagsString;
+        }
 
         public int GetViews()
         {

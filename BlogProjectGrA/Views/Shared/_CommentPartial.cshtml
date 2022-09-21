@@ -4,7 +4,7 @@
 @inject UserManager<User> UserManager
 
 
-<div class="card" style="width: 40rem;">
+<div class="card" style="width: 40rem;" id="comment-@Model.Id">
   <div class="card-body">
     <h5 class="card-title">@Model.Author.GetName() 
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot" viewBox="0 0 16 16">
@@ -16,7 +16,7 @@
                 }
      </h5>
      <hr />
-    <p class="card-text">@Model.Body</p>
+    <p class="card-text" style="white-space: pre-line">@Model.Body</p>
     <div class="row">
     <div class="col-md-4">
 
