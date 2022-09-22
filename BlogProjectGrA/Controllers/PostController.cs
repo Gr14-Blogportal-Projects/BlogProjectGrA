@@ -59,10 +59,13 @@ namespace BlogProjectGrA.Controllers
                 TempData["Message"] = "You need to create blog";
                 return RedirectToAction("Create", "Blog");
             }
-            ViewBag.BlogId = new SelectList(user.Blogs, "Id", "Title" );
+            var blog = _blogService.GetBlog(blogId);
+            ViewData["selectedBlogId"] = blogId;
+            //ViewBag.BlogId = new SelectList(user.Blogs, "Id", "Title" );
             ViewBag.TagId = new SelectList(tag.Select(t => t.Name), "Tags" ); //new from 30/aug
             var post = new Post();
-            
+            post.Blog = blog;
+
             return View(post);
         }
 
@@ -74,7 +77,7 @@ namespace BlogProjectGrA.Controllers
             var tagList = tagListString.Split(',');
 
             var tags = _tagService.GetOrCreateTags(tagList);
-
+            ViewData["selectedBlogId"] = blogId;
             var blog = _blogService.GetBlog(blogId);
             post.Blog = blog;
 
@@ -84,7 +87,7 @@ namespace BlogProjectGrA.Controllers
             var user = _userManager.GetUserAsync(User).Result;
             ViewBag.BlogId = new SelectList(user.Blogs, "Id", "Title");
             //return RedirectToAction(nameof(Index));
-            return RedirectToAction("Index", "BrowseBlog"); //TODO Redirect to the blog where you make the post
+            return RedirectToAction("Details", "BrowseBlog", new {id=blog.Id}); //TODO Redirect to the blog where you make the post
         }
 
         // GET: HomeController1/Edit/5
@@ -159,8 +162,8 @@ namespace BlogProjectGrA.Controllers
         public ActionResult Delete(int id, IFormCollection collection)
         {
             _postService.DeletePost(id);
-
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Blog");
+            //return RedirectToAction(nameof(Index));
         }
 
         
