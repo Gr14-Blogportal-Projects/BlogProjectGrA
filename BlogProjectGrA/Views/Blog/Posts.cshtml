@@ -12,7 +12,8 @@
 <hr />
 </div>
 <div class="col-sm-2" >
-    <a class="btn btn-outline-primary" asp-controller="Post" asp-action="Create">Create New Post</a>
+    @{ViewData["selectedBlogId"] = Model.Id;}
+    <a class="btn btn-outline-primary" asp-controller="Post" asp-action="Create" asp-route-blogId="@Model.Id">Create New Post</a>
 </div>
 </div>
 <br />
