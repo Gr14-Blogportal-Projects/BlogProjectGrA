@@ -15,17 +15,17 @@
     </svg> @Model.Posts.Sum(p => p.View)</div>
     </td>
         <td>
-            <button type="button" class="btn btn-outline-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to see the Posts">
-             <a asp-controller="BrowseBlog" asp-action="Details" asp-route-id="@Model?.Id" style="text-decoration: none; color: #000000;">   
+             <a class="btn btn-outline-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to see the Posts"
+             asp-controller="BrowseBlog" asp-action="Details" asp-route-id="@Model?.Id" style="text-decoration: none; color: #000000;">   
              @Html.DisplayFor(modelItem => Model.Title)
-             </a></button>
+             </a>
          </td>
 
          @if(SignInManager.IsSignedIn(User) && Model.Author.Email == User.Identity.Name)
          {
          <td>
-             <button type="button" class="btn btn-outline-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to see the Posts">
-             <a asp-controller="Blog" asp-action="Posts" asp-route-id="@Model?.Id" style="text-decoration: none; color: #000000;">My Posts</a></button>
+             <a class="btn btn-outline-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to see my Posts"
+             asp-controller="Blog" asp-action="Posts" asp-route-id="@Model?.Id" style="text-decoration: none; color: #000000;">My Posts</a>
         </td>
         }
         else if (SignInManager.IsSignedIn(User))
