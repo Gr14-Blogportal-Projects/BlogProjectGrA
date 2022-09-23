@@ -24,9 +24,9 @@ namespace BlogProjectGrA.Services
 
         public void DeletePost(int id)
         {
-            _db.Remove(id);
+            var post = GetPost(id);
+            _db.Remove(post);
             _db.SaveChanges();
-            return;
         }
         public Post UpdatePost(Post post)
         {
@@ -80,6 +80,21 @@ namespace BlogProjectGrA.Services
                 .ToList();
             
             return posts;
+        }
+
+        public string GetTagsString(IEnumerable<Tag> tags)
+        {
+            var tagNames = tags.Select(p => p.Name).ToList();
+            var tagsString = string.Join(",", tagNames);
+            return tagsString;
+        }
+
+        public Post RemovePostTags(Post post)
+        {
+            post.Tags.Clear();
+            _db.Update(post);
+            _db.SaveChanges();
+            return post;
         }
     }
 }

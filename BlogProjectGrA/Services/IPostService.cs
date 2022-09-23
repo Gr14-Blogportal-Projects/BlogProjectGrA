@@ -16,5 +16,9 @@ namespace BlogProjectGrA.Services
         IEnumerable<Post> GetPostsByViews();
         IEnumerable<Post> GetPostsByTag(Tag tag);
         IEnumerable<Post> GetPostByDate(int blogId, int year, int month);
+
+        string GetTagsString(IEnumerable<Tag> tags);
+
+        Post RemovePostTags(Post post);
     }
 }

@@ -58,10 +58,13 @@ namespace BlogProjectGrA.Controllers
                 TempData["Message"] = "You need to create blog";
                 return RedirectToAction("Create", "Blog");
             }
-            ViewBag.BlogId = new SelectList(user.Blogs, "Id", "Title" );
+            var blog = _blogService.GetBlog(blogId);
+            ViewData["selectedBlogId"] = blogId;
+            //ViewBag.BlogId = new SelectList(user.Blogs, "Id", "Title" );
             ViewBag.TagId = new SelectList(tag.Select(t => t.Name), "Tags" ); //new from 30/aug
             var post = new Post();
-            
+            post.Blog = blog;
+
             return View(post);
         }
 
@@ -73,7 +76,7 @@ namespace BlogProjectGrA.Controllers
             var tagList = tagListString.Split(',');
 
             var tags = _tagService.GetOrCreateTags(tagList);
-
+            ViewData["selectedBlogId"] = blogId;
             var blog = _blogService.GetBlog(blogId);
             post.Blog = blog;
 
@@ -83,24 +86,25 @@ namespace BlogProjectGrA.Controllers
             var user = _userManager.GetUserAsync(User).Result;
             ViewBag.BlogId = new SelectList(user.Blogs, "Id", "Title");
             //return RedirectToAction(nameof(Index));
-            return RedirectToAction("Index", "BrowseBlog"); //TODO Redirect to the blog where you make the post
+            return RedirectToAction("Details", "BrowseBlog", new {id=blog.Id}); //TODO Redirect to the blog where you make the post
         }
 
         // GET: HomeController1/Edit/5
         public ActionResult Edit(int id)
         {
-            var tag = _tagService.GetTags();
-
             var post = _postService.GetPost(id);
+           
             if (post == null)
             {
                 return NotFound();
             }
             if (_userManager.GetUserId(User) == post.Blog.Author.Id)
             {
-                
+               
                 return View(post);
             }
+            
+
             else
             {
                 return NotFound("Denied access.");
@@ -112,15 +116,21 @@ namespace BlogProjectGrA.Controllers
         // POST: HomeController1/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Post post, int blogId)
+        public ActionResult Edit(int id, Post post, string tagsString)
         {
-            var blog = _blogService.GetBlog(blogId);
-            post.Blog=blog;
-            _postService.UpdatePost(post);
-            return RedirectToAction("Posts","Blog", new { id = post.Blog.Id });
+            var tagList = tagsString.Split(',');
+            var tags = _tagService.GetOrCreateTags(tagList);
+
+            var existingPost = _postService.GetPost(id);
+            existingPost = _postService.RemovePostTags(existingPost);
+
+            existingPost.Title = post.Title;
+            existingPost.Body = post.Body;
+            existingPost.Tags = tags.ToList();
+
+            _postService.UpdatePost(existingPost);
+            return RedirectToAction("Posts","Blog", new { id = existingPost.Blog.Id });
             //return RedirectToAction("Posts", "Blog", blog.Posts);
-
-
         }
 
         // GET: HomeController1/Delete/5
@@ -151,8 +161,8 @@ namespace BlogProjectGrA.Controllers
         public ActionResult Delete(int id, IFormCollection collection)
         {
             _postService.DeletePost(id);
-
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Blog");
+            //return RedirectToAction(nameof(Index));
         }
 
         
