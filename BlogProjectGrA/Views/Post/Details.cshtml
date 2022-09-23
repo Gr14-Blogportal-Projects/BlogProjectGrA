@@ -100,7 +100,7 @@
 <h5 style="text-align:center">Comments</h5>
 <br />
 <div>
-    @if(Model.Comments.Count != 0)
+    @if(Model.Comments.Count > 0)
     {
         @foreach (var item in Model.Comments.OrderByDescending(c => c.CreatedAt))
         {

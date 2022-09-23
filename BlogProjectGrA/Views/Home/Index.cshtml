@@ -1,6 +1,9 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@model IEnumerable<BlogProjectGrA.Models.Blog>
+@*@model BlogProjectGrA.Models.Blog*@
+@using Microsoft.AspNetCore.Identity
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,22 +21,71 @@
     <div class="container-fluid">
     <header class="heading">
 
-
-     
        <main class="mains">
         <section class="sections">
             <h3>Welcome To Blogging Website</h3>
             <h1>Create Your Own Blog</h1>
-                <a class=" btnone" asp-area="Identity" asp-page="/Account/Login">Signin</a>
-                <a class="btntwo" asp-area="Identity" asp-page="/Account/Register">Register</a>
-          
-
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <a class="btnone" asp-controller="Blog" asp-action="Create">Create a Blog</a>
+                    }
+                    else
+                    {
+                       <a class="btnone" asp-area="Identity" asp-page="/Account/Login">Signin</a>
+                       <a class="btntwo" asp-area="Identity" asp-page="/Account/Register">Register</a> 
+                    }
         </section>
-
     </main>
     
     </header>
     </div>
+    <br />
+    <h3 class="text-white">Top 5 Most viewed Blogs</h3>
+    <hr />
+
+    <table class="table table-striped; col-md-6;">
+    <thead class="table" style="background-color:whitesmoke">
+        <tr>
+            <th>
+                Views
+            </th>
+            <th>
+                Title
+            </th>
+            
+            <th>
+                Tags
+            </th>
+            <th>
+                Date
+            </th>
+            <th>
+                Author
+            </th>
+            <th>
+                Posts
+            </th>
+        </tr>
+    </thead>
+    <tbody style="background-color:whitesmoke">
+        @foreach(var item in Model.Take(5))
+        { 
+            <partial name="_BrowseBlogHomePartial" model="item"></partial>
+        }
+    </tbody>
+    </table>
+
+    <h3 class="text-white">5 Latest posts</h3>
+    <div style="background-color:whitesmoke">
+        
+    @foreach(var item in Model.SelectMany(p => p.Posts.OrderByDescending(c => c.CreateAt)).Take(5))
+            {
+                <partial name="_PostPartial" model="item" ></partial>
+            }
+            
+    </div>
+
+    <br />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
