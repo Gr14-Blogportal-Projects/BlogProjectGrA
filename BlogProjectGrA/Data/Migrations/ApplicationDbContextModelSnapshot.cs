@@ -39,6 +39,9 @@ namespace BlogProjectGrA.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -70,7 +73,7 @@ namespace BlogProjectGrA.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("PostsId")
+                    b.Property<int>("PostsId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -135,9 +138,6 @@ namespace BlogProjectGrA.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("BlogId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -152,8 +152,6 @@ namespace BlogProjectGrA.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BlogId");
 
                     b.HasIndex("UserId");
 
@@ -404,7 +402,9 @@ namespace BlogProjectGrA.Data.Migrations
 
                     b.HasOne("BlogProjectGrA.Models.Post", "Posts")
                         .WithMany("Comments")
-                        .HasForeignKey("PostsId");
+                        .HasForeignKey("PostsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Author");
 
@@ -426,10 +426,6 @@ namespace BlogProjectGrA.Data.Migrations
 
             modelBuilder.Entity("BlogProjectGrA.Models.Tag", b =>
                 {
-                    b.HasOne("BlogProjectGrA.Models.Blog", null)
-                        .WithMany("Tags")
-                        .HasForeignKey("BlogId");
-
                     b.HasOne("BlogProjectGrA.Models.User", null)
                         .WithMany("Tags")
                         .HasForeignKey("UserId");
@@ -504,8 +500,6 @@ namespace BlogProjectGrA.Data.Migrations
             modelBuilder.Entity("BlogProjectGrA.Models.Blog", b =>
                 {
                     b.Navigation("Posts");
-
-                    b.Navigation("Tags");
                 });
 
             modelBuilder.Entity("BlogProjectGrA.Models.Post", b =>

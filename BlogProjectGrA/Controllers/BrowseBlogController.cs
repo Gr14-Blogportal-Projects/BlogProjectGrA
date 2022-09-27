@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using BlogProjectGrA.Models.ViewModels;
 using X.PagedList ;
-
-
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.IO;
 
 namespace BlogProjectGrA.Controllers
 {
@@ -32,10 +32,8 @@ namespace BlogProjectGrA.Controllers
         // GET: BrowseBlogController
         public ActionResult Index(int id, int views,int?page)
         {
-            //var pageNumber = page ?? 1; // if no page is specified, default to the first page (1)
-            //int pageSize = 25; // Get 25 students for each requested page.
-            //var onePageOfStudents = Data.StudentContext.StudentList.ToPagedList(pageNumber, pageSize);
-            //return View(onePageOfStudents); // Send 25 students to the page.
+            
+
             var post = _postService.GetPost(id);
             var blog = _blogService.GetBlog(id);
             var browseBlogs = _blogService.GetBlogs().OrderByDescending(b => b.CreatedAt).ToPagedList(page ?? 1,3);
@@ -109,26 +107,29 @@ namespace BlogProjectGrA.Controllers
             return View(blog);
         }
 
-        // GET: BrowseBlogController/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
 
-        //// POST: BrowseBlogController/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create(IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+        
 
-    }
+            // GET: BrowseBlogController/Create
+            //public ActionResult Create()
+            //{
+            //    return View();
+            //}
+
+            //// POST: BrowseBlogController/Create
+            //[HttpPost]
+            //[ValidateAntiForgeryToken]
+            //public ActionResult Create(IFormCollection collection)
+            //{
+            //    try
+            //    {
+            //        return RedirectToAction(nameof(Index));
+            //    }
+            //    catch
+            //    {
+            //        return View();
+            //    }
+            //}
+
+        }
 }

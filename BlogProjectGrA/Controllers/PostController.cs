@@ -150,7 +150,7 @@ namespace BlogProjectGrA.Controllers
 
             }
 
-            //var post = _postService.GetPostsByBlog(id).ToPagedList(page ?? 1, 3);
+            
         }
 
         // POST: HomeController1/Delete/5

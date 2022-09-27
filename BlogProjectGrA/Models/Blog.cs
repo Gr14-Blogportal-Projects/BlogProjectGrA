@@ -1,4 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using BlogProjectGrA.Models.ViewModels;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.InteropServices;
 
 namespace BlogProjectGrA.Models
 {
@@ -16,7 +21,18 @@ namespace BlogProjectGrA.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
+        public string ImageUrl { get; set; }
+
         public virtual ICollection<Post> Posts { get; set; }
+
+        //public virtual ICollection<ImagesVM> Images { get; set; }
+
+        
+
+
+
+
+
 
     }
 }
