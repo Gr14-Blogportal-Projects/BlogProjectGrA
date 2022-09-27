@@ -16,43 +16,49 @@ namespace BlogFunctions
     {
         [FunctionName("SendConfirmationEmail")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
-            ILogger log)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req, ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-
-            var configuration = new ConfigurationBuilder()
-                                    .SetBasePath(Directory.GetCurrentDirectory())
-                                    .AddJsonFile("local.settings.json", true, true)
-                                    .AddEnvironmentVariables()
-                                    .Build();
-
-            string connectionString = configuration["AzureWebJobsStorage"];
-            string queueString = configuration["AzureQueueName"];
-            QueueClient qClient = new QueueClient(connectionString, queueString, new QueueClientOptions { MessageEncoding = QueueMessageEncoding.Base64 });
-            qClient.CreateIfNotExists();
-            if(qClient.Exists())
+            try
             {
-                try
+
+
+                log.LogInformation("C# HTTP trigger function processed a request.");
+                string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+
+                var configuration = new ConfigurationBuilder()
+                                        .SetBasePath(Directory.GetCurrentDirectory())
+                                        .AddJsonFile("local.settings.json", true, true)
+                                        .AddEnvironmentVariables()
+                                        .Build();
+
+                string connectionString = configuration["AzureWebJobsStorage"];
+                string queueString = configuration["QueueName"];
+                QueueClient qClient = new QueueClient(connectionString, queueString, new QueueClientOptions { MessageEncoding = QueueMessageEncoding.Base64 });
+                qClient.CreateIfNotExists();
+                if (qClient.Exists())
                 {
-                    qClient.SendMessage(requestBody);
+                    try
+                    {
+                        qClient.SendMessage(requestBody);
+                    }
+                    catch (Exception e)
+                    {
+
+                        log.LogInformation($"Message could not be sent to queue (error: {e.Message} ) at: {DateTime.Now}");
+                    }
+
+
                 }
-                catch (Exception e)
-                {
 
-                    log.LogInformation($"Message could not be sent to queue (error: {e.Message} ) at: {DateTime.Now}");
-                }
-            
-
-        }
-
-            string responseMessage = "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.";
+                string responseMessage = "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.";
 
 
-            return new OkObjectResult(responseMessage);
-
+                return new OkObjectResult(responseMessage);
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e);
+            }
         }
     }
 }

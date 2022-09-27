@@ -19,33 +19,28 @@ namespace BlogFunctions
     public class SendGridSendEmail
     {
         [FunctionName("SendGridSendEmail")]
-        [return: SendGrid(ApiKey = "SendGridKey", To = "999mails@gmail.com", From = "mazarizainab@outlook.com")]
+        [return: SendGrid(ApiKey = "SendGridKey", From = "mazarizainab@outlook.com")]
         public SendGridMessage Run([QueueTrigger("emailqueue", Connection = "AzureWebJobsStorage")]CreateEmail order, ILogger log)
         {
             log.LogInformation($"C# Queue trigger function processed order: {order.Author}");
 
             SendGridMessage message = new SendGridMessage()
             {
-                Subject = $"you created new blog {order.BlogTitle}!"
+                Subject = $"You created new blog {order.BlogTitle}!"
             };
 
-            message.AddContent("text/plain", $"{order.Author}, you made blog ({order.BlogTitle}) at {order.CreatedDate}!");
+            message.AddTo(order.Email);
+            message.AddContent("text/plain", $"{order.Author}, you made blog ({order.BlogTitle}) at {order.Date}!");
             return message;
         }
     }
-    //public class Order
-    //{
-    //    public string OrderId { get; set; }
-    //    public string CustomerName { get; set; }
-    //    public string CustomerEmail { get; set; }
-    //}
 
     public class CreateEmail
     {
         public string Author { get; set; }
         public string Email { get; set; }
         public string BlogTitle { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime Date { get; set; }
 
     }
 }

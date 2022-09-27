@@ -13,7 +13,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     .UseLazyLoadingProxies()
     .UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
+builder.Services.AddHttpClient("BlogEmailconformation", config =>
+ {
+     var url = builder.Configuration["AzureBlogEmailUrl"];
+     config.BaseAddress = new(url);
+ });
 builder.Services.AddDefaultIdentity<User>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false;

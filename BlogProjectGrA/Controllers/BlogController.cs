@@ -1,4 +1,5 @@
 ﻿using BlogProjectGrA.Models;
+using BlogProjectGrA.Models.Email;
 using BlogProjectGrA.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -18,12 +19,14 @@ namespace BlogProjectGrA.Controllers
         private readonly UserManager<User> _userManager;
 
         private readonly SignInManager<User> _signInManager;
+        private readonly HttpClient  _httpClient;
 
-        public BlogController(IBlogService blogService, UserManager<User> userManager, SignInManager<User> signInManager)
+      public BlogController(IBlogService blogService, UserManager<User> userManager, SignInManager<User> signInManager, IHttpClientFactory httpClientFactory)
         {
             _blogService = blogService;
             _userManager = userManager;
             _signInManager = signInManager;
+            _httpClient = httpClientFactory.CreateClient("BlogEmailconformation");
         }
 
 
@@ -54,11 +57,21 @@ namespace BlogProjectGrA.Controllers
         // POST: BlogController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Blog blog)
+        public async Task<ActionResult> Create(Blog blog)
         {
-            var user = _userManager.GetUserAsync(User).Result;
+            var user =await _userManager.GetUserAsync(User);
             blog.Author = user;
             _blogService.CreateBlog(blog);
+            // Send email here
+            var email = new CreateEmail
+            {
+                Author = blog.Author.GetName(),
+                Email = blog.Author.Email,
+                BlogTitle = blog.Title,
+                Date = blog.CreatedAt
+            };
+            var res = await _httpClient.PostAsJsonAsync("SendConfirmationEmail", email);
+            TempData["SuccessMessage"] = res.IsSuccessStatusCode ? "Successfully sent Email" : "Failed to send Email";
             return RedirectToAction(nameof(Index));
         }
 
