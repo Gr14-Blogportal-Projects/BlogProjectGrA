@@ -64,8 +64,8 @@ namespace BlogProjectGrA.Controllers
         {
             if(vm.File != null)
             { 
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images");
-            //    //create folder if not exist
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Blogs");
+            // create folder if not exist
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
             string fileName = Guid.NewGuid().ToString() + "_" + vm.File.FileName;
@@ -75,7 +75,7 @@ namespace BlogProjectGrA.Controllers
             {
                 vm.File.CopyTo(stream);
             }
-                vm.Blog.ImageUrl = "Images/" + fileName;
+                vm.Blog.ImageUrl = "Images/Blogs/" + fileName;
             }
             var user = _userManager.GetUserAsync(User).Result;
             vm.Blog.Author = user;
