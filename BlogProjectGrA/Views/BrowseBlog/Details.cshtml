@@ -20,31 +20,12 @@
     <div class="row">
         <div class="col-md-12" >
             @if (!string.IsNullOrEmpty(Model.Blog.ImageUrl))
-
-            <div class="col-md-8">
-         @if (Model.Blog.Posts.Count > 0)
-        {    
-            @foreach(var item in Model.Posts.OrderByDescending(c => c.CreateAt))
-
             {
                 <img style="height:300px;width:1200px" src="~/@Model.Blog.ImageUrl" />
             }
         </div>&nbsp;
 
         
-
-
-        @if (SignInManager.IsSignedIn(User) && Model.Blog.Author.Email == User.Identity.Name)
-        {
-        <hr />
-        <dd>
-            @{ViewData["selectedBlogId"] = Model.Blog.Id;}
-             @*<button type="button" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to create Tag & Post">*@
-            <a class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to create Post with Tags" asp-controller="Post" asp-action="Create" asp-route-blogId="@Model.Blog.Id">Create a new Post</a>
-            <a class="btn btn-outline-primary" asp-controller="Blog" asp-action="Edit" asp-route-id="@Model.Blog.Id">Edit Blog</a>
-            <a class="btn btn-outline-danger" asp-controller="Blog" asp-action="Delete" asp-route-id="@Model.Blog.Id">Delete Blog</a> 
-        </dd>
-        }
 
 
 
@@ -85,15 +66,14 @@
                     <div class="col-md-4">*@
                     @if (SignInManager.IsSignedIn(User) && Model.Blog.Author.Email == User.Identity.Name)
                     {
-                        <br />
-                        <br />
-                        <dd>
-                            <a class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to create Post with Tags" asp-controller="Post" asp-action="Create">Create a new Post</a>
-                            <a class="btn btn-outline-primary" asp-controller="Blog" asp-action="Edit" asp-route-id="@Model.Blog.Id">Edit Blog</a>
-                            <a class="btn btn-outline-danger" asp-controller="Blog" asp-action="Delete" asp-route-id="@Model.Blog.Id">Delete Blog</a>
-                        </dd>
-                        @*<button type="button" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to create Tag & Post">*@
-
+                    <hr />
+                    <dd>
+                        @{ViewData["selectedBlogId"] = Model.Blog.Id;}
+                         @*<button type="button" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to create Tag & Post">*@
+                        <a class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to create Post with Tags" asp-controller="Post" asp-action="Create" asp-route-blogId="@Model.Blog.Id">Create a new Post</a>
+                        <a class="btn btn-outline-primary" asp-controller="Blog" asp-action="Edit" asp-route-id="@Model.Blog.Id">Edit Blog</a>
+                        <a class="btn btn-outline-danger" asp-controller="Blog" asp-action="Delete" asp-route-id="@Model.Blog.Id">Delete Blog</a> 
+                    </dd>
                     }
 
 
@@ -102,6 +82,9 @@
         </div>
     </div>
 </div>
+
+
+
 
 <br />
 <br />

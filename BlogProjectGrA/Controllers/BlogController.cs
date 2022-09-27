@@ -60,9 +60,10 @@ namespace BlogProjectGrA.Controllers
         // POST: BlogController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-
-        public ActionResult Create(CreateBlogVM vm)
+        public async  Task<ActionResult> Create(CreateBlogVM vm)
         {
+            if(vm.File != null)
+            { 
             string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images");
             //    //create folder if not exist
             if (!Directory.Exists(path))
@@ -74,38 +75,27 @@ namespace BlogProjectGrA.Controllers
             {
                 vm.File.CopyTo(stream);
             }
-            //var imagesVM = new CreateBlogVM()
-            //{
-            //    ImageUrl = vm.ImageUrl,
-            //    File = vm.File,
-            //    FileName = fileName,
-            //};
-
+                vm.Blog.ImageUrl = "Images/" + fileName;
+            }
             var user = _userManager.GetUserAsync(User).Result;
-
             vm.Blog.Author = user;
-            vm.Blog.ImageUrl = "Images/" + fileName;
+            
             _blogService.CreateBlog(vm.Blog);
-         }
-
-        public async Task<ActionResult> Create(Blog blog)
-        {
-            var user =await _userManager.GetUserAsync(User);
-            blog.Author = user;
-            _blogService.CreateBlog(blog);
             // Send email here
             var email = new CreateEmail
             {
-                Author = blog.Author.GetName(),
-                Email = blog.Author.Email,
-                BlogTitle = blog.Title,
-                Date = blog.CreatedAt
+                Author = vm.Blog.Author.GetName(),
+                Email = vm.Blog.Author.Email,
+                BlogTitle = vm.Blog.Title,
+                Date = vm.Blog.CreatedAt
             };
             var res = await _httpClient.PostAsJsonAsync("SendConfirmationEmail", email);
             TempData["SuccessMessage"] = res.IsSuccessStatusCode ? "Successfully sent Email" : "Failed to send Email";
 
-            return RedirectToAction(nameof(Index));
-        }
+            
+            return RedirectToAction("Details", "BrowseBlog", new {id = vm.Blog.Id});
+         }
+
 
         // GET: BlogController/Edit/5
         //
