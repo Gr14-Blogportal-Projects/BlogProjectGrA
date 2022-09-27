@@ -20,20 +20,7 @@
              @Html.DisplayFor(modelItem => Model.Title)
              </a>
          </td>
-
-         @if(SignInManager.IsSignedIn(User) && Model.Author.Email == User.Identity.Name)
-         {
          <td>
-             <a class="btn btn-outline-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to see my Posts"
-             asp-controller="Blog" asp-action="Posts" asp-route-id="@Model?.Id" style="text-decoration: none; color: #000000;">My Posts</a>
-        </td>
-        }
-        else if (SignInManager.IsSignedIn(User))
-        {
-            <td></td>
-        }
-        <td>
-
         @foreach(var tag in Model.Posts.SelectMany(t => t.Tags).Take(3))
                 {
                     <partial name="_TagsPartial" model="tag"></partial>
