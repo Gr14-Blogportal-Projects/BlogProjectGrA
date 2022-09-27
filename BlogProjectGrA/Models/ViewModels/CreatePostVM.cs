@@ -17,6 +17,10 @@ namespace BlogProjectGrA.Models.ViewModels
 
         public int View { get; set; }
         public int BlogId { get; set; }
+        //public string FileName { get; set; }
+
+        //public IFormFile File { get; set; }
+        //public virtual ICollection<Post>Posts { get; set; }
 
         public IList<SelectListItem>Blogs { get; set; }
     }

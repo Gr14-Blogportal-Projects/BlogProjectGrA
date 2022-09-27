@@ -11,60 +11,29 @@
 <br />
 <h1 class="" style="text-align:center"><b>@Model.Blog.Title</b></h1>
 
-@*<h3> 
+@*<h3>
     <a asp-controller="Post" asp-action="Create">Create a post</a>
     </h3>*@
 
 <div>
     <hr />
     <div class="row">
+        <div class="col-md-12" >
+            @if (!string.IsNullOrEmpty(Model.Blog.ImageUrl))
+
             <div class="col-md-8">
          @if (Model.Blog.Posts.Count > 0)
         {    
             @foreach(var item in Model.Posts.OrderByDescending(c => c.CreateAt))
+
             {
-                <partial name="_PostPartial" model="item" ></partial>
+                <img style="height:300px;width:1200px" src="~/@Model.Blog.ImageUrl" />
             }
-         }
-         else
-         {
-           <h3>No posts have been made on this blog.</h3>
-         }
-        </div>
-            <div class="col-md-4">
-                
-                <div class="card" style="background-color:white;">
-                <div style="padding:12px;" class="card-body">
-        <dl class="row">
+        </div>&nbsp;
 
-        <dt class = "col-sm-4" style="width:120px;">
-            Blog Title
-        </dt>
-        <dd class = "col-sm-8" style="max-width:300px;">
-            @Model.Blog.Title
-        </dd>
-
-        <dt class = "col-sm-4" style="width:120px;">
-            Description
-        </dt>
-        <dd class = "col-sm-8" style="max-width:300px; overflow-wrap:break-word;">
-            @Model.Blog.Body
-        </dd>
-
-        <dt class = "col-sm-4" style="width:120px;">
-            Date
-        </dt>
-        <dd class = "col-sm-8" style="max-width:300px;">
-           @Model.Blog.CreatedAt 
-        </dd>
-
-        <dt class="col-sm-4" style="width:120px;">
-            Author
-        </dt>
-        <dd class="col-sm-8" style="max-width:300px;">
-            @Model.Blog.Author.FirstName @Model.Blog.Author.LastName
-        </dd>
         
+
+
         @if (SignInManager.IsSignedIn(User) && Model.Blog.Author.Email == User.Identity.Name)
         {
         <hr />
@@ -77,32 +46,101 @@
         </dd>
         }
 
-    </dl>
+
+
+        <div style="width:1200px;height:220px ;background-color:white;">
+            <div style="padding:12px;">
+                <dl class="row">
+
+                   
+                    <dt @*class="col-sm-4" style="width:120px*@;">
+                        Blog Title
+                    </dt>
+                    <dd @*class="col-sm-8" style="max-width:300px;*@">
+                        @Model.Blog.Title
+                    </dd>
+
+                    <dt @*class="col-sm-4" style="width:120px;*@">
+                        Description
+                    </dt>
+                    <dd @*class="col-sm-8" style="max-width:300px; overflow-wrap:break-word;*@">
+                        @Model.Blog.Body
+                    </dd>
+
+                    <dt class="col-sm-4" style="width:120px;">
+                        Date
+                    </dt>
+                    <dd class="col-sm-8" style="max-width:300px;">
+                        @Model.Blog.CreatedAt
+                    </dd>
+
+                    <dt class="col-sm-4" style="width:120px;">
+                        Author
+                    </dt>
+                    <dd class="col-sm-8" style="max-width:300px;">
+                        @Model.Blog.Author.FirstName @Model.Blog.Author.LastName
+                    </dd>
+
+                    @*<div class="row">
+                    <div class="col-md-4">*@
+                    @if (SignInManager.IsSignedIn(User) && Model.Blog.Author.Email == User.Identity.Name)
+                    {
+                        <br />
+                        <br />
+                        <dd>
+                            <a class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to create Post with Tags" asp-controller="Post" asp-action="Create">Create a new Post</a>
+                            <a class="btn btn-outline-primary" asp-controller="Blog" asp-action="Edit" asp-route-id="@Model.Blog.Id">Edit Blog</a>
+                            <a class="btn btn-outline-danger" asp-controller="Blog" asp-action="Delete" asp-route-id="@Model.Blog.Id">Delete Blog</a>
+                        </dd>
+                        @*<button type="button" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to create Tag & Post">*@
+
+                    }
+
+
+                </dl>
+            </div>
+        </div>
     </div>
-    </div>
-    
-    <br />
-    
-    <div class="list-group row">
-        <a asp-action="Details"  class=" list-group-item list-group-item-action" aria-current="true">Show all posts</a>  
-        @foreach(var item in Model.Dates)
+</div>
+
+<br />
+<br />
+<br />
+<div class="row">
+    <div class="col-md-8">
+        @if (Model.Blog.Posts.Count > 0)
         {
-                    var isActive = item.Date.Year == Model.Year && item.Date.Month == Model.Month;
-                    
-                    <a asp-route-year="@item.Date.Year" asp-route-month="@item.Date.Month" class="@(isActive ? "active" : "") list-group-item list-group-item-action" aria-current="true">  
-                
-                @item.Date.ToString("yyyy MMMM") @item.Count posts
-            </a>
+            @foreach (var item in Model.Posts)
+            {
+                <partial name="_PostPartial" model="item"></partial>
+            }
+        }
+        else
+        {
+            <h3>No posts have been made on this blog.</h3>
         }
     </div>
-     </div>
-     </div>
+    <div class="col-md-4">
+        <div class="list-group row">
+            <a asp-action="Details" class=" list-group-item list-group-item-action" aria-current="true">Show all posts</a>
+            @foreach (var item in Model.Dates)
+            {
+                var isActive = item.Date.Year == Model.Year && item.Date.Month == Model.Month;
+
+                <a asp-route-year="@item.Date.Year" asp-route-month="@item.Date.Month" class="@(isActive ? "active" : "") list-group-item list-group-item-action" aria-current="true">
+
+                    @item.Date.ToString("yyyy MMMM") @item.Count posts
+                </a>
+            }
+        </div>
     </div>
+</div>
 
 
 
 
-<script> C:\Users\brij_\Source\Repos\BlogProjectGrA\BlogProjectGrA\wwwroot\js\site.js</script>
+
+<script>C: \Users\brij_\Source\Repos\BlogProjectGrA\BlogProjectGrA\wwwroot\js\site.js</script>
 
 
 

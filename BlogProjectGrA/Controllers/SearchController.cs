@@ -1,6 +1,7 @@
 ﻿using BlogProjectGrA.Data;
 using BlogProjectGrA.Models;
-using BlogProjectGrA.ViewModels;
+using BlogProjectGrA.Models.ViewModels;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

@@ -1,10 +1,14 @@
 ﻿using BlogProjectGrA.Models;
+
+using BlogProjectGrA.Models.ViewModels;
 using BlogProjectGrA.Models.Email;
+
 using BlogProjectGrA.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+
 using System.Security.Claims;
 using X.PagedList;
 using X.PagedList.Mvc.Core;
@@ -50,13 +54,40 @@ namespace BlogProjectGrA.Controllers
         // GET: BlogController/Create
         public ActionResult Create()
         {
-            var blog = new Blog();
-            return View(blog);
+            return View();
         }
 
         // POST: BlogController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+        public ActionResult Create(CreateBlogVM vm)
+        {
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images");
+            //    //create folder if not exist
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+            string fileName = Guid.NewGuid().ToString() + "_" + vm.File.FileName;
+            string fileNameWithPath = Path.Combine(path, fileName);
+
+            using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+            {
+                vm.File.CopyTo(stream);
+            }
+            //var imagesVM = new CreateBlogVM()
+            //{
+            //    ImageUrl = vm.ImageUrl,
+            //    File = vm.File,
+            //    FileName = fileName,
+            //};
+
+            var user = _userManager.GetUserAsync(User).Result;
+
+            vm.Blog.Author = user;
+            vm.Blog.ImageUrl = "Images/" + fileName;
+            _blogService.CreateBlog(vm.Blog);
+         }
+
         public async Task<ActionResult> Create(Blog blog)
         {
             var user =await _userManager.GetUserAsync(User);
@@ -72,12 +103,15 @@ namespace BlogProjectGrA.Controllers
             };
             var res = await _httpClient.PostAsJsonAsync("SendConfirmationEmail", email);
             TempData["SuccessMessage"] = res.IsSuccessStatusCode ? "Successfully sent Email" : "Failed to send Email";
+
             return RedirectToAction(nameof(Index));
         }
 
         // GET: BlogController/Edit/5
-        public ActionResult Edit(int id, Blog blog)
+        //
+        public ActionResult Edit(int id)
         {
+            
             var gblog = _blogService.GetBlog(id);
             if (gblog == null)
             {
@@ -85,8 +119,9 @@ namespace BlogProjectGrA.Controllers
             }
             if (_userManager.GetUserId(User) == gblog.Author.Id) 
             {
-                
-                return View(gblog);
+                var vm= new CreateBlogVM();
+                vm.Blog = gblog;
+                return View(vm);
             }
             else
             {
@@ -98,14 +133,31 @@ namespace BlogProjectGrA.Controllers
         // POST: BlogController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Blog blog)
+        public ActionResult Edit(int id, CreateBlogVM vm)
         {
-            if (blog == null)
+            if (vm.Blog == null)
             {
                 return NotFound();
             }
-            _blogService.UpdateBlog(blog);
-            return RedirectToAction("Details", "BrowseBlog", new { id=blog.Id });
+            if (vm.File != null)
+            {
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images");
+                //    //create folder if not exist
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+                string fileName = Guid.NewGuid().ToString() + "_" + vm.File.FileName;
+                string fileNameWithPath = Path.Combine(path, fileName);
+               
+                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                {
+                    vm.File.CopyTo(stream);
+                    
+                }
+                vm.Blog.ImageUrl = "Images/" + fileName;
+            }
+            
+            _blogService.UpdateBlog(vm.Blog);
+            return RedirectToAction("Details", "BrowseBlog", new { id=vm.Blog.Id });
         }
 
         // GET: BlogController/Delete/5
@@ -118,7 +170,9 @@ namespace BlogProjectGrA.Controllers
             }
             if (_userManager.GetUserId(User) == blog.Author.Id)
             {
-                return View(blog);
+                var vm = new CreateBlogVM();
+                vm.Blog = blog;
+                return View(vm);
             }   
             else
             {
@@ -130,10 +184,26 @@ namespace BlogProjectGrA.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public ActionResult Delete(int id, Blog blog)
+        public ActionResult Delete(int id, Blog blog, CreateBlogVM vm)
         {
+            if (vm.File != null)
+            {
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images");
+                //    //create folder if not exist
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+                string fileName = Guid.NewGuid().ToString() + "_" + vm.File.FileName;
+                string fileNameWithPath = Path.Combine(path, fileName);
+
+                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                {
+                    vm.File.CopyTo(stream);
+
+                }
+                vm.Blog.ImageUrl = "Images/" + fileName;
+            }
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            _blogService.DeleteBlog(blog);
+            _blogService.DeleteBlog(vm.Blog);
             
             return RedirectToAction(nameof(Index));
         }

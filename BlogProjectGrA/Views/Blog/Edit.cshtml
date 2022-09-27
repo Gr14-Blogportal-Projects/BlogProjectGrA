@@ -1,29 +1,39 @@
-﻿@model BlogProjectGrA.Models.Blog
-
+﻿@*@model BlogProjectGrA.Models.Blog*@
+@model BlogProjectGrA.Models.ViewModels.CreateBlogVM
 
 @{
     ViewData["Title"] = "Edit";
 }
     
-<h1>Edit: @Model?.Title</h1>
+<h1>Edit: @Model?Blog.Title</h1>
 
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="CreatedAt" />
+            <input type="hidden" asp-for="Blog.Id" />
+            <input type="hidden" asp-for="Blog.CreatedAt" />
+            <input type="hidden" asp-for="Blog.ImageUrl" />
+
             <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+                <label asp-for="Blog.Title" class="control-label"></label>
+                <input asp-for="Blog.Title" class="form-control" />
+                <span asp-validation-for="Blog.Title" class="text-danger"></span>
             </div>
             <span>&ensp;</span>
             <div class="form-group">
-                <label asp-for="Body" class="control-label"></label>
-                <textarea asp-for="Body" class="form-control"></textarea>
-                <span asp-validation-for="Body" class="text-danger"></span>
+                <label asp-for="Blog.Body" class="control-label"></label>
+                <textarea asp-for="Blog.Body" class="form-control"></textarea>
+                <span asp-validation-for="Blog.Body" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3" onchange="setFileName()">
+                <input accept="image/*" asp-for="File" hidden />
+                <input class="form-control" disabled asp-for="FileName">
+                <span asp-validation-for="FileName" class="text-danger"></span>
+                @*<span>&ensp;</span>*@
+                @*<input class="btn btn-outline-success" type="submit" value="Upload Image" />*@
+                <button type="button" class="btn btn-success mt-3" onClick="clickFileInput()">Select File</button>
             </div>
             <span>&ensp;</span>
             <div class="form-group">
@@ -34,9 +44,19 @@
 </div>
 <br />
 <div>
-    <a class="btn btn-outline-primary" asp-controller="BrowseBlog" asp-action="Details" asp-route-id="@Model?.Id">Back to Blog</a>
+    <a class="btn btn-outline-primary" asp-controller="BrowseBlog" asp-action="Details" asp-route-id="@Model?Blog.Id">Back to Blog</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+    <script>
+        const setFileName = () => {
+            const fileName = document.getElementById("File").value;
+            document.getElementById("FileName").value = fileName.substring(12);
+        }
+
+        const clickFileInput = () => {
+            document.getElementById("File").click();
+        }
+    </script>
