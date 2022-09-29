@@ -8,6 +8,30 @@
 @{
     ViewData["Title"] = "Details";
 }
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-warning" role="alert">
+        @TempData["SuccessMessage"]
+   </div> 
+}
+@if (TempData["PostMessage"] != null)
+{
+   <div class="alert alert-warning" role="alert">
+    @TempData["PostMessage"]
+   </div> 
+}
+@if (TempData["EditBlogMessage"] != null)
+{
+   <div class="alert alert-warning" role="alert">
+    @TempData["EditBlogMessage"]
+   </div> 
+}
+@if (TempData["DeletePostMessage"] != null)
+{
+   <div class="alert alert-warning" role="alert">
+    @TempData["DeletePostMessage"]
+   </div> 
+}
 <br />
 <h1 class="" style="text-align:center"><b>@Model.Blog.Title</b></h1>
 
@@ -17,23 +41,18 @@
 
 <div>
     <hr />
-    <div class="row">
+    <div >
         <div class="col-md-12" >
             @if (!string.IsNullOrEmpty(Model.Blog.ImageUrl))
             {
-                <img style="height:300px;width:1200px" src="~/@Model.Blog.ImageUrl" />
+                <img class="img-fluid" style="height:300px;width:1200px;" src="~/@Model.Blog.ImageUrl" />
             }
-        </div>&nbsp;
+        </div>
+        <br />
 
-        
-
-
-
-        <div style="width:1200px;height:220px ;background-color:white;">
+        <div style="width:1200px;height:220px ;background-color:white;width:auto;height:auto">
             <div style="padding:12px;">
                 <dl class="row">
-
-                   
                     <dt @*class="col-sm-4" style="width:120px*@;">
                         Blog Title
                     </dt>
@@ -62,21 +81,16 @@
                         @Model.Blog.Author.FirstName @Model.Blog.Author.LastName
                     </dd>
 
-                    @*<div class="row">
-                    <div class="col-md-4">*@
                     @if (SignInManager.IsSignedIn(User) && Model.Blog.Author.Email == User.Identity.Name)
                     {
                     <hr />
                     <dd>
                         @{ViewData["selectedBlogId"] = Model.Blog.Id;}
-                         @*<button type="button" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to create Tag & Post">*@
                         <a class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Click here to create Post with Tags" asp-controller="Post" asp-action="Create" asp-route-blogId="@Model.Blog.Id">Create a new Post</a>
                         <a class="btn btn-outline-primary" asp-controller="Blog" asp-action="Edit" asp-route-id="@Model.Blog.Id">Edit Blog</a>
                         <a class="btn btn-outline-danger" asp-controller="Blog" asp-action="Delete" asp-route-id="@Model.Blog.Id">Delete Blog</a> 
                     </dd>
                     }
-
-
                 </dl>
             </div>
         </div>
@@ -84,9 +98,6 @@
 </div>
 
 
-
-
-<br />
 <br />
 <br />
 <div class="row">
@@ -118,16 +129,3 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-<script>C: \Users\brij_\Source\Repos\BlogProjectGrA\BlogProjectGrA\wwwroot\js\site.js</script>
-
-
-
-@*<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>*@

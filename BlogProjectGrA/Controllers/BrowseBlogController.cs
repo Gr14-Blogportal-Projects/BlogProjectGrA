@@ -32,8 +32,9 @@ namespace BlogProjectGrA.Controllers
         // GET: BrowseBlogController
         public ActionResult Index(int id, int views,int?page)
         {
-            
 
+            TempData["SuccessMessage"] = null;
+            TempData["PostMessage"] = null;
             var post = _postService.GetPost(id);
             var blog = _blogService.GetBlog(id);
             var browseBlogs = _blogService.GetBlogs().OrderByDescending(b => b.CreatedAt).ToPagedList(page ?? 1,3);

@@ -50,6 +50,7 @@ namespace BlogProjectGrA.Controllers
         // GET: HomeController1/Create
         public ActionResult Create(int id, int blogId, int tagid)
         {
+            TempData["PostMessage"] = null;
             var tag = _tagService.GetTags();
             var user = _userManager.GetUserAsync(User).Result;
 
@@ -85,6 +86,7 @@ namespace BlogProjectGrA.Controllers
             _postService.CreatePost(post);
             var user = _userManager.GetUserAsync(User).Result;
             ViewBag.BlogId = new SelectList(user.Blogs, "Id", "Title");
+            TempData["PostMessage"] = "Your Post has been made.";
             //return RedirectToAction(nameof(Index));
             return RedirectToAction("Details", "BrowseBlog", new {id=blog.Id}); //TODO Redirect to the blog where you make the post
         }
@@ -92,6 +94,7 @@ namespace BlogProjectGrA.Controllers
         // GET: HomeController1/Edit/5
         public ActionResult Edit(int id)
         {
+            TempData["EditPostMessage"] = null;
             var post = _postService.GetPost(id);
            
             if (post == null)
@@ -129,13 +132,15 @@ namespace BlogProjectGrA.Controllers
             existingPost.Tags = tags.ToList();
 
             _postService.UpdatePost(existingPost);
-            return RedirectToAction("Posts","Blog", new { id = existingPost.Blog.Id });
+            TempData["EditPostMessage"] = "Your Post has been updated.";
+            return RedirectToAction("Details","Post", new { id = existingPost.Blog.Id });
             //return RedirectToAction("Posts", "Blog", blog.Posts);
         }
 
         // GET: HomeController1/Delete/5
         public ActionResult Delete(int id, int? page)
         {
+            TempData["DeletePostMessage"] = null;
             var post = _postService.GetPost(id);
             if (post == null)
             {
@@ -158,9 +163,10 @@ namespace BlogProjectGrA.Controllers
         // POST: HomeController1/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, IFormCollection collection, Post post)
         {
             _postService.DeletePost(id);
+            TempData["DeletePostMessage"] = "Your Post has been deleted.";
             return RedirectToAction("Index", "Blog");
             //return RedirectToAction(nameof(Index));
         }

@@ -13,6 +13,18 @@
     @TempData["SuccessMessage"]
    </div> 
 }
+@if (TempData["DeleteBlogMessage"] != null)
+{
+   <div class="alert alert-warning" role="alert">
+    @TempData["DeleteBlogMessage"]
+   </div> 
+}
+@if (TempData["DeletePostMessage"] != null)
+{
+   <div class="alert alert-warning" role="alert">
+    @TempData["DeletePostMessage"]
+   </div> 
+}
 <h1>My Blogs</h1>
 <hr />
 <p>
@@ -20,7 +32,7 @@
 </p>
 
 
-
+<div class="table-responsive">
 <table class="table rounded border border-dark" style="background-color:white">
     <thead class="table" style="background-color:whitesmoke">
         <tr>
@@ -34,7 +46,7 @@
                 My Posts
             </th>
             <th>
-                Tags
+                Post Tags
             </th>
             <th>
                 Date
@@ -55,7 +67,7 @@
         }
     </tbody>
 </table>
-
+</div>
 @Html.PagedListPager((IPagedList) Model, page => Url.Action("Index", new{ page = page,
 searchfor = @Context.Request.Query["searchfor"], searchby = @Context.Request.Query["searchfor"]}),
 new X.PagedList.Web.Common.PagedListRenderOptions{

@@ -39,15 +39,8 @@
 
                             <a class="nav-link text-light" asp-area="" asp-controller="BrowseBlog" asp-action="Index">Browse Blogs</a>
                         </li>
-                        
-                        
                         @if (SignInManager.IsSignedIn(User))
                         {
-                        <li class="nav-item">
-
-                            <span class="nav-link text-light">|</span>
-
-                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-controller="Blog" asp-action="Index">My Blogs</a> @*Need to make a view for "MyBlog"*@
                         </li>

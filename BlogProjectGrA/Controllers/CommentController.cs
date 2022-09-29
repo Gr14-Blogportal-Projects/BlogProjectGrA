@@ -53,8 +53,6 @@ namespace BlogProjectGrA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(int id ,string commentBody)
         {
-            
-
             if (!string.IsNullOrEmpty(commentBody))
             {
             var comment = new Comment();
@@ -75,6 +73,7 @@ namespace BlogProjectGrA.Controllers
         // GET: CommentController/Edit/5
         public ActionResult Edit(int id,Comment comment)
         {
+            TempData["commentEditMessage"] = null;
             var comId = _commentService.GetComment(id);
             if (comId == null)
             {
@@ -98,10 +97,9 @@ namespace BlogProjectGrA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Comment comment)
         {
-            
             _commentService.UpdateComment(comment);
             //var commentUpdated = _commentService.UpdateComment(comment);
-            TempData["commentMessage"] = "Your comment has been edited.";
+            TempData["commentEditMessage"] = "Your comment has been edited.";
             return RedirectToAction("Details", "Post", new { id=comment.PostsId });
 
         }
@@ -109,6 +107,7 @@ namespace BlogProjectGrA.Controllers
         // GET: CommentController/Delete/5
         public ActionResult Delete(int id)
         {
+            TempData["commentDeleteMessage"] = null;
             var comment = _commentService.GetComment(id);
             if (comment == null)
             {
@@ -133,7 +132,7 @@ namespace BlogProjectGrA.Controllers
         public ActionResult Delete(int id, Comment comment)
         {
              _commentService.DeleteComment(comment);
-            TempData["commentMessage"] = " Your comment has been deleted";
+            TempData["commentDeleteMessage"] = " Your comment has been deleted.";
             return RedirectToAction("Details", "Post", new { id = comment.PostsId });
         }
     }
