@@ -69,7 +69,7 @@
 
     </thead>
     <tbody style="background-color:whitesmoke">
-        @foreach(var item in Model.Take(5))
+        @foreach(var item in Model.OrderByDescending(p => p.Posts.Sum(v => v.View)).Take(5))
         { 
             <partial name="_BrowseBlogHomePartial" model="item"></partial>
         }
@@ -79,7 +79,7 @@
     <h3 class="text-white">5 Latest posts</h3>
     <div style="background-color:whitesmoke">
         
-    @foreach(var item in Model.SelectMany(p => p.Posts.OrderByDescending(c => c.CreateAt)).Take(5))
+    @foreach(var item in Model.SelectMany(p => p.Posts).OrderByDescending(c => c.CreateAt).Take(5))
             {
                 <partial name="_PostPartial" model="item" ></partial>
             }

@@ -33,19 +33,17 @@
    </div> 
 }
 <br />
-<h1 class="" style="text-align:center"><b>@Model.Blog.Title</b></h1>
-
-@*<h3>
-    <a asp-controller="Post" asp-action="Create">Create a post</a>
-    </h3>*@
+<h1 style="text-align:center"><b>@Model.Blog.Title</b></h1>
 
 <div>
     <hr />
     <div >
-        <div class="col-md-12" >
+        <div class="col-md-12">
             @if (!string.IsNullOrEmpty(Model.Blog.ImageUrl))
             {
-                <img class="img-fluid" style="height:300px;width:1200px;" src="~/@Model.Blog.ImageUrl" />
+                <div style="background-color:white"> 
+                <img class="img-fluid" style="height:300px;width:1200px;object-fit:scale-down;object-position:center" src="~/@Model.Blog.ImageUrl" />
+                </div>
             }
         </div>
         <br />
