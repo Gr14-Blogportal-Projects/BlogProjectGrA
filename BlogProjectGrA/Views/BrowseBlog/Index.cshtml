@@ -11,6 +11,19 @@
     ViewData["Title"] = "Browse Blogs";
 }
 
+<div class="container mt-3">
+
+
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item"><a asp-area="" asp-controller="BrowseBlog" asp-action="Index">All blogs</a></li>
+       
+
+        <li class="breadcrumb-item"><a>Page</a></li>
+
+    </ul>
+</div>
+
 <h1>Browse Blogs</h1>
 <hr />
 @if (SignInManager.IsSignedIn(User))
