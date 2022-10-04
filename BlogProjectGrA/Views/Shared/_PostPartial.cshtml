@@ -5,7 +5,8 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
-
+@if (Model.Blog != null)
+{
 <div class="table-responsive">
 <div class="card">
   <div class="card-header">
@@ -81,7 +82,7 @@
 }
 <hr />
 <br />
-
+}
 <script> C:\Users\brij_\Source\Repos\BlogProjectGrA\BlogProjectGrA\wwwroot\js\site.js</script>
 
 @*asp-action="Create" asp-controller="Comment" asp-route-id="@Model.Id"*@
