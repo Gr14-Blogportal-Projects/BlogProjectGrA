@@ -37,6 +37,10 @@ namespace BlogProjectGrA.Controllers
         // GET: BlogController
         public ActionResult Index( int? page)
         {
+            TempData["SuccessMessage"] = null;
+            TempData["PostMessage"] = null;
+            TempData["EditBlogMessage"] = null;
+            TempData["DeleteBlogMessage"] = null;
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var blog = _blogService.GetBlogsByUser(userId).OrderByDescending(d => d.CreatedAt).ToPagedList(page ?? 1, 3);
             
@@ -101,7 +105,7 @@ namespace BlogProjectGrA.Controllers
         //
         public ActionResult Edit(int id)
         {
-            
+            TempData["EditBlogMessage"] = null;
             var gblog = _blogService.GetBlog(id);
             if (gblog == null)
             {
@@ -145,7 +149,7 @@ namespace BlogProjectGrA.Controllers
                 }
                 vm.Blog.ImageUrl = "Images/" + fileName;
             }
-            
+            TempData["EditBlogMessage"] = "Blog has been updated.";
             _blogService.UpdateBlog(vm.Blog);
             return RedirectToAction("Details", "BrowseBlog", new { id=vm.Blog.Id });
         }
@@ -153,6 +157,7 @@ namespace BlogProjectGrA.Controllers
         // GET: BlogController/Delete/5
         public ActionResult Delete(int id)
         {
+            TempData["DeleteBlogMessage"] = null;
             var blog = _blogService.GetBlog(id);
             if (blog == null)
             {
@@ -160,9 +165,7 @@ namespace BlogProjectGrA.Controllers
             }
             if (_userManager.GetUserId(User) == blog.Author.Id)
             {
-                var vm = new CreateBlogVM();
-                vm.Blog = blog;
-                return View(vm);
+                return View(blog);
             }   
             else
             {
@@ -173,28 +176,11 @@ namespace BlogProjectGrA.Controllers
         // POST: BlogController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-
-        public ActionResult Delete(int id, Blog blog, CreateBlogVM vm)
+        public ActionResult Delete(int id, Blog blog)
         {
-            if (vm.File != null)
-            {
-                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images");
-                //    //create folder if not exist
-                if (!Directory.Exists(path))
-                    Directory.CreateDirectory(path);
-                string fileName = Guid.NewGuid().ToString() + "_" + vm.File.FileName;
-                string fileNameWithPath = Path.Combine(path, fileName);
-
-                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
-                {
-                    vm.File.CopyTo(stream);
-
-                }
-                vm.Blog.ImageUrl = "Images/" + fileName;
-            }
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            _blogService.DeleteBlog(vm.Blog);
-            
+            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); 
+            _blogService.DeleteBlog(id);
+            TempData["DeleteBlogMessage"] = "Blog has been deleted.";
             return RedirectToAction(nameof(Index));
         }
 

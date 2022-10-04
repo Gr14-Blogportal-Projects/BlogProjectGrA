@@ -1,5 +1,9 @@
 ﻿@model BlogProjectGrA.Models.Tag
 
 
-<a href="/BrowseBlog/Tags?tagId=@Model.Id" style="text-decoration:none; color:#ffffff;" class="badge bg-success">@Model.NormalizedName</a>
+<a href="/BrowseBlog/Tags?tagId=@Model.Id" style="text-decoration:none; color:#ffffff;" class="badge bg-success" 
+data-bs-toggle="tooltip" data-bs-placement="bottom" title="Post containing this Tag">@Model.NormalizedName</a>
+
+
+
 

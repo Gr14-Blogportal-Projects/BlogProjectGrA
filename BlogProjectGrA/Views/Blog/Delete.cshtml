@@ -1,36 +1,39 @@
-﻿@*@model BlogProjectGrA.Models.Blog*@
-@model BlogProjectGrA.Models.ViewModels.CreateBlogVM
+﻿@model BlogProjectGrA.Models.Blog
+@*@model BlogProjectGrA.Models.ViewModels.CreateBlogVM*@
 @{
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete: @Model Blog.Title</h1>
+<h1>Delete: @Model.Title</h1>
 
 <div>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Blog.Title)
+            @Html.DisplayNameFor(model => model.Title)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Blog.Title)
+            @Html.DisplayFor(model => model.Title)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Blog.Body)
+            @Html.DisplayNameFor(model => model.Body)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Blog.Body)
+            @Html.DisplayFor(model => model.Body)
         </dd>
+        <dt class = "col-sm-2">
+            Image
+        </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Blog.ImageUrl)
+            @Html.DisplayFor(model => model.ImageUrl)
         </dd>
     </dl>
     <br />
     <h3>Are you sure you want to delete this blog?</h3>
     &ensp;
     <form asp-action="Delete">
-        <input type="hidden" asp-for="Blog.Id" />
+        <input type="hidden" asp-for="@Model.Id" />
         <input type="submit" value="Delete" class="btn btn-outline-danger" /> &ensp;
-        <a class="btn btn-outline-primary" asp-controller="BrowseBlog" asp-action="Details" asp-route-id="@Model.Blog.Id">Back to Blog</a>
+        <a class="btn btn-outline-primary" asp-controller="BrowseBlog" asp-action="Details" asp-route-id="@Model.Id">Back to Blog</a>
     </form>
 </div>

@@ -39,9 +39,9 @@
     <a class="btn btn-outline-primary" asp-action="Tags">Browse posts by tags</a>
 </p>
 
-<table class="table table-striped ">
-    @*rounded border border-dark*@
-    <thead class="table" style="background-color:whitesmoke">
+<div class="table-responsive">
+<table class="table table-hover">
+    <thead class="table" style="background-color:whitesmoke;">
         <tr>
             <th>
                 Views
@@ -56,7 +56,7 @@
             </th>   
             }
             <th>
-                Tags
+                Post Tags
             </th>
             <th>
                 Date
@@ -72,17 +72,18 @@
     <tbody>
         @foreach(var item in Model)
         {
-            
             <partial name="_BrowseBlogPartial" model="item"></partial>
         }
     </tbody>
 </table>
+</div>
 @Html.PagedListPager((IPagedList) Model, page => Url.Action("Index", new{ page = page,
 searchfor = @Context.Request.Query["searchfor"], searchby = @Context.Request.Query["searchfor"]}),
 new X.PagedList.Web.Common.PagedListRenderOptions{
  LiElementClasses= new string[]{"page-item"},
  PageClasses = new string[]{"page-link"}
 })
+
 
 
 
