@@ -1,11 +1,10 @@
-using System;
 using Azure.Storage.Queues;
+using BlogTriggers.Models;
 using BlogTriggers.Services;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using BlogTriggers.Models;
 
 namespace BlogTriggers
 {
@@ -20,8 +19,9 @@ namespace BlogTriggers
         }
 
         [Function("TimeTriggerEmail")]
-        public void Run([TimerTrigger("0 0 9 * * *")] MyInfo myTimer)
+        public void Run([TimerTrigger("0 0 7 * * *",  RunOnStartup = false)] MyInfo myTimer)
         {
+            _logger.LogInformation($"Started timer execution at {DateTime.Now}");
             var commentGrouping = _postCommentService.GetPostsWithRecentComments().GroupBy(pc => pc.User);
             var configuration = new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
@@ -58,8 +58,8 @@ namespace BlogTriggers
 
             _logger.LogInformation($"Total groups: {commentGrouping.Count()}");
 
-            //_logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
-            //_logger.LogInformation($"Next timer schedule at: {myTimer.ScheduleStatus.Next}");
+            _logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
+            _logger.LogInformation($"Next timer schedule at: {myTimer.ScheduleStatus.Next}");
         }
     }
 

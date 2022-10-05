@@ -8,6 +8,23 @@
     ViewData["Title"] = "Browse posts by views";
 }
 
+<div class="container mt-3">
+
+
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item"><a asp-area="" asp-controller="BrowseBlog" asp-action="Index">All Blogs</a></li>
+       @* @if (SignInManager.IsSignedIn(User))
+        {
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="Blog" asp-action="Index">My blogs</a></li>
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="Blog" asp-action="Index">My posts</a></li>
+        }*@
+       
+        <li class="breadcrumb-item"><a>Views</a></li>
+
+    </ul>
+</div>
+
 <h1>Browse posts by views</h1>
 <hr />
 

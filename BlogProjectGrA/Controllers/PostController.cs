@@ -35,8 +35,8 @@ namespace BlogProjectGrA.Controllers
         // GET: HomeController1
         public ActionResult Index(int? page)
         {
-            var posts = _postService.GetPosts().ToPagedList(page ?? 1, 3);
-            return View(posts);
+            //var posts = _postService.GetPosts().ToPagedList(page ?? 1, 3);
+            return RedirectToAction("Posts","Blog");
             
         }
         [AllowAnonymous]

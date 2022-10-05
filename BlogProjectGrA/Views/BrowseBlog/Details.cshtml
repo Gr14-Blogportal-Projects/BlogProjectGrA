@@ -11,9 +11,9 @@
     
     <ul class="breadcrumb">
         <li class="breadcrumb-item"><a asp-area=""  asp-controller="Home"  asp-action="Index">Home</a></li>
-        <li class="breadcrumb-item"><a asp-area="" asp-controller="BrowseBlog" asp-action="Index">All blogs</a></li>
-        <li class="breadcrumb-item"><a  asp-area="" asp-controller="BrowseBlog" asp-action="Details">Details of Blog</a></li>
-        <li class="breadcrumb-item"><a >Page</a></li>
+        <li class="breadcrumb-item"><a asp-area="" asp-controller="BrowseBlog" asp-action="Index">All Blogs</a></li>
+        
+        <li class="breadcrumb-item"><a >Details</a></li>
         
     </ul>
 </div>
@@ -54,7 +54,7 @@
             @if (!string.IsNullOrEmpty(Model.Blog.ImageUrl))
             {
              <div style="background-color:white"> 
-                <img class="img-fluid" style="height:300px;width:1200px;object-fit:scale-down;object-position:center" src="~/@Model.Blog.ImageUrl" />
+                <img class="img-fluid" style="height:300px;width:100%;object-fit:scale-down;object-position:center" src="~/@Model.Blog.ImageUrl" />
                 </div>
             }
         </div>
