@@ -5,26 +5,17 @@
 @inject UserManager<User> UserManager
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - BlogProjectGrA</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link href="~/css/site.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="~/BlogProjectGrA.styles.css" asp-append-version="true" />
-</head>
-<body style="background-color:ghostwhite">
-    <div class="container-fluid">
-    <header class="heading">
 
-       <main class="mains">
+
+<div style="background-color:ghostwhite">
+    <div class="container-fluid">
+    <header class="heading img-fluid">
+
+    <main class="mains">
         <section class="sections">
             <h3>Welcome To Blogging Website</h3>
             <h1>Create Your Own Blog</h1>
+            <br />
                     @if (SignInManager.IsSignedIn(User))
                     {
                         <a class="btnone" asp-controller="Blog" asp-action="Create">Create a Blog</a>
@@ -70,8 +61,9 @@
     
 
     <br />
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-</body>
-</html>
+    
+
+   
+
+</div>
+

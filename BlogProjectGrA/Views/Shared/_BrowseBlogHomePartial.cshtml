@@ -15,7 +15,7 @@
         @if (!string.IsNullOrEmpty(Model.ImageUrl))
         {
             <a asp-action="Details" asp-controller="BrowseBlog" asp-route-id="@Model.Id">
-                <img class="card-img-top;rounded mx-auto d-block" style="height:300px;width:700px" src="~/@Model.ImageUrl">
+                <img class="img-fluid card  mx-auto d-block" style="height:300px;width:auto;object-fit:scale-down;object-position:center;" src="~/@Model.ImageUrl">
             </a>
         }
        
