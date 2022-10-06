@@ -22,11 +22,11 @@ namespace BlogProjectGrA.Data.Migrations
                 oldType: "int",
                 oldNullable: true);
 
-            migrationBuilder.AddColumn<string>(
-                name: "ImageUrl",
-                table: "Blogs",
-                type: "nvarchar(max)",
-                nullable: true);
+            //migrationBuilder.AddColumn<string>(
+            //    name: "ImageUrl",
+            //    table: "Blogs",
+            //    type: "nvarchar(max)",
+            //    nullable: true);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Comments_Posts_PostsId",

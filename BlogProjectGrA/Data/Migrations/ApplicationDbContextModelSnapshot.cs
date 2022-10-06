@@ -51,7 +51,7 @@ namespace BlogProjectGrA.Data.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Blogs");
+                    b.ToTable("Blogs", (string)null);
                 });
 
             modelBuilder.Entity("BlogProjectGrA.Models.Comment", b =>
@@ -85,7 +85,7 @@ namespace BlogProjectGrA.Data.Migrations
 
                     b.HasIndex("PostsId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("BlogProjectGrA.Models.Post", b =>
@@ -127,7 +127,7 @@ namespace BlogProjectGrA.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("BlogProjectGrA.Models.Tag", b =>
@@ -155,7 +155,7 @@ namespace BlogProjectGrA.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("BlogProjectGrA.Models.User", b =>
@@ -382,7 +382,7 @@ namespace BlogProjectGrA.Data.Migrations
 
                     b.HasIndex("TagsId");
 
-                    b.ToTable("PostTag");
+                    b.ToTable("PostTag", (string)null);
                 });
 
             modelBuilder.Entity("BlogProjectGrA.Models.Blog", b =>
