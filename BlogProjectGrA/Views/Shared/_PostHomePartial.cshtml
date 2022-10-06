@@ -33,13 +33,22 @@
     <div class="card-body">
 
         <blockquote class="blockquote mb-0">
-            <p>@Model.Body</p>
-            &ensp;
+            <div>
+            @if (Model.Body.Length <= 50)
+                {
+                    <span>@Model.Body</span>
+                }
+                else
+                {
+                    <span>@Model.Body.Substring(0, 150)...</span>
+                }
+                </div>
+                <br />
             <footer class="blockquote-footer">Blogger <cite title="Authors name">@Model.Blog.Author.FirstName @Model.Blog.Author.LastName</cite></footer> @*???*@
         </blockquote>
     </div>
 </div>
-<div class="card-header;col-md-6; badge badge-primary;" style="font-size:18px;background-color:whitesmoke;">
+<div class="card-header;col-md-6; badge badge-primary;" style="font-size:18px;">
     <span style="color:black;">Tags: </span>
     @foreach (var tag in Model.Tags)
     {
