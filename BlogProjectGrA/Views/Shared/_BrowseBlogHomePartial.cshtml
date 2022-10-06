@@ -30,7 +30,7 @@
         <a asp-action="Details" asp-controller="BrowseBlog" asp-route-id="@Model.Id" style="text-decoration: none; color:black;">
         <h5 class="card-title">&ensp;@Model.Title</h5>
             <p class="card-text">
-                @if (Model.Body.Length >= 50)
+                @if (Model.Body.Length >= 150)
                 {
                     <i>@Model.Body.Substring(0, 150)...</i>
                 }
