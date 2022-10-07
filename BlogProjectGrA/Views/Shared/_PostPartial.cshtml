@@ -39,9 +39,12 @@ var ImagesList = Model.Images.ToList();
       </div>
       <div>
           <div class="col-12">
-              <br />
-              <br />
-    <div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-bs-ride="carousel">
+          
+          @if(ImagesList.Count != 0)
+          {
+          <br />  
+          <br />
+        <div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-bs-ride="carousel">
         <div class="carousel-inner">
           @for (int i = 0; i < ImagesList.Count; i++)
           {
@@ -65,7 +68,7 @@ var ImagesList = Model.Images.ToList();
     <span class="visually-hidden">Next</span>
   </button>
 </div>
-
+}
 </div>
              <blockquote class="blockquote mb-0">
             <div>
