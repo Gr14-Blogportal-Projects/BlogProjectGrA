@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Net.Http;
 
 namespace BlogProjectGrA.Controllers
 {
@@ -20,7 +21,7 @@ namespace BlogProjectGrA.Controllers
         private readonly UserManager<User> _userManager;
         private readonly ICommentService _commentService;
         private readonly SignInManager<User> _signInManager;
-
+       
         public PostController(UserManager<User> userManager, IPostService postService, ITagService tagService, IBlogService blogService, ICommentService commentService, SignInManager<User> signInManager)
         {
             _userManager = userManager;
@@ -48,7 +49,7 @@ namespace BlogProjectGrA.Controllers
         }
 
         // GET: HomeController1/Create
-        public ActionResult Create(int id, int blogId, int tagid)
+        public ActionResult Create(int blogId)
         {
             TempData["PostMessage"] = null;
             var tag = _tagService.GetTags();
@@ -59,36 +60,71 @@ namespace BlogProjectGrA.Controllers
                 TempData["Message"] = "You need to create blog";
                 return RedirectToAction("Create", "Blog");
             }
-            var blog = _blogService.GetBlog(blogId);
+            var blog = user.Blogs.FirstOrDefault(b => b.Id == blogId);
+            if (blog == null)
+            {
+                return NotFound();
+            }
+            
             ViewData["selectedBlogId"] = blogId;
             //ViewBag.BlogId = new SelectList(user.Blogs, "Id", "Title" );
             ViewBag.TagId = new SelectList(tag.Select(t => t.Name), "Tags" ); //new from 30/aug
-            var post = new Post();
-            post.Blog = blog;
-
+            var post = new CreatePostVM
+            {
+                Post = new()
+                {
+                    Blog = blog,
+                }
+            };
             return View(post);
         }
 
         // POST: HomeController1/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Post post, int blogId, string tagListString)
+        public ActionResult Create(CreatePostVM vm, int blogId, string tagListString)
         {
             var tagList = tagListString.Split(',');
 
             var tags = _tagService.GetOrCreateTags(tagList);
             ViewData["selectedBlogId"] = blogId;
             var blog = _blogService.GetBlog(blogId);
-            post.Blog = blog;
+            vm.Post.Blog = blog;
 
-            post.Tags = tags.ToList();
+            vm.Post.Tags = tags.ToList();
 
-            _postService.CreatePost(post);
-            var user = _userManager.GetUserAsync(User).Result;
-            ViewBag.BlogId = new SelectList(user.Blogs, "Id", "Title");
+            var createdPost = _postService.CreatePost(vm.Post);
             TempData["PostMessage"] = "Your Post has been made.";
-            //return RedirectToAction(nameof(Index));
-            return RedirectToAction("Details", "BrowseBlog", new {id=blog.Id}); //TODO Redirect to the blog where you make the post
+
+            if (vm.Files != null)
+            {
+                var databaseFiles = new List<PostImage>();
+                foreach (var file in vm.Files)
+                {
+                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Posts");
+                    // create folder if not exist
+                    if (!Directory.Exists(path))
+                        Directory.CreateDirectory(path);
+                    string fileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+
+                    string fileNameWithPath = Path.Combine(path, fileName);
+
+                    using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                    databaseFiles.Add(new()
+                    {
+                        Url = "Images/Posts/" + fileName,
+                        Post = createdPost
+                    });
+                }
+                _postService.CreateImages(databaseFiles);
+            }
+            return RedirectToAction("Details", "BrowseBlog", new { id = blog.Id }); //TODO Redirect to the blog where you make the post
+
+
+
         }
 
         // GET: HomeController1/Edit/5

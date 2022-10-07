@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using X.PagedList;
 using X.PagedList.Mvc.Core;
+using JetBrains.Annotations;
 
 namespace BlogProjectGrA.Controllers
 {
@@ -203,6 +204,7 @@ namespace BlogProjectGrA.Controllers
                 
             //}
             return View(blog);
+           
         }
     }
 }

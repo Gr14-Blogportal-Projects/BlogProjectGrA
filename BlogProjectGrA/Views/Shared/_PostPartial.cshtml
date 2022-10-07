@@ -37,6 +37,11 @@
       <div>
           <div class="col-10">
               <br />
+                       @* @if (Model.Images != null)*@
+                        
+                          <partial name="_CarouselPartial"></partial>
+                        
+              
               <br />
                 <blockquote class="blockquote">
                      Blogger: <cite title="Authors name">@Model.Blog.Author.FirstName @Model.Blog.Author.LastName</cite>

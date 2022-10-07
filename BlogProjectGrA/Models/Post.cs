@@ -22,16 +22,13 @@ namespace BlogProjectGrA.Models
         public int View { get; set; }
 
         public virtual Blog Blog { get; set; }
-       // public string ImageUrl { get; set; }
-
-
-       // public virtual CreatePostVM CreatePostVM { get; set; }
 
         public virtual ICollection<Tag> Tags { get; set; }
         
         public virtual ICollection<Comment> Comments { get; set; }
 
-        //public virtual ICollection<ImagesVM> Images { get; set; }
+        public virtual ICollection<PostImage>  Images { get; set; }
+
         public string GetTagsString()
         {
             var tagNames = Tags.Select(p => p.Name).ToList();

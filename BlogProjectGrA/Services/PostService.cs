@@ -96,5 +96,11 @@ namespace BlogProjectGrA.Services
             _db.SaveChanges();
             return post;
         }
+
+        public void CreateImages(List<PostImage> databaseFiles)
+        {
+            _db.AddRange(databaseFiles);
+            _db.SaveChanges();
+        }
     }
 }

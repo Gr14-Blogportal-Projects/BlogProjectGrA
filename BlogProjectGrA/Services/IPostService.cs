@@ -20,5 +20,6 @@ namespace BlogProjectGrA.Services
         string GetTagsString(IEnumerable<Tag> tags);
 
         Post RemovePostTags(Post post);
+        void CreateImages(List<PostImage> databaseFiles);
     }
 }

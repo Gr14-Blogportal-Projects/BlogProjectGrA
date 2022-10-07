@@ -116,9 +116,10 @@
     <div class="col-md-8">
         @if (Model.Blog.Posts.Count > 0)
         {
-            @foreach (var item in Model.Posts)
+            @foreach (var item in Model.Posts.OrderByDescending(p=>p.CreateAt))
             {
-                <partial name="_PostPartial" model="item"></partial>
+
+               <partial name="_PostPartial" model="item"></partial>
             }
         }
         else
