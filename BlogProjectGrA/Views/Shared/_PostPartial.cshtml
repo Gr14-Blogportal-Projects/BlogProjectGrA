@@ -110,14 +110,6 @@ var ImagesList = Model.Images.ToList();
   </div>
 
 <br />
-@if (SignInManager.IsSignedIn(User) && Model.Blog.Author.Email == User.Identity.Name) @*???*@
-{
-    <span>&nbsp;</span> 
-@*    <dd>
-*@        <a class="btn btn-outline-primary" asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Id">Edit Post</a> 
-        <a class="btn btn-outline-danger" asp-controller="Post" asp-action="Delete" asp-route-id="@Model.Id">Delete Post</a> 
-@*        </dd>
-*@        }
 
 @if (SignInManager.IsSignedIn(User))
 {
