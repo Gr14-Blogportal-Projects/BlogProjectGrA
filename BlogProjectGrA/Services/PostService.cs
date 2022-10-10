@@ -25,13 +25,15 @@ namespace BlogProjectGrA.Services
         public void DeletePost(int id)
         {
             var post = GetPost(id);
+            _db.RemoveRange(post.Images);
             _db.Remove(post);
             _db.SaveChanges();
         }
         public Post UpdatePost(Post post)
         {
             post.UpdateAt = DateTime.Now;
-            _db.Update(post);
+            _db.UpdateRange(post.Images);
+            _db.Update(post);   
             _db.SaveChanges();
             return post;
         }

@@ -25,8 +25,14 @@
         <dt class = "col-sm-2">
             Views
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.View)
+        </dd>
+        <dt class = "col-sm-2">
+          Images :
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Images.Count)
         </dd>
     </dl>
     <br />

@@ -1,30 +1,32 @@
-﻿@model BlogProjectGrA.Models.Post
+﻿@*@model BlogProjectGrA.Models.Post*@
+@model BlogProjectGrA.Models.ViewModels.CreatePostVM
 
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit: @Model.Title</h1>
+<h1>Edit: @Model.Post.Title</h1>
 
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" name="blogId" value="@Model.Blog.Id"/>
-            <input type="hidden" asp-for="View" class="form-control" />
-            <input type="hidden" asp-for="CreateAt" class="form-control" />
-            <input type="hidden" asp-for="Tags" class="form-control" />
+            <input type="hidden" asp-for="Post.Id" />
+            <input type="hidden" name="blogId" value="@Model.Post.Blog.Id"/>
+            <input type="hidden" asp-for="Post.View" class="form-control" />
+            <input type="hidden" asp-for="Post.CreateAt" class="form-control" />
+            <input type="hidden" asp-for="Post.Tags" class="form-control" />
             <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+                <label asp-for="Post.Title" class="control-label"></label>
+                <input asp-for="Post.Title" class="form-control" />
+                <span asp-validation-for="Post.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Body" class="control-label"></label>
-                <textarea asp-for="Body" class="form-control"></textarea>
-                <span asp-validation-for="Body" class="text-danger"></span>
+                <label asp-for="Post.Body" class="control-label"></label>
+                <textarea asp-for="Post.Body" class="form-control"></textarea>
+                <span asp-validation-for="Post.Body" class="text-danger"></span>
             </div>
             @*<div class="form-group">
                 <label asp-for="CreateAt" class="control-label"></label>
@@ -42,11 +44,26 @@
                 <span asp-validation-for="View" class="text-danger"></span>
             </div>*@
             <div class="form-group">
-                <label asp-for="Tags" class="control-label"></label>
+                <label asp-for="Post.Tags" class="control-label"></label>
                 @*<select name="tagId" id="tagId" class="form-control"asp-items="@ViewBag.TagId"></select>*@
-                <input name="tagsString" class="form-control" value="@Model.GetTagsString()" />
+                <input name="tagsString" class="form-control" value="@Model.Post.GetTagsString()" />
                 </div>
             &ensp;
+            <div class="form-group" onchange="setFileName()">
+                <div>
+                    @*<input accept="image/*" asp-for="Files" hidden multiple />
+                    <input class="form-control" disabled asp-for="FileName" />*@
+                    <label asp-for="Files" class="form-label"></label>
+                    <input class="form-control" accept="image/*" asp-for="Files"  multiple >
+                    <span class="form-text">(Recommend 1200 x 300)</span>
+                </div>
+                @* &ensp;
+                <button type="button" class="btn" style="background-color:purple;color:white;" onClick="clickFileInput()">Select File</button>
+                <span asp-validation-for="FileName" class="text-danger"></span>
+                <label>(Recommend 1200 x 300)</label>*@
+
+
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -55,7 +72,7 @@
 </div>
 <span>&ensp;</span>
 <div>
-    <a class="btn btn-outline-primary" asp-controller="Post" asp-action="Details" asp-route-id="@Model.Id">Back to Post</a>
+    <a class="btn btn-outline-primary" asp-controller="Post" asp-action="Details" asp-route-id="@Model.Post.Id">Back to Post</a>
 </div>
 
 @section Scripts {

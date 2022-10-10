@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Net.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace BlogProjectGrA.Controllers
 {
@@ -131,6 +132,7 @@ namespace BlogProjectGrA.Controllers
         public ActionResult Edit(int id)
         {
             TempData["EditPostMessage"] = null;
+            
             var post = _postService.GetPost(id);
            
             if (post == null)
@@ -139,42 +141,92 @@ namespace BlogProjectGrA.Controllers
             }
             if (_userManager.GetUserId(User) == post.Blog.Author.Id)
             {
-               
-                return View(post);
-            }
-            
 
+                var vm = new CreatePostVM();
+                
+                vm.Post = post;
+                if (vm.Files == null)
+                {
+                    vm.Post.Images = post.Images;
+                }
+                
+                return View(vm);
+            }
+                  
             else
             {
+                       
                 return NotFound("Denied access.");
-
+                    
             }
+                
+
+            
+
+
             
         }
 
         // POST: HomeController1/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Post post, string tagsString)
+        public ActionResult Edit(CreatePostVM vm, int id, Post post, string tagsString,PostImage postImage)
         {
             var tagList = tagsString.Split(',');
             var tags = _tagService.GetOrCreateTags(tagList);
-
-            var existingPost = _postService.GetPost(id);
+           
+            var existingPost = _postService.GetPost(vm.Post.Id);
+            
+            //var updatePost = _postService.UpdatePost(post);
             existingPost = _postService.RemovePostTags(existingPost);
 
+            // existingPost.Images= post.Images.ToList();
+           // existingPost = vm.Post;
             existingPost.Title = post.Title;
             existingPost.Body = post.Body;
             existingPost.Tags = tags.ToList();
 
+            if (vm.Files != null)
+            {
+                
+               // existingPost.Images = postImage.Url;
+                var databaseFiles = new List<PostImage>();
+                foreach (var file in vm.Files)
+                {
+
+                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Posts");
+                    // create folder if not exist
+                    if (!Directory.Exists(path))
+                        Directory.CreateDirectory(path);
+                    string fileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+
+                    string fileNameWithPath = Path.Combine(path, fileName);
+
+                    using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                    databaseFiles.Add(new()
+                    {
+                        Url = "Images/Posts/" + fileName,
+                        Post = vm.Post
+                    });
+                }
+                
+            }
+           
+
+
             _postService.UpdatePost(existingPost);
+           
+            
             TempData["EditPostMessage"] = "Your Post has been updated.";
-            return RedirectToAction("Details","Post", new { id = existingPost.Blog.Id });
+            return RedirectToAction("Details","Post", new { id = existingPost.Id });
             //return RedirectToAction("Posts", "Blog", blog.Posts);
         }
 
         // GET: HomeController1/Delete/5
-        public ActionResult Delete(int id, int? page)
+        public ActionResult Delete(int id)
         {
             TempData["DeletePostMessage"] = null;
             var post = _postService.GetPost(id);
