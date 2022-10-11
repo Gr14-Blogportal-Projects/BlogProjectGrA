@@ -2,7 +2,6 @@
 using BlogProjectGrA.Models;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace BlogProjectGrA.Services
 {
    
