@@ -21,9 +21,23 @@ namespace BlogProjectGrA.Services
         {
             var blog = GetBlog(id);
             _db.Remove(blog);
+            _db.RemoveRange(blog.Posts);
             _db.SaveChanges();
+            DeleteImageFile(blog);
         }
+        
+        public void DeleteImageFile(Blog blog)
+        {
+            try
+            {
+                var deleteURL = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", blog.ImageUrl);
+                File.Delete(deleteURL);
+            }
+            catch
+            {
 
+            }
+        }
         public Blog GetBlog(int id)
         {
             var blog = _db.Blogs.Find(id);

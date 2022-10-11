@@ -27,12 +27,5 @@ namespace BlogProjectGrA.Models
 
         //public virtual ICollection<ImagesVM> Images { get; set; }
 
-        
-
-
-
-
-
-
     }
 }

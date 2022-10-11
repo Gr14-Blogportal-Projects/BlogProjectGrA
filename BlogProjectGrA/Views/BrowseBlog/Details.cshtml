@@ -58,36 +58,39 @@
                 </div>
             }
         </div>
+        </div>
         <br />
 
-        <div style="width:1200px;height:220px ;background-color:white;width:auto;height:auto">
+        <div class="row">
+        <div  class="col-md-8">
+        <div style="background-color:white;width:auto;height:auto">
             <div style="padding:12px;">
                 <dl class="row">
-                    <dt @*class="col-sm-4" style="width:120px*@;">
+                    <dt>
                         Blog Title
                     </dt>
-                    <dd @*class="col-sm-8" style="max-width:300px;*@">
+                    <dd>
                         @Model.Blog.Title
                     </dd>
 
-                    <dt @*class="col-sm-4" style="width:120px;*@">
+                    <dt>
                         Description
                     </dt>
-                    <dd @*class="col-sm-8" style="max-width:300px; overflow-wrap:break-word;*@">
+                    <dd>
                         @Model.Blog.Body
                     </dd>
 
-                    <dt class="col-sm-4" style="width:120px;">
+                    <dt class="col-sm-4">
                         Date
                     </dt>
-                    <dd class="col-sm-8" style="max-width:300px;">
+                    <dd class="col-sm-8">
                         @Model.Blog.CreatedAt
                     </dd>
 
-                    <dt class="col-sm-4" style="width:120px;">
+                    <dt class="col-sm-4">
                         Author
                     </dt>
-                    <dd class="col-sm-8" style="max-width:300px;">
+                    <dd class="col-sm-8">
                         @Model.Blog.Author.FirstName @Model.Blog.Author.LastName
                     </dd>
 
@@ -104,29 +107,9 @@
                 </dl>
             </div>
         </div>
-    </div>
-</div>
+        </div>
 
-
-<br />
-<br />
-<div class="row">
-    <hr />
-    <h3 style="text-align:center">Posts</h3>
-    <div class="col-md-8">
-        @if (Model.Blog.Posts.Count > 0)
-        {
-            @foreach (var item in Model.Posts)
-            {
-                <partial name="_PostPartial" model="item"></partial>
-            }
-        }
-        else
-        {
-            <h3>No posts have been made on this blog.</h3>
-        }
-    </div>
-    <div class="col-md-4">
+        <div class="col-md-4 mt-3 mt-md-0">
         <div class="list-group row">
             <a asp-action="Details" class=" list-group-item list-group-item-action" aria-current="true">Show all posts</a>
             @foreach (var item in Model.Dates)
@@ -135,9 +118,36 @@
 
                 <a asp-route-year="@item.Date.Year" asp-route-month="@item.Date.Month" class="@(isActive ? "active" : "") list-group-item list-group-item-action" aria-current="true">
 
-                    @item.Date.ToString("yyyy MMMM") @item.Count posts
+                    @item.Date.ToString("yyyy MMMM") (@item.Count posts)
                 </a>
             }
         </div>
     </div>
+
+  </div>
+</div>
+
+
+<br />
+<br />
+<div class="row">
+    <hr />
+    <h3 style="text-align:center">Posts</h3>
+    
+
+    <div class="col-md-12">
+        @if (Model.Blog.Posts.Count > 0)
+        {
+            @foreach (var item in Model.Posts.OrderByDescending(p=>p.CreateAt))
+            {
+
+               <partial name="_PostPartial" model="item"></partial>
+            }
+        }
+        else
+        {
+            <h3>No posts have been made on this blog.</h3>
+        }
+    </div>
+    
 </div>

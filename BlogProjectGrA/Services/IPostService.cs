@@ -10,6 +10,8 @@ namespace BlogProjectGrA.Services
         Post CreatePost(Post post);
         Post UpdatePost(Post post);
         void DeletePost(int id);
+        void DeleteImage(int id);
+        void DeleteImageFile(PostImage databaseFiles);
         Post GetPost(int id);
         Post IncrementViews(int id);
 
@@ -20,5 +22,6 @@ namespace BlogProjectGrA.Services
         string GetTagsString(IEnumerable<Tag> tags);
 
         Post RemovePostTags(Post post);
+        void CreateImages(List<PostImage> databaseFiles);
     }
 }
