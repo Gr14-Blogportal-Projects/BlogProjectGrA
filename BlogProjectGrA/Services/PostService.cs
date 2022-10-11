@@ -1,7 +1,6 @@
 ﻿using BlogProjectGrA.Data;
 using BlogProjectGrA.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Web.Mvc;
 
 namespace BlogProjectGrA.Services
 {
