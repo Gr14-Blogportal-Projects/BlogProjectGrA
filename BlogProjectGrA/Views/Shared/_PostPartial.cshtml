@@ -48,8 +48,11 @@ var ImagesList = Model.Images.ToList();
         <div class="carousel-inner">
           @for (int i = 0; i < ImagesList.Count; i++)
           {
+
                 <div class="@(i==0 ? "carousel-item active" : "carousel-item")">
+                    <a asp-controller="Post" asp-action="Details" asp-route-id="@Model.Id">
                     <img class="d-block w-100 img-fluid" style="height:300px;width:100%;object-fit:scale-down;object-position:center" src="~/@ImagesList[i].Url" alt="">
+                    </a>
                 </div>
           }
           @*@foreach(var item in Model.Images.Select(p => p.Url))
