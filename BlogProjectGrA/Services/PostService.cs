@@ -1,6 +1,7 @@
 ﻿using BlogProjectGrA.Data;
 using BlogProjectGrA.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Web.Mvc;
 
 namespace BlogProjectGrA.Services
 {
@@ -28,6 +29,31 @@ namespace BlogProjectGrA.Services
             _db.RemoveRange(post.Images);
             _db.Remove(post);
             _db.SaveChanges();
+            foreach (var image in post.Images)
+            {
+                DeleteImageFile(image);
+            }
+        }
+
+        public void DeleteImage(int id)
+        {
+            var deleteImage = _db.PostImages.Find(id);
+            _db.Remove(deleteImage);
+            _db.SaveChanges();
+            DeleteImageFile(deleteImage);
+        }
+
+        public void DeleteImageFile(PostImage databaseFiles)
+        {
+            try
+            {
+                var deleteURL = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", databaseFiles.Url);
+                File.Delete(deleteURL);
+            }
+            catch
+            {
+
+            }
         }
         public Post UpdatePost(Post post)
         {

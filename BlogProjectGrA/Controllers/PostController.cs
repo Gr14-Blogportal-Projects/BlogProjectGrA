@@ -123,9 +123,6 @@ namespace BlogProjectGrA.Controllers
                 _postService.CreateImages(databaseFiles);
             }
             return RedirectToAction("Details", "BrowseBlog", new { id = blog.Id }); //TODO Redirect to the blog where you make the post
-
-
-
         }
 
         // GET: HomeController1/Edit/5
@@ -141,30 +138,15 @@ namespace BlogProjectGrA.Controllers
             }
             if (_userManager.GetUserId(User) == post.Blog.Author.Id)
             {
-
                 var vm = new CreatePostVM();
-                
                 vm.Post = post;
-                if (vm.Files == null)
-                {
-                    vm.Post.Images = post.Images;
-                }
-                
                 return View(vm);
-            }
-                  
+            }      
             else
-            {
-                       
-                return NotFound("Denied access.");
-                    
+            {        
+                return NotFound("Denied access.");       
             }
-                
 
-            
-
-
-            
         }
 
         // POST: HomeController1/Edit/5
@@ -172,9 +154,13 @@ namespace BlogProjectGrA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(CreatePostVM vm, int id, Post post, string tagsString,PostImage postImage)
         {
-            var tagList = tagsString.Split(',');
-            var tags = _tagService.GetOrCreateTags(tagList);
-           
+            var tagList = new List<string>();
+            if (!string.IsNullOrWhiteSpace(tagsString))
+            {
+                tagList = tagsString.Split(',').ToList();
+            }
+            var tags = _tagService.GetOrCreateTags(tagList.ToArray());
+
             var existingPost = _postService.GetPost(vm.Post.Id);
             
             //var updatePost = _postService.UpdatePost(post);
@@ -185,11 +171,10 @@ namespace BlogProjectGrA.Controllers
             existingPost.Title = post.Title;
             existingPost.Body = post.Body;
             existingPost.Tags = tags.ToList();
+            existingPost = _postService.UpdatePost(existingPost);
 
             if (vm.Files != null)
             {
-                
-               // existingPost.Images = postImage.Url;
                 var databaseFiles = new List<PostImage>();
                 foreach (var file in vm.Files)
                 {
@@ -209,17 +194,12 @@ namespace BlogProjectGrA.Controllers
                     databaseFiles.Add(new()
                     {
                         Url = "Images/Posts/" + fileName,
-                        Post = vm.Post
+                        Post = existingPost
                     });
                 }
-                
+                _postService.CreateImages(databaseFiles);
             }
-           
 
-
-            _postService.UpdatePost(existingPost);
-           
-            
             TempData["EditPostMessage"] = "Your Post has been updated.";
             return RedirectToAction("Details","Post", new { id = existingPost.Id });
             //return RedirectToAction("Posts", "Blog", blog.Posts);
@@ -244,8 +224,6 @@ namespace BlogProjectGrA.Controllers
                 return NotFound("Denied access.");
 
             }
-
-            
         }
 
         // POST: HomeController1/Delete/5
@@ -259,6 +237,25 @@ namespace BlogProjectGrA.Controllers
             //return RedirectToAction(nameof(Index));
         }
 
-        
+        public ActionResult DeleteImages(int id, int postId, PostImage databaseFiles)
+        {
+            var post = _postService.GetPost(postId);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            if (_userManager.GetUserId(User) == post.Blog.Author.Id)
+            {
+                _postService.DeleteImage(id);
+                return RedirectToAction("Edit", "Post", new { post.Id });
+            }
+            else
+            {
+                return NotFound("Denied access.");
+
+            }
+            
+        }
+
     }
 }

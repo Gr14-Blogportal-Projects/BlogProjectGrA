@@ -27,6 +27,16 @@
                 <span asp-validation-for="Blog.Body" class="text-danger"></span>
             </div>
             <br />
+            @if(Model.Blog.ImageUrl != null)
+            {
+            <div>Image</div>
+            <img src="~/@Model.Blog.ImageUrl" style="width:auto;height:200px;" />
+            <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="deleteImage" name="deleteImage">
+            <label class="form-check-label" for="deleteImage">Delete image?</label>
+            </div>
+            }
+            <br />
             <label class="control-label" style="text-align:end">Image File</label>
            <div class="form-group" onchange="setFileName()">
                 <div style="float:left" class="display:table">
@@ -49,7 +59,7 @@
 </div>
 <br />
 <div>
-    <a class="btn btn-outline-primary" asp-controller="BrowseBlog" asp-action="Details" asp-route-id="@Model?Blog.Id">Back to Blog</a>
+    <a class="btn btn-outline-primary" asp-controller="BrowseBlog" asp-action="Details" asp-route-id="@Model.Blog.Id">Back to Blog</a>
 </div>
 
 @section Scripts {

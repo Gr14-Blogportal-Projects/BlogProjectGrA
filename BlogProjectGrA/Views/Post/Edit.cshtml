@@ -47,22 +47,36 @@
                 <label asp-for="Post.Tags" class="control-label"></label>
                 @*<select name="tagId" id="tagId" class="form-control"asp-items="@ViewBag.TagId"></select>*@
                 <input name="tagsString" class="form-control" value="@Model.Post.GetTagsString()" />
+                <span asp-validation-for="Post.Tags" class="text-danger">Can not be empty. (Separate tags by " , ")</span>
                 </div>
+            &ensp;
+
+            @if(Model.Post.Images.Count() > 0)
+            {  
+            <div>Images on post</div>
+
+                @foreach(var item in Model.Post.Images)
+                {
+                <div class="form-group mb-2">
+                    @*<input class="form-control" asp-for="@item.Url"  multiple>*@
+                    <img src="~/@item.Url" style="width:auto;height:100px;" />
+                    <button asp-action="DeleteImages" asp-route-id="@item.Id" asp-route-postId="@Model.Post.Id" remove="image/*" class="btn btn-outline-danger">Delete</button>
+                </div>
+                }
+            }
             &ensp;
             <div class="form-group" onchange="setFileName()">
                 <div>
                     @*<input accept="image/*" asp-for="Files" hidden multiple />
                     <input class="form-control" disabled asp-for="FileName" />*@
                     <label asp-for="Files" class="form-label"></label>
-                    <input class="form-control" accept="image/*" asp-for="Files"  multiple >
+                    <input class="form-control" accept="image/*" asp-for="Files"  multiple>
                     <span class="form-text">(Recommend 1200 x 300)</span>
                 </div>
                 @* &ensp;
                 <button type="button" class="btn" style="background-color:purple;color:white;" onClick="clickFileInput()">Select File</button>
                 <span asp-validation-for="FileName" class="text-danger"></span>
                 <label>(Recommend 1200 x 300)</label>*@
-
-
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

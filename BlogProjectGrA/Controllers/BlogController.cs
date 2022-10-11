@@ -128,14 +128,20 @@ namespace BlogProjectGrA.Controllers
         // POST: BlogController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, CreateBlogVM vm)
+        public ActionResult Edit(int id, CreateBlogVM vm, string deleteImage)
         {
             if (vm.Blog == null)
             {
                 return NotFound();
             }
+            if (deleteImage == "on")
+            {
+                _blogService.DeleteImageFile(vm.Blog);
+                vm.Blog.ImageUrl = null;
+            }
             if (vm.File != null)
             {
+                _blogService.DeleteImageFile(vm.Blog);
                 string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images");
                 //    //create folder if not exist
                 if (!Directory.Exists(path))

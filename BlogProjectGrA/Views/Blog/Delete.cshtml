@@ -25,7 +25,7 @@
             Image
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ImageUrl)
+            <img src="~/@Model.ImageUrl" style="width:auto;height:100px;" />
         </dd>
     </dl>
     <br />
@@ -33,7 +33,7 @@
     &ensp;
     <form asp-action="Delete">
         <input type="hidden" asp-for="@Model.Id" />
-        <input type="submit" value="Delete" class="btn btn-outline-danger" /> &ensp;
+        <input type="submit" value="Delete" class="btn btn-danger" /> &ensp;
         <a class="btn btn-outline-primary" asp-controller="BrowseBlog" asp-action="Details" asp-route-id="@Model.Id">Back to Blog</a>
     </form>
 </div>
