@@ -37,18 +37,24 @@
             </div>
             }
             <br />
-            <label class="control-label" style="text-align:end">Image File</label>
+            @*<label class="control-label" style="text-align:end">Image File</label>*@
            <div class="form-group" onchange="setFileName()">
-                <div style="float:left" class="display:table">
+                @*<div style="float:left" class="display:table">
                 <input accept="image/*" asp-for="File" hidden />
                 <input class="form-control" disabled asp-for="FileName"/>
                 </div>
                 &ensp;
                 <button type="button" class="btn" style="background-color:purple;color:white;" onClick="clickFileInput()">Select File</button>
-                <span asp-validation-for="FileName" class="text-danger"></span>
+                <span asp-validation-for="FileName" class="text-danger"></span>*@
                 @*<span>&ensp;</span>*@
                 @*<input class="btn btn-outline-success" type="submit" value="Upload Image" />*@
-                
+                <div>
+                    @*<input accept="image/*" asp-for="Files" hidden multiple />
+                    <input class="form-control" disabled asp-for="FileName" />*@
+                    <label asp-for="File" class="form-label"></label>
+                    <input class="form-control" accept="image/*" asp-for="File" multiple>
+                    <span class="form-text">(Recommend 1200 x 300)</span>
+                </div>
             </div>
             <br />
             <div class="form-group">
@@ -65,13 +71,3 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-    <script>
-        const setFileName = () => {
-            const fileName = document.getElementById("File").value;
-            document.getElementById("FileName").value = fileName.substring(12);
-        }
-
-        const clickFileInput = () => {
-            document.getElementById("File").click();
-        }
-    </script>
