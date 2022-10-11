@@ -37,7 +37,7 @@ namespace BlogProjectGrA.Controllers
             TempData["PostMessage"] = null;
             var post = _postService.GetPost(id);
             var blog = _blogService.GetBlog(id);
-            var browseBlogs = _blogService.GetBlogs().OrderByDescending(b => b.CreatedAt).ToPagedList(page ?? 1,3);
+            var browseBlogs = _blogService.GetBlogs().OrderByDescending(b => b.CreatedAt).ToPagedList(page ?? 1,6);
             return View(browseBlogs);
         }
 

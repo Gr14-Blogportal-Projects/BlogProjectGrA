@@ -43,7 +43,7 @@ namespace BlogProjectGrA.Controllers
             TempData["EditBlogMessage"] = null;
             TempData["DeleteBlogMessage"] = null;
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var blog = _blogService.GetBlogsByUser(userId).OrderByDescending(d => d.CreatedAt).ToPagedList(page ?? 1, 3);
+            var blog = _blogService.GetBlogsByUser(userId).OrderByDescending(d => d.CreatedAt).ToPagedList(page ?? 1, 6);
             
             return View(blog);
         }
