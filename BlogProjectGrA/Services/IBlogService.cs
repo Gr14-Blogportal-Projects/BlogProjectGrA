@@ -13,6 +13,7 @@ namespace BlogProjectGrA.Services
         void UpdateBlog(Blog blog);
 
         void DeleteBlog(int id);
+        void DeleteImageFile(Blog blog);
 
         IEnumerable<Blog> GetBlogs();
     }

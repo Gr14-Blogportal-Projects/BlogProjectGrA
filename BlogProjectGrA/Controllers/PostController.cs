@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Net.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace BlogProjectGrA.Controllers
 {
@@ -20,7 +22,7 @@ namespace BlogProjectGrA.Controllers
         private readonly UserManager<User> _userManager;
         private readonly ICommentService _commentService;
         private readonly SignInManager<User> _signInManager;
-
+       
         public PostController(UserManager<User> userManager, IPostService postService, ITagService tagService, IBlogService blogService, ICommentService commentService, SignInManager<User> signInManager)
         {
             _userManager = userManager;
@@ -48,7 +50,7 @@ namespace BlogProjectGrA.Controllers
         }
 
         // GET: HomeController1/Create
-        public ActionResult Create(int id, int blogId, int tagid)
+        public ActionResult Create(int blogId)
         {
             TempData["PostMessage"] = null;
             var tag = _tagService.GetTags();
@@ -59,42 +61,75 @@ namespace BlogProjectGrA.Controllers
                 TempData["Message"] = "You need to create blog";
                 return RedirectToAction("Create", "Blog");
             }
-            var blog = _blogService.GetBlog(blogId);
+            var blog = user.Blogs.FirstOrDefault(b => b.Id == blogId);
+            if (blog == null)
+            {
+                return NotFound();
+            }
+            
             ViewData["selectedBlogId"] = blogId;
             //ViewBag.BlogId = new SelectList(user.Blogs, "Id", "Title" );
             ViewBag.TagId = new SelectList(tag.Select(t => t.Name), "Tags" ); //new from 30/aug
-            var post = new Post();
-            post.Blog = blog;
-
+            var post = new CreatePostVM
+            {
+                Post = new()
+                {
+                    Blog = blog,
+                }
+            };
             return View(post);
         }
 
         // POST: HomeController1/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Post post, int blogId, string tagListString)
+        public ActionResult Create(CreatePostVM vm, int blogId, string tagListString)
         {
             var tagList = tagListString.Split(',');
 
             var tags = _tagService.GetOrCreateTags(tagList);
             ViewData["selectedBlogId"] = blogId;
             var blog = _blogService.GetBlog(blogId);
-            post.Blog = blog;
+            vm.Post.Blog = blog;
 
-            post.Tags = tags.ToList();
+            vm.Post.Tags = tags.ToList();
 
-            _postService.CreatePost(post);
-            var user = _userManager.GetUserAsync(User).Result;
-            ViewBag.BlogId = new SelectList(user.Blogs, "Id", "Title");
+            var createdPost = _postService.CreatePost(vm.Post);
             TempData["PostMessage"] = "Your Post has been made.";
-            //return RedirectToAction(nameof(Index));
-            return RedirectToAction("Details", "BrowseBlog", new {id=blog.Id}); //TODO Redirect to the blog where you make the post
+
+            if (vm.Files != null)
+            {
+                var databaseFiles = new List<PostImage>();
+                foreach (var file in vm.Files)
+                {
+                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Posts");
+                    // create folder if not exist
+                    if (!Directory.Exists(path))
+                        Directory.CreateDirectory(path);
+                    string fileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+
+                    string fileNameWithPath = Path.Combine(path, fileName);
+
+                    using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                    databaseFiles.Add(new()
+                    {
+                        Url = "Images/Posts/" + fileName,
+                        Post = createdPost
+                    });
+                }
+                _postService.CreateImages(databaseFiles);
+            }
+            return RedirectToAction("Details", "BrowseBlog", new { id = blog.Id }); //TODO Redirect to the blog where you make the post
         }
 
         // GET: HomeController1/Edit/5
         public ActionResult Edit(int id)
         {
             TempData["EditPostMessage"] = null;
+            
             var post = _postService.GetPost(id);
            
             if (post == null)
@@ -103,42 +138,75 @@ namespace BlogProjectGrA.Controllers
             }
             if (_userManager.GetUserId(User) == post.Blog.Author.Id)
             {
-               
-                return View(post);
-            }
-            
-
+                var vm = new CreatePostVM();
+                vm.Post = post;
+                return View(vm);
+            }      
             else
-            {
-                return NotFound("Denied access.");
-
+            {        
+                return NotFound("Denied access.");       
             }
-            
+
         }
 
         // POST: HomeController1/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Post post, string tagsString)
+        public ActionResult Edit(CreatePostVM vm, int id, Post post, string tagsString,PostImage postImage)
         {
-            var tagList = tagsString.Split(',');
-            var tags = _tagService.GetOrCreateTags(tagList);
+            var tagList = new List<string>();
+            if (!string.IsNullOrWhiteSpace(tagsString))
+            {
+                tagList = tagsString.Split(',').ToList();
+            }
+            var tags = _tagService.GetOrCreateTags(tagList.ToArray());
 
-            var existingPost = _postService.GetPost(id);
+            var existingPost = _postService.GetPost(vm.Post.Id);
+            
+            //var updatePost = _postService.UpdatePost(post);
             existingPost = _postService.RemovePostTags(existingPost);
 
+            // existingPost.Images= post.Images.ToList();
+           // existingPost = vm.Post;
             existingPost.Title = post.Title;
             existingPost.Body = post.Body;
             existingPost.Tags = tags.ToList();
+            existingPost = _postService.UpdatePost(existingPost);
 
-            _postService.UpdatePost(existingPost);
+            if (vm.Files != null)
+            {
+                var databaseFiles = new List<PostImage>();
+                foreach (var file in vm.Files)
+                {
+
+                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Posts");
+                    // create folder if not exist
+                    if (!Directory.Exists(path))
+                        Directory.CreateDirectory(path);
+                    string fileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+
+                    string fileNameWithPath = Path.Combine(path, fileName);
+
+                    using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                    databaseFiles.Add(new()
+                    {
+                        Url = "Images/Posts/" + fileName,
+                        Post = existingPost
+                    });
+                }
+                _postService.CreateImages(databaseFiles);
+            }
+
             TempData["EditPostMessage"] = "Your Post has been updated.";
-            return RedirectToAction("Details","Post", new { id = existingPost.Blog.Id });
+            return RedirectToAction("Details","Post", new { id = existingPost.Id });
             //return RedirectToAction("Posts", "Blog", blog.Posts);
         }
 
         // GET: HomeController1/Delete/5
-        public ActionResult Delete(int id, int? page)
+        public ActionResult Delete(int id)
         {
             TempData["DeletePostMessage"] = null;
             var post = _postService.GetPost(id);
@@ -156,8 +224,6 @@ namespace BlogProjectGrA.Controllers
                 return NotFound("Denied access.");
 
             }
-
-            
         }
 
         // POST: HomeController1/Delete/5
@@ -171,6 +237,25 @@ namespace BlogProjectGrA.Controllers
             //return RedirectToAction(nameof(Index));
         }
 
-        
+        public ActionResult DeleteImages(int id, int postId, PostImage databaseFiles)
+        {
+            var post = _postService.GetPost(postId);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            if (_userManager.GetUserId(User) == post.Blog.Author.Id)
+            {
+                _postService.DeleteImage(id);
+                return RedirectToAction("Edit", "Post", new { post.Id });
+            }
+            else
+            {
+                return NotFound("Denied access.");
+
+            }
+            
+        }
+
     }
 }

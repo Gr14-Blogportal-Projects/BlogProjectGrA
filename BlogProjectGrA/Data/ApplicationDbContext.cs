@@ -15,6 +15,7 @@ namespace BlogProjectGrA.Data
 
         public DbSet<Comment> Comments { get; set; }
 
+        public DbSet<PostImage> PostImages { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
