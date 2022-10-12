@@ -83,11 +83,15 @@ namespace BlogProjectGrA.Controllers
         // POST: HomeController1/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CreatePostVM vm, int blogId, string tagListString)
+        public ActionResult Create(CreatePostVM vm, int blogId, string tagListString, string tagsString)
         {
-            var tagList = tagListString.Split(',');
+            var tagList = new List<string>();
+            if (!string.IsNullOrWhiteSpace(tagsString))
+            {
+                tagList = tagsString.Split(',').ToList();
+            }
 
-            var tags = _tagService.GetOrCreateTags(tagList);
+            var tags = _tagService.GetOrCreateTags(tagList.ToArray());
             ViewData["selectedBlogId"] = blogId;
             var blog = _blogService.GetBlog(blogId);
             vm.Post.Blog = blog;
@@ -154,6 +158,7 @@ namespace BlogProjectGrA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(CreatePostVM vm, int id, Post post, string tagsString,PostImage postImage)
         {
+
             var tagList = new List<string>();
             if (!string.IsNullOrWhiteSpace(tagsString))
             {

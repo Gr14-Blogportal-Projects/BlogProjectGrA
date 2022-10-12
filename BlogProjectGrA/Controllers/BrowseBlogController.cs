@@ -51,7 +51,7 @@ namespace BlogProjectGrA.Controllers
         }
         public ActionResult Tags(int tagId)
         {
-            var tags= _tagService.GetTags();
+            var tags= _tagService.GetTags().Where(t=>t.Posts.Count>0);
 
             var selectedTag = tags.FirstOrDefault(t => t.Id == tagId);
             var posts = _postService.GetPostsByTag(selectedTag);
