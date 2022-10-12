@@ -143,11 +143,18 @@
 
 <div class="table-responsive">
 <div class="card-header; badge badge-primary;" style="font-size:18px"><span style="color:black">Tags: </span>
-      @foreach(var tag in Model.Tags)
-                {
-                    <partial name="_TagsPartial" model="tag"></partial>
-                }
-  </div>
+    @if (Model.Tags.Count() != 0)
+    {
+        @foreach(var tag in Model.Tags)
+            {
+              <partial name="_TagsPartial" model="tag"></partial>
+            }
+    }
+    else
+    {
+        <p class="badge bg-danger">NO TAGS</p>    
+    }
+    </div>
   </div>
 <br />
 <br />
