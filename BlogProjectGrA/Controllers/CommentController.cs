@@ -40,11 +40,11 @@ namespace BlogProjectGrA.Controllers
         public ActionResult Create(int id)
         {
             TempData["commentMessage"] = null;
-            var user = _userManager.GetUserAsync(User).Result;
+            //var user = _userManager.GetUserAsync(User).Result;
 
-            //ViewBag.PostId = new Comment(user.Posts)
-            var comment = new Comment();
-            return View(comment);
+            ////ViewBag.PostId = new Comment(user.Posts)
+            //var comment = new Comment();
+            return RedirectToAction("Details", "Post", new { id });
 
         }
 

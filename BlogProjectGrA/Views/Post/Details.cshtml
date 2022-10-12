@@ -152,7 +152,7 @@
 <br />
 <br />
 
-<form asp-action="Create" asp-controller="Comment" asp-route-id="@Model.Id">
+<form asp-action="Create" asp-controller="Comment" method="post" asp-route-id="@Model.Id">
     <div class="form-group">
         <b>Leave a comment</b>
         <textarea @*id="commentBody"*@ name="commentBody" class="form-control"></textarea>
