@@ -1,4 +1,8 @@
 ﻿@model BlogProjectGrA.Models.ViewModels.SearchViewModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
 
 @{
     ViewData["Title"] = "Search result";
@@ -25,8 +29,14 @@
             <th>
                 Title
             </th>
+            @if( SignInManager.IsSignedIn(User))
+                {
+                    <th>
+                       My Posts
+                    </th>
+                }
             <th>
-                @*@Html.DisplayNameFor(model => model.Body)*@
+                Post Tags
             </th>
             <th>
                 Date

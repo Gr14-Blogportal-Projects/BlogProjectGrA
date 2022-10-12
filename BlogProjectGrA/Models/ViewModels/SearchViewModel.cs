@@ -8,5 +8,6 @@ namespace BlogProjectGrA.Models.ViewModels
         public IEnumerable<Blog> Blogs { get; set; }
 
         public IEnumerable<Post> Posts { get; set; }
+
     }
 }
