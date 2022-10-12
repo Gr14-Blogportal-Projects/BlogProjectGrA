@@ -20,7 +20,8 @@
 @if (ViewData["searchBlogResult"] != null)
 {   
 <h3>Blogs containing: '@ViewData["searchdetails"]'</h3>
-<table class="table rounded border border-dark">
+    <div class="table-responsive">
+<table class="table rounded border border-dark ">
     <thead>
         <tr>
             <th>
@@ -57,6 +58,7 @@
         }
     </tbody>
     </table>
+    </div>
 }
 
     <h3>@ViewData["NoSearchResult"]</h3>
