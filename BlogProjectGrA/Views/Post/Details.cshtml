@@ -113,16 +113,15 @@
 </div>
 }
               <blockquote class="blockquote mb-0">
+                        <br />
             <div>
-                <br/>
-            @if (Model.Body.Length <= 150)
-                {
+                
+            
+                
                     <span>@Model.Body</span>
-                }
-                else
-                {
-                    <span>@Model.Body.Substring(0, 150)...</span>
-                }
+               
+               
+
                 </div>
                 <br />
             <footer class="blockquote-footer">Blogger <cite title="Authors name">@Model.Blog.Author.FirstName @Model.Blog.Author.LastName</cite></footer> @*???*@

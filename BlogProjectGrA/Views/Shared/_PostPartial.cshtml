@@ -7,84 +7,87 @@
 
 @if (Model.Blog != null)
 {
-var ImagesList = Model.Images.ToList();
+    var ImagesList = Model.Images.ToList();
 
-<div class="table-responsive">
-<div class="card">
-  <div class="card-header">
-    <h3><a asp-controller="Post" asp-action="Details" asp-route-id="@Model?.Id" style="align-self:center; text-decoration:none; color:#000000;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Go to Post details">@Model.Title</a> </h3>
-  </div>
-  <div class="card-body">
-      <div>
-            <div class="badge badge-pill badge-primary" style="color:black; background-color:whitesmoke; float: left" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Views">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 18 18">
-                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
-                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
-                </svg> @Model.View</div>
-                &ensp;
-            <div class="badge badge-pill badge-primary" style="color:black; background-color:whitesmoke; float:left" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comments">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left-text" viewBox="0 0 16 16">
-                    <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-                    <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
-            </svg> @Model.Comments.Count</div>
-            <div style="float: right">
-                <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Post created">@Model.CreateAt</span>
+    <div class="table-responsive">
+        <div class="card">
+            <div class="card-header">
+                <h3><a asp-controller="Post" asp-action="Details" asp-route-id="@Model?.Id" style="align-self:center; text-decoration:none; color:#000000;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Go to Post details">@Model.Title</a> </h3>
+            </div>
+            <div class="card-body">
+                <div>
+                    <div class="badge badge-pill badge-primary" style="color:black; background-color:whitesmoke; float: left" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Views">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 18 18">
+                            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                        </svg> @Model.View
+                    </div>
+                    &ensp;
+                    <div class="badge badge-pill badge-primary" style="color:black; background-color:whitesmoke; float:left" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comments">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left-text" viewBox="0 0 16 16">
+                            <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                            <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+                        </svg> @Model.Comments.Count
+                    </div>
+                    <div style="float: right">
+                        <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Post created">@Model.CreateAt</span>
                         @if (Model.UpdateAt != null)
                         {
                             <div style="font-size:12px;">
-                            <span>(Edited @Model.UpdateAt)</span>
+                                <span>(Edited @Model.UpdateAt)</span>
                             </div>
                         }
-            </div>
-      </div>
-      <div>
-          <div class="col-12">
-          
-          @if(ImagesList.Count != 0)
-          {
-          <br />  
-          <br />
-        <div id="post-partial-@Model.Id" class="carousel carousel-dark slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          @for (int i = 0; i < ImagesList.Count; i++)
-          {
-
-                <div class="@(i==0 ? "carousel-item active" : "carousel-item")">
-                    <a asp-controller="Post" asp-action="Details" asp-route-id="@Model.Id">
-                    <img class="d-block w-100 img-fluid" style="height:300px;width:100%;object-fit:scale-down;object-position:center" src="~/@ImagesList[i].Url" alt="">
-                    </a>
+                    </div>
                 </div>
-          }
-          @*@foreach(var item in Model.Images.Select(p => p.Url))
-          {
-              <div class="carousel-item active">
-              <img src="~/@item" alt="" class="d-block w-100">
-              </div> 
-          }*@
-          </div>
- <button class="carousel-control-prev" type="button" data-bs-target="#post-partial-@Model.Id" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#post-partial-@Model.Id" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
-}
-</div>
-             <blockquote class="blockquote mb-0">
-            <div>
-                <br/>          
-                
-                    <span>@Model.Body</span>
-                </div>
-                <br />
-                
-        <footer class="blockquote-footer">Blogger <cite title="Authors name">@Model.Blog.Author.FirstName @Model.Blog.Author.LastName</cite></footer> @*???*@
-        </blockquote>
+                <div>
+                    <div class="col-12">
 
-            </div>
+                        @if (ImagesList.Count != 0)
+                        {
+                            <br />
+                            <br />
+                            <div id="post-partial-@Model.Id" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    @for (int i = 0; i < ImagesList.Count; i++)
+                                    {
+
+                                        <div class="@(i==0 ? "carousel-item active" : "carousel-item")">
+                                            <a asp-controller="Post" asp-action="Details" asp-route-id="@Model.Id">
+                                                <img class="d-block w-100 img-fluid" style="height:300px;width:100%;object-fit:scale-down;object-position:center" src="~/@ImagesList[i].Url" alt="">
+                                            </a>
+                                        </div>
+                                    }
+                                    @*@foreach(var item in Model.Images.Select(p => p.Url))
+                            {
+                            <div class="carousel-item active">
+                            <img src="~/@item" alt="" class="d-block w-100">
+                            </div>
+                            }*@
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#post-partial-@Model.Id" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#post-partial-@Model.Id" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        }
+                    </div>
+                    <blockquote class="blockquote mb-0">
+                        <br/>
+                        <div>
+                            <span>@Model.Body</span>
+                        </div>
+                            
+
+                        <br />
+
+                        <footer class="blockquote-footer">Blogger <cite title="Authors name">@Model.Blog.Author.FirstName @Model.Blog.Author.LastName</cite></footer> @*???*@
+                    </blockquote>
+
+                </div>
                 @if (SignInManager.IsSignedIn(User) && Model.Blog.Author.Email == User.Identity.Name)
                 {
                     <hr />
@@ -93,36 +96,37 @@ var ImagesList = Model.Images.ToList();
                         <a class="btn btn-outline-danger" asp-controller="Post" asp-action="Delete" asp-route-id="@Model.Id">Delete Post</a>
                     </dd>
                 }
-      </div>
-  </div>
-</div>
+            </div>
+        </div>
+    </div>
 
 
-<div class="table-responsive">
-<div class="card-header; badge badge-primary;" style="font-size:18px;"><span style="color:black;">Tags: </span>
+    <div class="table-responsive">
+        <div class="card-header; badge badge-primary;" style="font-size:18px;">
+            <span style="color:black;">Tags: </span>
             @if (Model.Tags.Count() != 0)
             {
                 @foreach (var tag in Model.Tags)
                 {
-                        <partial name="_TagsPartial" model="tag"></partial>
+                    <partial name="_TagsPartial" model="tag"></partial>
                 }
             }
             else
             {
                 <p class="badge bg-danger">NO TAGS</p>
-            }    
-  </div>
-  </div>
+            }
+        </div>
+    </div>
 
-<br />
+    <br />
 
-@if (SignInManager.IsSignedIn(User))
-{
-    <a class="btn btn-outline-primary" asp-controller="Post" asp-action="Details" asp-route-id="@Model.Id">Leave a comment!</a>
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <a class="btn btn-outline-primary" asp-controller="Post" asp-action="Details" asp-route-id="@Model.Id">Leave a comment!</a>
+    }
+    <hr />
+    <br />
 }
-<hr />
-<br />
-}
-<script> C:\Users\brij_\Source\Repos\BlogProjectGrA\BlogProjectGrA\wwwroot\js\site.js</script>
+<script>C: \Users\brij_\Source\Repos\BlogProjectGrA\BlogProjectGrA\wwwroot\js\site.js</script>
 
 @*asp-action="Create" asp-controller="Comment" asp-route-id="@Model.Id"*@
