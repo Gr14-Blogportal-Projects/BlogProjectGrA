@@ -75,18 +75,13 @@ var ImagesList = Model.Images.ToList();
 </div>
              <blockquote class="blockquote mb-0">
             <div>
-                <br/>
-            @if (Model.Body.Length <= 150)
-                {
+                <br/>          
+                
                     <span>@Model.Body</span>
-                }
-                else
-                {
-                    <span>@Model.Body.Substring(0, 150)...</span>
-                }
                 </div>
                 <br />
-            <footer class="blockquote-footer">Blogger <cite title="Authors name">@Model.Blog.Author.FirstName @Model.Blog.Author.LastName</cite></footer> @*???*@
+                
+        <footer class="blockquote-footer">Blogger <cite title="Authors name">@Model.Blog.Author.FirstName @Model.Blog.Author.LastName</cite></footer> @*???*@
         </blockquote>
 
             </div>
